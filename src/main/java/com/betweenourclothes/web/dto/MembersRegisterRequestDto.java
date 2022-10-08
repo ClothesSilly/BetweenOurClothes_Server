@@ -5,11 +5,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-
 @Getter
 @NoArgsConstructor
-public class MembersSaveRequestDto {
+public class MembersRegisterRequestDto {
     private String email;
     private String password;
     private String name;
@@ -18,7 +16,7 @@ public class MembersSaveRequestDto {
     private String image;
 
     @Builder
-    public MembersSaveRequestDto(String email, String password, String name, String nickname, String phone, String image){
+    public MembersRegisterRequestDto(String email, String password, String name, String nickname, String phone, String image){
         this.email = email;
         this.password = password;
         this.nickname = nickname;

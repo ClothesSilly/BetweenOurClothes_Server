@@ -2,7 +2,7 @@ package com.betweenourclothes.web;
 
 import com.betweenourclothes.domain.members.Members;
 import com.betweenourclothes.domain.members.MembersRepository;
-import com.betweenourclothes.web.dto.MembersSaveRequestDto;
+import com.betweenourclothes.web.dto.MembersRegisterRequestDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +43,7 @@ public class MembersApiControllerTest {
         String nickname = "닉넴2";
         String phone = "00033334444";
 
-        MembersSaveRequestDto requestDto = MembersSaveRequestDto.builder().email(email).password(password).name(name).nickname(nickname).phone(phone).build();
+        MembersRegisterRequestDto requestDto = MembersRegisterRequestDto.builder().email(email).password(password).name(name).nickname(nickname).phone(phone).build();
 
         String url = "http://localhost:" + port + "api/v1/members";
 
