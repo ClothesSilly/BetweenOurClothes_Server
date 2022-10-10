@@ -34,7 +34,7 @@ public class Members {
     @Column(length=11, nullable=false)
     private String phone;
 
-    @Column(columnDefinition = "varchar(100) default 'default_img.jpg'")
+    @Column(length=300, columnDefinition = "varchar(300) default 'C:\\Users\\user1\\Desktop\\송아\\캡스톤\\repo\\between-our-clothes-server\\.\\src\\main\\resources\\static\\images\\default.png'")
     private String image;
 
     @Column(nullable = false)

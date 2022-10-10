@@ -14,12 +14,20 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
+import java.io.FileInputStream;
 import java.util.List;
 
 import static com.betweenourclothes.domain.members.Role.USER;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -33,6 +41,8 @@ public class AuthApiControllerTest {
 
     @Autowired
     private MembersRepository membersRepository;
+    @Autowired
+    private WebApplicationContext webApplicationContext;
 
     @After
     public void cleanup(){
@@ -134,5 +144,18 @@ public class AuthApiControllerTest {
         ResponseEntity<Object> responseEntity = restTemplate.postForEntity(url, requestDto, Object.class);
         System.out.println(responseEntity.getBody());
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    public void 프로필이미지_업로드() throws Exception{
+
+        MockMultipartFile file = new MockMultipartFile("image", "test.png",
+                "multipart/form-data", new FileInputStream("src/test/resources/static/images/test.png"));
+
+        String url = "http://localhost:" + port + "api/v1/auth/image";
+
+        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        mockMvc.perform(multipart(url).file(file)).andExpect(status().isOk()).andDo(print());
+
     }
 }

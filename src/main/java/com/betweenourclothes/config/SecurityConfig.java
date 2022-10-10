@@ -23,10 +23,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // jwt 사용
                 .and()
                 .authorizeRequests() // HttpServletRequest를 사용하는 요청들에 대한 접근제한 설정
-                .antMatchers("/api/v1/auth/sign-up").permitAll()
+                .antMatchers("/api/v1/auth/sign-up",
+                                        "/api/v1/auth/image")
+                .permitAll()
                 .anyRequest()  // 나머지 요청들은 모두 인증
                 .authenticated();
-
     }
 
     @Bean
