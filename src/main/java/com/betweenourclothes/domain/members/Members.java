@@ -37,13 +37,17 @@ public class Members {
     @Column(columnDefinition = "varchar(100) default 'default_img.jpg'")
     private String image;
 
+    @Column(nullable = false)
+    private String role;
+
     @Builder
-    public Members(String email, String password, String name, String nickname, String phone, String image){
+    public Members(String email, String password, String name, String nickname, String phone, String image, Role role){
         this.email = email;
         this.password = password;
         this.nickname = nickname;
         this.name = name;
         this.phone = phone;
         this.image = image;
+        this.role = role.toString();
     }
 }
