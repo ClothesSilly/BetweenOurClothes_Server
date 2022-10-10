@@ -3,7 +3,6 @@ package com.betweenourclothes.domain.members;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
@@ -34,20 +33,19 @@ public class Members {
     @Column(length=11, nullable=false)
     private String phone;
 
-    @Column(length=300, columnDefinition = "varchar(300) default 'C:\\Users\\user1\\Desktop\\송아\\캡스톤\\repo\\between-our-clothes-server\\.\\src\\main\\resources\\static\\images\\default.png'")
+    @Column(columnDefinition = "varchar(300) default 'C:/Users/user1/Desktop/송아/캡스톤/repo/between-our-clothes-server/src/main/resources/static/images/profile/default.png'")
     private String image;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "varchar(15) default 'USER'")
     private String role;
 
     @Builder
-    public Members(String email, String password, String name, String nickname, String phone, String image, Role role){
+    public Members(String email, String password, String name, String nickname, String phone, String image){
         this.email = email;
         this.password = password;
         this.nickname = nickname;
         this.name = name;
         this.phone = phone;
         this.image = image;
-        this.role = role.toString();
     }
 }

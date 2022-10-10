@@ -10,6 +10,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.io.File;
 
 @Getter
 @NoArgsConstructor
@@ -44,8 +45,9 @@ public class AuthSignUpRequestDto {
                 .email(email)
                 .password(password)
                 .name(name)
+                .image(image)
                 .nickname(nickname)
                 .phone(phone)
-                .role(role).build();
+                .build();
     }
 }

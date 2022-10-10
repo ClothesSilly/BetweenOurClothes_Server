@@ -2,7 +2,7 @@ package com.betweenourclothes.web;
 
 import com.betweenourclothes.exception.ErrorCode;
 import com.betweenourclothes.exception.exception.RequestFormatException;
-import com.betweenourclothes.service.auth.impl.AuthServiceImpl;
+import com.betweenourclothes.service.auth.AuthServiceImpl;
 import com.betweenourclothes.web.dto.AuthSignUpRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +25,7 @@ public class AuthApiController {
 
         try{
             String uuid = UUID.randomUUID().toString();
-            String path = new File("./src/main/resources/static/images").getAbsolutePath();
+            String path = new File("./src/main/resources/static/images/profile").getAbsolutePath();
             String uploadedFileName = "profile-" + uuid;
 
             String extension = '.' + img.getOriginalFilename().replaceAll("^.*\\.(.*)$", "$1");

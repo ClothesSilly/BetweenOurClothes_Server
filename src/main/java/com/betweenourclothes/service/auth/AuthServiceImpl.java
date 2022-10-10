@@ -1,9 +1,8 @@
-package com.betweenourclothes.service.auth.impl;
+package com.betweenourclothes.service.auth;
 
 import com.betweenourclothes.domain.members.MembersRepository;
 import com.betweenourclothes.exception.ErrorCode;
 import com.betweenourclothes.exception.exception.DuplicatedDataException;
-import com.betweenourclothes.service.auth.AuthService;
 import com.betweenourclothes.web.dto.AuthSignUpRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -51,14 +51,14 @@ public class AuthApiControllerTest {
 
     @Test
     public void 회원가입() throws Exception{
-        String email = "d126@naver.com";
+        String email = "d16@naver.com";
         String password = "qwer1234!";
         String name = "이름2";
-        String nickname = "송아";
+        String nickname = "송아아";
         String phone = "00033334444";
-        Role role = USER;
+        String image = "C:/Users/user1/Desktop/송아/캡스톤/repo/between-our-clothes-server/src/main/resources/static/images/profile/profile-ce50a348-62ce-4b6a-883f-633a618f1547.png";
 
-        AuthSignUpRequestDto requestDto = AuthSignUpRequestDto.builder().email(email).password(password).name(name).nickname(nickname).phone(phone).role(role).build();
+        AuthSignUpRequestDto requestDto = AuthSignUpRequestDto.builder().email(email).password(password).name(name).nickname(nickname).phone(phone).image(image).build();
 
         String url = "http://localhost:" + port + "api/v1/auth/sign-up";
 
@@ -68,6 +68,7 @@ public class AuthApiControllerTest {
 
         List<Members> all = membersRepository.findAll();
         assertThat(all.get(all.size()-1).getEmail()).isEqualTo(email);
+        assertThat(all.get(all.size()-1).getImage()).isEqualTo(image);
     }
 
     @Test
@@ -156,6 +157,5 @@ public class AuthApiControllerTest {
 
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         mockMvc.perform(multipart(url).file(file)).andExpect(status().isOk()).andDo(print());
-
     }
 }

@@ -31,7 +31,7 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-mail')
     compile('org.apache.commons:commons-lang3')
     compile('commons-io:commons-io:2.11.0')
-    compile('org.projectlombok:lombok')
+    compile('org.projectlombok:lombok:1.18.24')
     runtimeOnly('mysql:mysql-connector-java')
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('org.springframework.security:spring-security-test')
