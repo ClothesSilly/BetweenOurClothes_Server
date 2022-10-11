@@ -1,10 +1,13 @@
 package com.betweenourclothes.web;
 
 import com.betweenourclothes.exception.ErrorCode;
-import com.betweenourclothes.exception.exception.RequestFormatException;
+import com.betweenourclothes.exception.customException.RequestFormatException;
 import com.betweenourclothes.service.auth.AuthServiceImpl;
+import com.betweenourclothes.web.dto.AuthEmailRequestDto;
 import com.betweenourclothes.web.dto.AuthSignUpRequestDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,7 +23,7 @@ public class AuthApiController {
 
     private final AuthServiceImpl membersService;
 
-    @PostMapping("/image")
+    @PostMapping("/sign-up/image")
     public String upload(@RequestParam(name = "image", required = false) MultipartFile img) throws IOException {
 
         try{
@@ -48,4 +51,14 @@ public class AuthApiController {
         return membersService.signUp(requestDto);
     }
 
+    @PostMapping("/sign-up/email")
+    public ResponseEntity<String> sendEmail(@RequestBody @Valid AuthEmailRequestDto requestDto) throws Exception{
+        membersService.sendMail(requestDto);
+        return new ResponseEntity<>("이메일 전송 성공", HttpStatus.OK);
+    }
+
+    /*@PostMapping("/sign-up/code")
+    public ResponseEntity checkAuthCode(@RequestBody @Valid AuthEmailRequestDto requestDto) throws Exception{
+        return null;
+    }*/
 }

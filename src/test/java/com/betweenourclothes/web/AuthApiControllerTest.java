@@ -1,8 +1,7 @@
 package com.betweenourclothes.web;
 
-import com.betweenourclothes.domain.members.Members;
-import com.betweenourclothes.domain.members.MembersRepository;
-import com.betweenourclothes.domain.members.Role;
+import com.betweenourclothes.domain.members.*;
+import com.betweenourclothes.web.dto.AuthEmailRequestDto;
 import com.betweenourclothes.web.dto.AuthSignUpRequestDto;
 import org.junit.After;
 import org.junit.Before;
@@ -41,6 +40,10 @@ public class AuthApiControllerTest {
 
     @Autowired
     private MembersRepository membersRepository;
+
+    @Autowired
+    private EmailRepository emailRepository;
+
     @Autowired
     private WebApplicationContext webApplicationContext;
 
@@ -153,9 +156,25 @@ public class AuthApiControllerTest {
         MockMultipartFile file = new MockMultipartFile("image", "test.png",
                 "multipart/form-data", new FileInputStream("src/test/resources/static/images/test.png"));
 
-        String url = "http://localhost:" + port + "api/v1/auth/image";
+        String url = "http://localhost:" + port + "api/v1/auth/sign-up/image";
 
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         mockMvc.perform(multipart(url).file(file)).andExpect(status().isOk()).andDo(print());
+    }
+
+    @Test
+    public void 이메일_전송() throws Exception{
+        String url = "http://localhost:" + port + "api/v1/auth/sign-up/email";
+        String email = "gunsong2@naver.com";
+        AuthEmailRequestDto requestDto = AuthEmailRequestDto.builder().email(email).build();
+
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, requestDto, String.class);
+        System.out.println(responseEntity.getBody().toString());
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        List<Email> all = emailRepository.findAll();
+        assertThat(all.get(all.size()-1).getEmail()).isEqualTo(email);
+        System.out.println(all.get(all.size()-1).getCode());
+        System.out.println(all.get(all.size()-1).getStatus());
     }
 }

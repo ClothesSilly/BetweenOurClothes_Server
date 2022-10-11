@@ -16,9 +16,12 @@ public enum ErrorCode {
 
     /* 409 */
     DUPLICATE_EMAIL(HttpStatus.CONFLICT, "이미 존재하는 이메일"),
-    DUPLICATE_NICKNAME(HttpStatus.CONFLICT, "이미 존재하는 닉네임");
+    DUPLICATE_NICKNAME(HttpStatus.CONFLICT, "이미 존재하는 닉네임"),
 
-
+    /* 500 */
+    MAIL_MSG_CREATION_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "이메일 메시지 생성 에러"),
+    MAIL_REQUEST_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "메일 전송 에러")
+    ;
     private HttpStatus code;
     private final String message;
 }

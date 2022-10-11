@@ -1,17 +1,16 @@
 package com.betweenourclothes.exception;
 
-import com.betweenourclothes.exception.ErrorResponseEntity;
-import com.betweenourclothes.exception.exception.DuplicatedDataException;
+import com.betweenourclothes.exception.customException.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.io.IOException;
-
-@ControllerAdvice
+@RestControllerAdvice
 public class customExceptionHandler {
-    @ExceptionHandler(DuplicatedDataException.class)
-    protected ResponseEntity<ErrorResponseEntity> handle(DuplicatedDataException e) {
+    @ExceptionHandler({DuplicatedDataException.class, MailMsgCreationException.class,
+                       MailRequestException.class, RequestFormatException.class,
+                       UserNotFoundException.class})
+    protected ResponseEntity<ErrorResponseEntity> handle(CustomException e) {
         return ErrorResponseEntity.toResponseEntity(e.getErrorCode());
     }
 
