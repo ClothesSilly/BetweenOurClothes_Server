@@ -32,6 +32,13 @@ public class AuthServiceImpl implements AuthService{
         if(membersRepository.findByEmail(requestDto.getEmail()).isPresent()){
             throw new DuplicatedDataException(ErrorCode.DUPLICATE_EMAIL);
         }
+
+        Email user = emailRepository.findByEmail(requestDto.getEmail()).orElseThrow(()->new UserNotFoundException(ErrorCode.USER_NOT_FOUND));
+        if(!user.getStatus().equals("Y")){
+            throw new NotAuthenticatedException(ErrorCode.NOT_AUTHENTICATED);
+        }
+        emailRepository.delete(user);
+
         if(membersRepository.findByNickname(requestDto.getNickname()).isPresent()){
             throw new DuplicatedDataException(ErrorCode.DUPLICATE_NICKNAME);
         }
@@ -74,7 +81,7 @@ public class AuthServiceImpl implements AuthService{
             user.update(receiver.getStatus());
             return;
         }
-        throw new AuthCodeNotMatchedException(ErrorCode.AUTHCODE_NOT_MATCHED);
+        throw new NotAuthenticatedException(ErrorCode.NOT_AUTHENTICATED);
     }
 
     private MimeMessage createMessage(AuthEmailRequestDto requestDto) throws MessagingException, UnsupportedEncodingException {

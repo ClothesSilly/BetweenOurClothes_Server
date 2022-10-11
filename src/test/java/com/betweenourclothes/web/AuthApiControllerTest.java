@@ -55,24 +55,40 @@ public class AuthApiControllerTest {
 
     @Test
     public void 회원가입() throws Exception{
-        String email = "d16@naver.com";
-        String password = "qwer1234!";
-        String name = "이름2";
-        String nickname = "송아아";
-        String phone = "00033334444";
-        String image = "C:/Users/user1/Desktop/송아/캡스톤/repo/between-our-clothes-server/src/main/resources/static/images/profile/profile-ce50a348-62ce-4b6a-883f-633a618f1547.png";
 
-        AuthSignUpRequestDto requestDto = AuthSignUpRequestDto.builder().email(email).password(password).name(name).nickname(nickname).phone(phone).image(image).build();
+        String url_email = "http://localhost:" + port + "api/v1/auth/sign-up/email";
+        String url_code = "http://localhost:" + port + "api/v1/auth/sign-up/code";
+        String url_signup = "http://localhost:" + port + "api/v1/auth/sign-up";
 
-        String url = "http://localhost:" + port + "api/v1/auth/sign-up";
+        String email = "gunsong2@naver.com";
+        AuthEmailRequestDto dto1 = AuthEmailRequestDto.builder().email(email).build();
 
-        ResponseEntity<Object> responseEntity = restTemplate.postForEntity(url, requestDto, Object.class);
-        System.out.println(responseEntity.getBody().toString());
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(url_email, dto1, String.class);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        responseEntity = restTemplate.postForEntity(url_code, dto1, String.class);
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
 
-        List<Members> all = membersRepository.findAll();
+        List<Email> all = emailRepository.findAll();
         assertThat(all.get(all.size()-1).getEmail()).isEqualTo(email);
-        assertThat(all.get(all.size()-1).getImage()).isEqualTo(image);
+        assertThat(all.get(all.size()-1).getStatus()).isEqualTo("Y");
+
+        String password = "abcde1234!";
+        String name = "이름";
+        String nickname = "송아";
+        String phone = "00033334444";
+        String image = "C:/Users/user1/Desktop/송아/캡스톤/repo/between-our-clothes-server/src/test/resources/static/images/test.png";
+
+        AuthSignUpRequestDto dto2 = AuthSignUpRequestDto.builder().email(email).password(password).name(name).nickname(nickname).phone(phone).image(image).build();
+
+        ResponseEntity<Long> responseEntity2 = restTemplate.postForEntity(url_signup, dto2, Long.class);
+        assertThat(responseEntity2.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        List<Members> mems = membersRepository.findAll();
+        assertThat(mems.get(mems.size()-1).getEmail()).isEqualTo(email);
+        assertThat(mems.get(mems.size()-1).getImage()).isEqualTo(image);
+
+        all = emailRepository.findAll();
+        assertThat(all.size()).isEqualTo(0);
     }
 
     @Test
