@@ -50,6 +50,7 @@ public class AuthApiControllerTest {
     @After
     public void cleanup(){
         membersRepository.deleteAll();
+        emailRepository.deleteAll();
     }
 
     @Test
@@ -176,5 +177,30 @@ public class AuthApiControllerTest {
         assertThat(all.get(all.size()-1).getEmail()).isEqualTo(email);
         System.out.println(all.get(all.size()-1).getCode());
         System.out.println(all.get(all.size()-1).getStatus());
+    }
+
+    @Test
+    public void 이메일_전송후_인증() throws Exception{
+
+        String url = "http://localhost:" + port + "api/v1/auth/sign-up/email";
+        String email = "gunsong2@naver.com";
+        AuthEmailRequestDto requestDto = AuthEmailRequestDto.builder().email(email).build();
+
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, requestDto, String.class);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        List<Email> all = emailRepository.findAll();
+        assertThat(all.get(all.size()-1).getEmail()).isEqualTo(email);
+        assertThat(all.get(all.size()-1).getStatus()).isEqualTo("N");
+
+        url = "http://localhost:" + port + "api/v1/auth/sign-up/code";
+        String authcode = requestDto.getCode();
+        responseEntity = restTemplate.postForEntity(url, requestDto, String.class);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        all = emailRepository.findAll();
+        assertThat(all.get(all.size()-1).getEmail()).isEqualTo(email);
+        assertThat(all.get(all.size()-1).getCode()).isEqualTo(authcode);
+        assertThat(all.get(all.size()-1).getStatus()).isEqualTo("Y");
     }
 }

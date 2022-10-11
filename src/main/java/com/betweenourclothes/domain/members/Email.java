@@ -28,4 +28,8 @@ public class Email {
         this.code = code;
         this.status = status;
     }
+
+    public void update(String status){
+        this.status = status;
+    }
 }

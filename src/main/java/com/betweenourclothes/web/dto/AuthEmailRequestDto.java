@@ -44,6 +44,10 @@ public class AuthEmailRequestDto {
         }
     }
 
+    public void setStatusAccepted(){
+        this.status = "Y";
+    }
+
     @Builder
     public AuthEmailRequestDto(String email){
         this.email = email;

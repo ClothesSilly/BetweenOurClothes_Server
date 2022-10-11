@@ -25,7 +25,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests() // HttpServletRequest를 사용하는 요청들에 대한 접근제한 설정
                 .antMatchers("/api/v1/auth/sign-up",
                                         "/api/v1/auth/sign-up/image",
-                        "/api/v1/auth/sign-up/email")
+                        "/api/v1/auth/sign-up/email",
+                        "/api/v1/auth/sign-up/code")
                 .permitAll()
                 .anyRequest()  // 나머지 요청들은 모두 인증
                 .authenticated();

@@ -10,6 +10,7 @@ public enum ErrorCode {
 
     /* 400 */
     REQUEST_FORMAT_ERROR(HttpStatus.BAD_REQUEST, "요청 형식이 잘못되었음"),
+    AUTHCODE_NOT_MATCHED(HttpStatus.BAD_REQUEST, "인증 코드가 잘못되었음"),
 
     /* 404 */
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "사용자를 찾을 수 없음"),

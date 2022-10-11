@@ -1,11 +1,10 @@
 package com.betweenourclothes.service.auth;
 
+import com.betweenourclothes.domain.members.Email;
 import com.betweenourclothes.domain.members.EmailRepository;
 import com.betweenourclothes.domain.members.MembersRepository;
 import com.betweenourclothes.exception.ErrorCode;
-import com.betweenourclothes.exception.customException.DuplicatedDataException;
-import com.betweenourclothes.exception.customException.MailMsgCreationException;
-import com.betweenourclothes.exception.customException.MailRequestException;
+import com.betweenourclothes.exception.customException.*;
 import com.betweenourclothes.web.dto.AuthSignUpRequestDto;
 import com.betweenourclothes.web.dto.AuthEmailRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -62,6 +61,20 @@ public class AuthServiceImpl implements AuthService{
             throw new MailRequestException(ErrorCode.MAIL_REQUEST_ERROR);
         }
         emailRepository.save(requestDto.toEntity());
+    }
+
+    @Transactional
+    @Override
+    public void checkAuthCode(AuthEmailRequestDto receiver) {
+        Email user = emailRepository.findByEmail(receiver.getEmail()).orElseThrow(()->new UserNotFoundException(ErrorCode.USER_NOT_FOUND));
+        System.out.println("existed code: " + user.getCode());
+        System.out.println("requested code: " + receiver.getCode());
+        if(user.getCode().equals(receiver.getCode())){
+            receiver.setStatusAccepted();
+            user.update(receiver.getStatus());
+            return;
+        }
+        throw new AuthCodeNotMatchedException(ErrorCode.AUTHCODE_NOT_MATCHED);
     }
 
     private MimeMessage createMessage(AuthEmailRequestDto requestDto) throws MessagingException, UnsupportedEncodingException {

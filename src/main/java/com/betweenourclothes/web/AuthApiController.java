@@ -57,8 +57,9 @@ public class AuthApiController {
         return new ResponseEntity<>("이메일 전송 성공", HttpStatus.OK);
     }
 
-    /*@PostMapping("/sign-up/code")
-    public ResponseEntity checkAuthCode(@RequestBody @Valid AuthEmailRequestDto requestDto) throws Exception{
-        return null;
-    }*/
+    @PostMapping("/sign-up/code")
+    public ResponseEntity<String> checkAuthCode(@RequestBody @Valid AuthEmailRequestDto requestDto) throws Exception{
+        membersService.checkAuthCode(requestDto);
+        return new ResponseEntity<>("인증 성공", HttpStatus.OK);
+    }
 }
