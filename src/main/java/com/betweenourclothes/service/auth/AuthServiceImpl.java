@@ -27,7 +27,7 @@ public class AuthServiceImpl implements AuthService{
 
     @Transactional
     @Override
-    public Long signUp(AuthSignUpRequestDto requestDto){
+    public void signUp(AuthSignUpRequestDto requestDto){
 
         if(membersRepository.findByEmail(requestDto.getEmail()).isPresent()){
             throw new DuplicatedDataException(ErrorCode.DUPLICATE_EMAIL);
@@ -43,7 +43,7 @@ public class AuthServiceImpl implements AuthService{
             throw new DuplicatedDataException(ErrorCode.DUPLICATE_NICKNAME);
         }
 
-        return membersRepository.save(requestDto.toEntity()).getId();
+        membersRepository.save(requestDto.toEntity());
     }
 
     @Transactional

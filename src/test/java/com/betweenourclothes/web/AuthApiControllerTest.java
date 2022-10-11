@@ -80,7 +80,7 @@ public class AuthApiControllerTest {
 
         AuthSignUpRequestDto dto2 = AuthSignUpRequestDto.builder().email(email).password(password).name(name).nickname(nickname).phone(phone).image(image).build();
 
-        ResponseEntity<Long> responseEntity2 = restTemplate.postForEntity(url_signup, dto2, Long.class);
+        ResponseEntity<String> responseEntity2 = restTemplate.postForEntity(url_signup, dto2, String.class);
         assertThat(responseEntity2.getStatusCode()).isEqualTo(HttpStatus.OK);
 
         List<Members> mems = membersRepository.findAll();
@@ -103,10 +103,10 @@ public class AuthApiControllerTest {
         String url = "http://localhost:" + port + "api/v1/auth/sign-up";
         AuthSignUpRequestDto requestDto = AuthSignUpRequestDto.builder().email(email).password(password).name(name).nickname(nickname).phone(phone).role(role).build();
 
-        ResponseEntity<Object> responseEntity1 = restTemplate.postForEntity(url, requestDto, Object.class);
+        ResponseEntity<String> responseEntity1 = restTemplate.postForEntity(url, requestDto, String.class);
         assertThat(responseEntity1.getStatusCode()).isEqualTo(HttpStatus.OK);
 
-        ResponseEntity<Object> responseEntity2 = restTemplate.postForEntity(url, requestDto, Object.class);
+        ResponseEntity<String> responseEntity2 = restTemplate.postForEntity(url, requestDto, String.class);
         System.out.println(responseEntity2.getBody().toString());
         assertThat(responseEntity2.getStatusCode()).isEqualTo(HttpStatus.CONFLICT);
     }
@@ -123,12 +123,12 @@ public class AuthApiControllerTest {
         String url = "http://localhost:" + port + "api/v1/auth/sign-up";
         AuthSignUpRequestDto requestDto = AuthSignUpRequestDto.builder().email(email).password(password).name(name).nickname(nickname).phone(phone).role(role).build();
 
-        ResponseEntity<Object> responseEntity1 = restTemplate.postForEntity(url, requestDto, Object.class);
+        ResponseEntity<String> responseEntity1 = restTemplate.postForEntity(url, requestDto, String.class);
         assertThat(responseEntity1.getStatusCode()).isEqualTo(HttpStatus.OK);
 
         String email2 = "sdfsdfsd@naver.com";
         requestDto = AuthSignUpRequestDto.builder().email(email2).password(password).name(name).nickname(nickname).phone(phone).role(role).build();
-        ResponseEntity<Object> responseEntity2 = restTemplate.postForEntity(url, requestDto, Object.class);
+        ResponseEntity<String> responseEntity2 = restTemplate.postForEntity(url, requestDto, String.class);
         System.out.println(responseEntity2.getBody().toString());
         assertThat(responseEntity2.getStatusCode()).isEqualTo(HttpStatus.CONFLICT);
     }
@@ -145,7 +145,7 @@ public class AuthApiControllerTest {
         String url = "http://localhost:" + port + "api/v1/auth/sign-up";
         AuthSignUpRequestDto requestDto = AuthSignUpRequestDto.builder().email(email).password(password).name(name).nickname(nickname).phone(phone).role(role).build();
 
-        ResponseEntity<Object> responseEntity = restTemplate.postForEntity(url, requestDto, Object.class);
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, requestDto, String.class);
         System.out.println(responseEntity.getBody());
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
@@ -162,7 +162,7 @@ public class AuthApiControllerTest {
         String url = "http://localhost:" + port + "api/v1/auth/sign-up";
         AuthSignUpRequestDto requestDto = AuthSignUpRequestDto.builder().email(email).password(password).name(name).nickname(nickname).phone(phone).role(role).build();
 
-        ResponseEntity<Object> responseEntity = restTemplate.postForEntity(url, requestDto, Object.class);
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, requestDto, String.class);
         System.out.println(responseEntity.getBody());
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }

@@ -24,7 +24,7 @@ public class AuthApiController {
     private final AuthServiceImpl membersService;
 
     @PostMapping("/sign-up/image")
-    public String upload(@RequestParam(name = "image", required = false) MultipartFile img) throws IOException {
+    public ResponseEntity<String> upload(@RequestParam(name = "image", required = false) MultipartFile img) throws IOException {
 
         try{
             String uuid = UUID.randomUUID().toString();
@@ -40,15 +40,16 @@ public class AuthApiController {
             file = new File(path+"/"+uploadedFileName+extension);
             img.transferTo(file);
 
-            return file.getAbsolutePath();
+            return new ResponseEntity<>(file.getAbsolutePath(), HttpStatus.OK);
         } catch(NullPointerException e){
             throw new RequestFormatException(ErrorCode.REQUEST_FORMAT_ERROR);
         }
     }
 
     @PostMapping("/sign-up")
-    public Long signUp(@RequestBody @Valid AuthSignUpRequestDto requestDto) throws Exception {
-        return membersService.signUp(requestDto);
+    public ResponseEntity<String> signUp(@RequestBody @Valid AuthSignUpRequestDto requestDto) throws Exception {
+        membersService.signUp(requestDto);
+        return new ResponseEntity<>("회원가입 성공", HttpStatus.OK);
     }
 
     @PostMapping("/sign-up/email")

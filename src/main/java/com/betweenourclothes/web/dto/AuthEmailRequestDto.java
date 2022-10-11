@@ -4,16 +4,18 @@ import com.betweenourclothes.domain.members.Email;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Random;
 
 @Getter
-@NoArgsConstructor
 public class AuthEmailRequestDto {
 
     @NotBlank(message = "이메일을 입력하세요.")
     @javax.validation.constraints.Email(message = "올바른 이메일 형식이 아닙니다.")
     private String email;
+    @NotNull
     private String code;
+    @NotNull
     private String status;
 
 
@@ -46,6 +48,11 @@ public class AuthEmailRequestDto {
 
     public void setStatusAccepted(){
         this.status = "Y";
+    }
+
+    public AuthEmailRequestDto(){
+        this.code = createAuthCode();
+        this.status = booleanConverter(false);
     }
 
     @Builder
