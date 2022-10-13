@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 
@@ -21,7 +22,7 @@ public class Members {
     @Column(length=45, nullable=false)
     private String email;
 
-    @Column(length=15, nullable=false)
+    @Column(nullable=false)
     private String password;
 
     @Column(length=10, nullable=false)
@@ -47,5 +48,9 @@ public class Members {
         this.name = name;
         this.phone = phone;
         this.image = image;
+    }
+
+    public void encodePassword(PasswordEncoder passwordEncoder){
+        this.password =passwordEncoder.encode(password);
     }
 }

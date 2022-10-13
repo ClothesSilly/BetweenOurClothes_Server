@@ -2,6 +2,7 @@ package com.betweenourclothes.service.auth;
 
 import com.betweenourclothes.domain.members.Email;
 import com.betweenourclothes.domain.members.EmailRepository;
+import com.betweenourclothes.domain.members.Members;
 import com.betweenourclothes.domain.members.MembersRepository;
 import com.betweenourclothes.exception.ErrorCode;
 import com.betweenourclothes.exception.customException.*;
@@ -9,6 +10,7 @@ import com.betweenourclothes.web.dto.AuthSignUpRequestDto;
 import com.betweenourclothes.web.dto.AuthEmailRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +24,7 @@ import java.io.UnsupportedEncodingException;
 @Service
 public class AuthServiceImpl implements AuthService{
     private final MembersRepository membersRepository;
+    private final PasswordEncoder passwordEncoder;
     private final EmailRepository emailRepository;
     private final JavaMailSender sender;
 
@@ -43,7 +46,9 @@ public class AuthServiceImpl implements AuthService{
             throw new DuplicatedDataException(ErrorCode.DUPLICATE_NICKNAME);
         }
 
-        membersRepository.save(requestDto.toEntity());
+        Members member= requestDto.toEntity();
+        membersRepository.save(member);
+        member.encodePassword(passwordEncoder);
     }
 
     @Transactional
