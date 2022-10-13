@@ -1,7 +1,13 @@
 package com.betweenourclothes.web;
 
+import com.betweenourclothes.domain.auth.Email;
+import com.betweenourclothes.domain.auth.EmailRepository;
 import com.betweenourclothes.domain.members.*;
-import com.betweenourclothes.web.dto.*;
+import com.betweenourclothes.web.dto.request.AuthEmailRequestDto;
+import com.betweenourclothes.web.dto.request.AuthSignInRequestDto;
+import com.betweenourclothes.web.dto.request.AuthSignUpRequestDto;
+import com.betweenourclothes.web.dto.request.AuthTokenRequestDto;
+import com.betweenourclothes.web.dto.response.AuthTokenResponseDto;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;

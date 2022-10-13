@@ -22,7 +22,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtTokenProvider jwtTokenProvider;
-    private final CustomUserDetailService customUserDetailService;
 
     @Bean
     @Override
@@ -39,19 +38,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // jwt 사용
                 .and()
                 .authorizeRequests() // HttpServletRequest를 사용하는 요청들에 대한 접근제한 설정
-                    .antMatchers("/api/v1/auth/**").permitAll() //.hasRole("USER")
+                    .antMatchers("/api/v1/auth/**").permitAll() // 회원가입, 로그인 화면 모두에게 허용
                     .anyRequest().authenticated() // 나머지 요청들은 모두 인증 필요
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
                  // UPAF 전에 AuthenticationFilter 추가
         ;
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder
-                .userDetailsService(customUserDetailService)
-                .passwordEncoder(passwordEncoder());
     }
 
     @Bean

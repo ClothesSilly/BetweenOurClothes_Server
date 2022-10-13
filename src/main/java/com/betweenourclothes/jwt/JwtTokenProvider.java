@@ -2,7 +2,7 @@ package com.betweenourclothes.jwt;
 
 import com.betweenourclothes.exception.ErrorCode;
 import com.betweenourclothes.exception.customException.AuthSignInException;
-import com.betweenourclothes.web.dto.AuthTokenResponseDto;
+import com.betweenourclothes.web.dto.response.AuthTokenResponseDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -14,9 +14,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
-import javax.servlet.http.HttpServletRequest;
 import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
@@ -31,26 +29,30 @@ public class JwtTokenProvider {
     private static long REFRESH_TOKEN_VALID_TIME = 1000L * 60; //test 1시간
 
 
+    /*** 토큰을 암호화할 키 생성 ***/
     public JwtTokenProvider(@Value("${spring.jwt.secret}") String secretKey){
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    // 토큰 생성
+    /*** 토큰 생성 ***/
     public AuthTokenResponseDto createToken(Authentication authentication){
 
+        // 권한 부여
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
 
         long now = new Date().getTime();
 
+        // access token
         String accessToken = Jwts.builder()
-                .setSubject(authentication.getName())
-                .claim("auth", authorities)
-                .setExpiration(new Date(now + ACCESS_TOKEN_VALID_TIME))
-                .signWith(key, SignatureAlgorithm.HS256)
+                .setSubject(authentication.getName())                   // 토큰 용도
+                .claim("auth", authorities)                       // 권한
+                .setExpiration(new Date(now + ACCESS_TOKEN_VALID_TIME)) // 만료 기간
+                .signWith(key, SignatureAlgorithm.HS256)                // 사용할 알고리즘과 key
                 .compact();
 
+        // refresh token
         String refreshToken = Jwts.builder()
                 .setExpiration(new Date(now + REFRESH_TOKEN_VALID_TIME))
                 .signWith(key, SignatureAlgorithm.HS256)
@@ -64,7 +66,7 @@ public class JwtTokenProvider {
     }
 
 
-    // 토큰 검증
+    /*** 토큰 검증 ***/
     public JwtStatus validateToken(String token) {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
@@ -78,7 +80,7 @@ public class JwtTokenProvider {
         return JwtStatus.DENIED;
     }
 
-    // 토큰을 복호화해서 정보를 추출
+    /*** 토큰을 복화해서 토큰 안의 정보 추출 ***/
     public Authentication getAuthentication(String accessToken) {
         // 토큰 복호화
         Claims claims = parseClaims(accessToken);
@@ -98,7 +100,7 @@ public class JwtTokenProvider {
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
 
-    //토큰 복호화
+    // 토큰 복호화
     private Claims parseClaims(String accessToken) {
         try {
             return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody();

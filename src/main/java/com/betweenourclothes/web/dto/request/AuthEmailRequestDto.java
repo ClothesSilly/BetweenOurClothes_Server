@@ -1,6 +1,6 @@
-package com.betweenourclothes.web.dto;
+package com.betweenourclothes.web.dto.request;
 
-import com.betweenourclothes.domain.members.Email;
+import com.betweenourclothes.domain.auth.Email;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;

@@ -1,6 +1,10 @@
 package com.betweenourclothes.service.auth;
 
-import com.betweenourclothes.web.dto.*;
+import com.betweenourclothes.web.dto.request.AuthEmailRequestDto;
+import com.betweenourclothes.web.dto.request.AuthSignInRequestDto;
+import com.betweenourclothes.web.dto.request.AuthSignUpRequestDto;
+import com.betweenourclothes.web.dto.request.AuthTokenRequestDto;
+import com.betweenourclothes.web.dto.response.AuthTokenResponseDto;
 
 public interface AuthService {
     void signUp(AuthSignUpRequestDto requestDto);

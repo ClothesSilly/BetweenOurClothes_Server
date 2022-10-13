@@ -1,4 +1,4 @@
-package com.betweenourclothes.web.dto;
+package com.betweenourclothes.web.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

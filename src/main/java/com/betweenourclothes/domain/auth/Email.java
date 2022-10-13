@@ -1,4 +1,4 @@
-package com.betweenourclothes.domain.members;
+package com.betweenourclothes.domain.auth;
 
 import lombok.Builder;
 import lombok.Getter;

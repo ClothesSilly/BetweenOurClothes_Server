@@ -1,4 +1,4 @@
-package com.betweenourclothes.domain.members;
+package com.betweenourclothes.domain.auth;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

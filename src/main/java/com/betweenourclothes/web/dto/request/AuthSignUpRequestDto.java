@@ -1,10 +1,11 @@
-package com.betweenourclothes.web.dto;
+package com.betweenourclothes.web.dto.request;
 
 import com.betweenourclothes.domain.members.Members;
 import com.betweenourclothes.domain.members.Role;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -51,4 +52,6 @@ public class AuthSignUpRequestDto {
                 .role(role)
                 .build();
     }
+
+
 }

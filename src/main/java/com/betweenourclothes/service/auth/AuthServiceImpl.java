@@ -1,14 +1,18 @@
 package com.betweenourclothes.service.auth;
 
-import com.betweenourclothes.domain.members.Email;
-import com.betweenourclothes.domain.members.EmailRepository;
+import com.betweenourclothes.domain.auth.Email;
+import com.betweenourclothes.domain.auth.EmailRepository;
 import com.betweenourclothes.domain.members.Members;
 import com.betweenourclothes.domain.members.MembersRepository;
 import com.betweenourclothes.exception.ErrorCode;
 import com.betweenourclothes.exception.customException.*;
 import com.betweenourclothes.jwt.JwtStatus;
 import com.betweenourclothes.jwt.JwtTokenProvider;
-import com.betweenourclothes.web.dto.*;
+import com.betweenourclothes.web.dto.request.AuthEmailRequestDto;
+import com.betweenourclothes.web.dto.request.AuthSignInRequestDto;
+import com.betweenourclothes.web.dto.request.AuthSignUpRequestDto;
+import com.betweenourclothes.web.dto.request.AuthTokenRequestDto;
+import com.betweenourclothes.web.dto.response.AuthTokenResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -35,36 +39,50 @@ public class AuthServiceImpl implements AuthService{
 
     private final PasswordEncoder passwordEncoder;
 
+    /*** 회원가입 ***/
+
     @Transactional
     @Override
     public void signUp(AuthSignUpRequestDto requestDto){
 
+        // 이메일 중복 체크
         if(membersRepository.findByEmail(requestDto.getEmail()).isPresent()){
             throw new AuthSignUpException(ErrorCode.DUPLICATE_EMAIL);
         }
 
+        // 이메일 인증상태 체크 후
+        // 임시테이블에서 삭제
         Email user = emailRepository.findByEmail(requestDto.getEmail()).orElseThrow(()->new AuthSignUpException(ErrorCode.USER_NOT_FOUND));
         if(!user.getStatus().equals("Y")){
             throw new AuthSignUpException(ErrorCode.NOT_AUTHENTICATED);
         }
         emailRepository.delete(user);
 
+        // 닉네임 중복체크
         if(membersRepository.findByNickname(requestDto.getNickname()).isPresent()){
             throw new AuthSignUpException(ErrorCode.DUPLICATE_NICKNAME);
         }
 
+        // 비밀번호 인코딩 후
+        // Member 테이블에 저장
         Members member= requestDto.toEntity();
-        membersRepository.save(member);
         member.encodePassword(passwordEncoder);
+        membersRepository.save(member);
     }
+
+
+    /*** 이메일 인증 & 체크 ***/
 
     @Transactional
     @Override
     public void sendMail(AuthEmailRequestDto requestDto){
+        // 이메일 중복 체크
         if(membersRepository.findByEmail(requestDto.getEmail()).isPresent()){
             throw new AuthSignUpException(ErrorCode.DUPLICATE_EMAIL);
         }
 
+        // 이메일 인증코드 생성: Dto 객체가 생성될 때 생성함
+        // 이메일 메시지 생성
         MimeMessage message;
         try {
             message = createMessage(requestDto);
@@ -72,6 +90,7 @@ public class AuthServiceImpl implements AuthService{
             throw new AuthSignUpException(ErrorCode.MAIL_MSG_CREATION_ERROR);
         }
 
+        // 이메일 전송
         try{
             System.out.println(message);
             sender.send(message);
@@ -79,20 +98,27 @@ public class AuthServiceImpl implements AuthService{
             e.printStackTrace();
             throw new AuthSignUpException(ErrorCode.MAIL_REQUEST_ERROR);
         }
+
+        // 임시테이블에 저장
         emailRepository.save(requestDto.toEntity());
     }
 
     @Transactional
     @Override
     public void checkAuthCode(AuthEmailRequestDto receiver) {
+        // 임시 테이블 조회
         Email user = emailRepository.findByEmail(receiver.getEmail()).orElseThrow(()->new AuthSignUpException(ErrorCode.USER_NOT_FOUND));
-        System.out.println("existed code: " + user.getCode());
-        System.out.println("requested code: " + receiver.getCode());
+        //System.out.println("existed code: " + user.getCode());
+        //System.out.println("requested code: " + receiver.getCode());
+
+        // 코드 일치 여부 확인 후
+        // 임시 테이블의 상태 업데이트
         if(user.getCode().equals(receiver.getCode())){
             receiver.setStatusAccepted();
             user.updateStatus(receiver.getStatus());
             return;
         }
+        // 일치하지 않으면 예외 던지기
         throw new AuthSignUpException(ErrorCode.NOT_AUTHENTICATED);
     }
 
@@ -118,6 +144,9 @@ public class AuthServiceImpl implements AuthService{
         return msg;
     }
 
+
+    /*** 로그인 ***/
+
     @Transactional
     @Override
     public AuthTokenResponseDto login(AuthSignInRequestDto requestDto) {
@@ -132,10 +161,14 @@ public class AuthServiceImpl implements AuthService{
 
         // authentication을 jwtTokenProvider에게 전달해 jwt 토큰을 만듦
         // DB에 refresh token 저장
+        // jwt 토큰 리턴
         AuthTokenResponseDto responseDto = jwtTokenProvider.createToken(authentication);
         member.updateRefreshToken(responseDto.getRefreshToken());
         return responseDto;
     }
+
+
+    /*** 토큰 재발급 ***/
 
     @Transactional
     @Override
@@ -162,6 +195,7 @@ public class AuthServiceImpl implements AuthService{
         AuthTokenResponseDto responseDto = jwtTokenProvider.createToken(authentication);
         member.updateRefreshToken(responseDto.getRefreshToken());
 
+        // jwt 토큰 리턴
         return responseDto;
     }
 

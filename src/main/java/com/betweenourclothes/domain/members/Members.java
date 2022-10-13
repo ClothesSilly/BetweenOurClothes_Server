@@ -59,9 +59,8 @@ public class Members implements UserDetails {
     }
 
     public void encodePassword(PasswordEncoder passwordEncoder){
-        this.password =passwordEncoder.encode(password);
+        this.password = passwordEncoder.encode(password);
     }
-
     public void updateRefreshToken(String token){
         this.refreshToken = token;
     }
