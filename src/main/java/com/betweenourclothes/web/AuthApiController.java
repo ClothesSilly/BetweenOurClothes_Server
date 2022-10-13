@@ -3,10 +3,7 @@ package com.betweenourclothes.web;
 import com.betweenourclothes.exception.ErrorCode;
 import com.betweenourclothes.exception.customException.AuthSignInException;
 import com.betweenourclothes.service.auth.AuthServiceImpl;
-import com.betweenourclothes.web.dto.AuthEmailRequestDto;
-import com.betweenourclothes.web.dto.AuthSignInRequestDto;
-import com.betweenourclothes.web.dto.AuthSignUpRequestDto;
-import com.betweenourclothes.web.dto.AuthTokenInfoResponseDto;
+import com.betweenourclothes.web.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import javax.xml.ws.Response;
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
@@ -24,7 +20,7 @@ import java.util.UUID;
 @RequestMapping("/api/v1/auth")
 public class AuthApiController {
 
-    private final AuthServiceImpl membersService;
+    private final AuthServiceImpl authService;
 
     @PostMapping("/sign-up/image")
     public ResponseEntity<String> upload(@RequestParam(name = "image", required = false) MultipartFile img) throws IOException {
@@ -51,25 +47,31 @@ public class AuthApiController {
 
     @PostMapping("/sign-up")
     public ResponseEntity<String> signUp(@RequestBody @Valid AuthSignUpRequestDto requestDto) throws Exception {
-        membersService.signUp(requestDto);
+        authService.signUp(requestDto);
         return new ResponseEntity<>("회원가입 성공", HttpStatus.OK);
     }
 
     @PostMapping("/sign-up/email")
     public ResponseEntity<String> sendEmail(@RequestBody @Valid AuthEmailRequestDto requestDto) throws Exception{
-        membersService.sendMail(requestDto);
+        authService.sendMail(requestDto);
         return new ResponseEntity<>("이메일 전송 성공", HttpStatus.OK);
     }
 
     @PostMapping("/sign-up/code")
     public ResponseEntity<String> checkAuthCode(@RequestBody @Valid AuthEmailRequestDto requestDto) throws Exception{
-        membersService.checkAuthCode(requestDto);
+        authService.checkAuthCode(requestDto);
         return new ResponseEntity<>("인증 성공", HttpStatus.OK);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthTokenInfoResponseDto> login(@RequestBody AuthSignInRequestDto requestDto) throws Exception{
-        AuthTokenInfoResponseDto responseDto = membersService.login(requestDto);
+    public ResponseEntity<AuthTokenResponseDto> login(@RequestBody AuthSignInRequestDto requestDto) throws Exception{
+        AuthTokenResponseDto responseDto = authService.login(requestDto);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
+
+    @PostMapping("/issue")
+    public ResponseEntity<AuthTokenResponseDto> issueToken(@RequestBody AuthTokenRequestDto requestDto) throws Exception{
+        AuthTokenResponseDto responseDto = authService.issueToken(requestDto);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 }

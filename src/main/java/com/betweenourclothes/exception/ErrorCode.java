@@ -13,6 +13,11 @@ public enum ErrorCode {
     NOT_AUTHENTICATED(HttpStatus.BAD_REQUEST, "인증되지 않았음"),
     WRONG_PASSWORD(HttpStatus.BAD_REQUEST, "잘못된 비밀번호"),
 
+
+    /* 401 */
+    REFRESH_TOKEN_ERROR(HttpStatus.UNAUTHORIZED, "Refresh Token이 유효하지 않음"),
+    WRONG_USER(HttpStatus.UNAUTHORIZED, "사용자 정보가 일치하지 않음"),
+
     /* 404 */
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "사용자를 찾을 수 없음"),
 

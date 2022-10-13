@@ -39,9 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // jwt 사용
                 .and()
                 .authorizeRequests() // HttpServletRequest를 사용하는 요청들에 대한 접근제한 설정
-                    .antMatchers("/api/v1/auth/sign-up",
-                                        "/api/v1/auth/sign-up/**").permitAll() //전부 허가
-                    .antMatchers("/api/v1/auth/login").permitAll() //.hasRole("USER")
+                    .antMatchers("/api/v1/auth/**").permitAll() //.hasRole("USER")
                     .anyRequest().authenticated() // 나머지 요청들은 모두 인증 필요
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)

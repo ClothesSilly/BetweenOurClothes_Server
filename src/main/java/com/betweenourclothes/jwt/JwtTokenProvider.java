@@ -2,13 +2,10 @@ package com.betweenourclothes.jwt;
 
 import com.betweenourclothes.exception.ErrorCode;
 import com.betweenourclothes.exception.customException.AuthSignInException;
-import com.betweenourclothes.web.dto.AuthTokenInfoResponseDto;
+import com.betweenourclothes.web.dto.AuthTokenResponseDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -30,8 +27,8 @@ import java.util.stream.Collectors;
 public class JwtTokenProvider {
 
     private Key key;
-    private static long ACCESS_TOKEN_VALID_TIME = 1000L * 60 * 1; //test 1분
-    private static long REFRESH_TOKEN_VALID_TIME = 1000L * 60 * 3; //test 3분
+    private static long ACCESS_TOKEN_VALID_TIME = 1000L * 1; //test 1초
+    private static long REFRESH_TOKEN_VALID_TIME = 1000L * 60; //test 1시간
 
 
     public JwtTokenProvider(@Value("${spring.jwt.secret}") String secretKey){
@@ -40,7 +37,7 @@ public class JwtTokenProvider {
     }
 
     // 토큰 생성
-    public AuthTokenInfoResponseDto createToken(Authentication authentication){
+    public AuthTokenResponseDto createToken(Authentication authentication){
 
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
@@ -59,7 +56,7 @@ public class JwtTokenProvider {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
-        return AuthTokenInfoResponseDto.builder()
+        return AuthTokenResponseDto.builder()
                 .grantType("Bearer")
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
@@ -68,16 +65,17 @@ public class JwtTokenProvider {
 
 
     // 토큰 검증
-    public boolean validateToken(String token) {
+    public JwtStatus validateToken(String token) {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
-            return true;
+            return JwtStatus.ACCESS;
         } catch (ExpiredJwtException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            return JwtStatus.EXPIRED;
         } catch (Exception e){
-            e.printStackTrace();
+            //e.printStackTrace();
         }
-        return false;
+        return JwtStatus.DENIED;
     }
 
     // 토큰을 복호화해서 정보를 추출
@@ -109,11 +107,4 @@ public class JwtTokenProvider {
         }
     }
 
-    public String resolveToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer")) {
-            return bearerToken.substring(7);
-        }
-        return null;
-    }
 }
