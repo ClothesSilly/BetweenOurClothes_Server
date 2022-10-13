@@ -30,14 +30,14 @@ public class AuthSignUpRequestDto {
     private Role role;
 
     @Builder
-    public AuthSignUpRequestDto(String email, String password, String name, String nickname, String phone, String image, Role role){
+    public AuthSignUpRequestDto(String email, String password, String name, String nickname, String phone, String image){
         this.email = email;
         this.password = password;
         this.nickname = nickname;
         this.name = name;
         this.phone = phone;
         this.image = image;
-        this.role = role;
+        this.role = Role.USER;
     }
 
     public Members toEntity(){
@@ -48,6 +48,7 @@ public class AuthSignUpRequestDto {
                 .image(image)
                 .nickname(nickname)
                 .phone(phone)
+                .role(role)
                 .build();
     }
 }

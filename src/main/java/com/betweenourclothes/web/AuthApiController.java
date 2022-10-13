@@ -1,10 +1,12 @@
 package com.betweenourclothes.web;
 
 import com.betweenourclothes.exception.ErrorCode;
-import com.betweenourclothes.exception.customException.RequestFormatException;
+import com.betweenourclothes.exception.customException.AuthSignInException;
 import com.betweenourclothes.service.auth.AuthServiceImpl;
 import com.betweenourclothes.web.dto.AuthEmailRequestDto;
+import com.betweenourclothes.web.dto.AuthSignInRequestDto;
 import com.betweenourclothes.web.dto.AuthSignUpRequestDto;
+import com.betweenourclothes.web.dto.AuthTokenInfoResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import javax.xml.ws.Response;
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
@@ -42,7 +45,7 @@ public class AuthApiController {
 
             return new ResponseEntity<>(file.getAbsolutePath(), HttpStatus.OK);
         } catch(NullPointerException e){
-            throw new RequestFormatException(ErrorCode.REQUEST_FORMAT_ERROR);
+            throw new AuthSignInException(ErrorCode.REQUEST_FORMAT_ERROR);
         }
     }
 
@@ -62,5 +65,11 @@ public class AuthApiController {
     public ResponseEntity<String> checkAuthCode(@RequestBody @Valid AuthEmailRequestDto requestDto) throws Exception{
         membersService.checkAuthCode(requestDto);
         return new ResponseEntity<>("인증 성공", HttpStatus.OK);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<AuthTokenInfoResponseDto> login(@RequestBody AuthSignInRequestDto requestDto) throws Exception{
+        AuthTokenInfoResponseDto responseDto = membersService.login(requestDto);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 }

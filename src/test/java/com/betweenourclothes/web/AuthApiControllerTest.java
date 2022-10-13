@@ -2,7 +2,9 @@ package com.betweenourclothes.web;
 
 import com.betweenourclothes.domain.members.*;
 import com.betweenourclothes.web.dto.AuthEmailRequestDto;
+import com.betweenourclothes.web.dto.AuthSignInRequestDto;
 import com.betweenourclothes.web.dto.AuthSignUpRequestDto;
+import com.betweenourclothes.web.dto.AuthTokenInfoResponseDto;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -54,6 +56,24 @@ public class AuthApiControllerTest {
     }
 
     @Test
+    public void 로그인_토큰전송() throws Exception{
+        회원가입();
+
+        String url = "http://localhost:" + port + "api/v1/auth/login";
+        String email = "gunsong2@naver.com";
+        String pw = "abcde1234!";
+        AuthSignInRequestDto reqDto = AuthSignInRequestDto.builder().email(email).password(pw).build();
+
+        ResponseEntity<AuthTokenInfoResponseDto> respDto = restTemplate.postForEntity(url, reqDto, AuthTokenInfoResponseDto.class);
+
+        assertThat(respDto.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(respDto.getBody()).isNotNull();
+
+        System.out.println(respDto.getBody().getGrantType());
+        System.out.println(respDto.getBody().getAccessToken());
+        System.out.println(respDto.getBody().getRefreshToken());
+    }
+    @Test
     public void 회원가입() throws Exception{
 
         String url_email = "http://localhost:" + port + "api/v1/auth/sign-up/email";
@@ -98,10 +118,9 @@ public class AuthApiControllerTest {
         String name = "이름2";
         String nickname = "닉넴";
         String phone = "00033334444";
-        Role role = USER;
 
         String url = "http://localhost:" + port + "api/v1/auth/sign-up";
-        AuthSignUpRequestDto requestDto = AuthSignUpRequestDto.builder().email(email).password(password).name(name).nickname(nickname).phone(phone).role(role).build();
+        AuthSignUpRequestDto requestDto = AuthSignUpRequestDto.builder().email(email).password(password).name(name).nickname(nickname).phone(phone).build();
 
         ResponseEntity<String> responseEntity1 = restTemplate.postForEntity(url, requestDto, String.class);
         assertThat(responseEntity1.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -118,16 +137,15 @@ public class AuthApiControllerTest {
         String name = "이름2";
         String nickname = "닉넴";
         String phone = "00033334444";
-        Role role = USER;
 
         String url = "http://localhost:" + port + "api/v1/auth/sign-up";
-        AuthSignUpRequestDto requestDto = AuthSignUpRequestDto.builder().email(email).password(password).name(name).nickname(nickname).phone(phone).role(role).build();
+        AuthSignUpRequestDto requestDto = AuthSignUpRequestDto.builder().email(email).password(password).name(name).nickname(nickname).phone(phone).build();
 
         ResponseEntity<String> responseEntity1 = restTemplate.postForEntity(url, requestDto, String.class);
         assertThat(responseEntity1.getStatusCode()).isEqualTo(HttpStatus.OK);
 
         String email2 = "sdfsdfsd@naver.com";
-        requestDto = AuthSignUpRequestDto.builder().email(email2).password(password).name(name).nickname(nickname).phone(phone).role(role).build();
+        requestDto = AuthSignUpRequestDto.builder().email(email2).password(password).name(name).nickname(nickname).phone(phone).build();
         ResponseEntity<String> responseEntity2 = restTemplate.postForEntity(url, requestDto, String.class);
         System.out.println(responseEntity2.getBody().toString());
         assertThat(responseEntity2.getStatusCode()).isEqualTo(HttpStatus.CONFLICT);
@@ -140,10 +158,9 @@ public class AuthApiControllerTest {
         String name = "이름2";
         String nickname = "닉넴";
         String phone = "00033334444";
-        Role role = USER;
 
         String url = "http://localhost:" + port + "api/v1/auth/sign-up";
-        AuthSignUpRequestDto requestDto = AuthSignUpRequestDto.builder().email(email).password(password).name(name).nickname(nickname).phone(phone).role(role).build();
+        AuthSignUpRequestDto requestDto = AuthSignUpRequestDto.builder().email(email).password(password).name(name).nickname(nickname).phone(phone).build();
 
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, requestDto, String.class);
         System.out.println(responseEntity.getBody());
@@ -157,10 +174,9 @@ public class AuthApiControllerTest {
         String name = "이름2";
         String nickname = "닉넴";
         String phone = "00033334444";
-        Role role = USER;
 
         String url = "http://localhost:" + port + "api/v1/auth/sign-up";
-        AuthSignUpRequestDto requestDto = AuthSignUpRequestDto.builder().email(email).password(password).name(name).nickname(nickname).phone(phone).role(role).build();
+        AuthSignUpRequestDto requestDto = AuthSignUpRequestDto.builder().email(email).password(password).name(name).nickname(nickname).phone(phone).build();
 
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, requestDto, String.class);
         System.out.println(responseEntity.getBody());

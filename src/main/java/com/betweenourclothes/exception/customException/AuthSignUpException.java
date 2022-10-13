@@ -2,8 +2,9 @@ package com.betweenourclothes.exception.customException;
 
 import com.betweenourclothes.exception.ErrorCode;
 
-public class NotAuthenticatedException extends CustomException{
-    public NotAuthenticatedException(ErrorCode errorCode) {
+public class AuthSignUpException extends CustomException{
+
+    public AuthSignUpException(ErrorCode errorCode) {
         super(errorCode);
     }
 }

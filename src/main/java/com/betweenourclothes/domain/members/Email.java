@@ -29,7 +29,7 @@ public class Email {
         this.status = status;
     }
 
-    public void update(String status){
+    public void updateStatus(String status){
         this.status = status;
     }
 }

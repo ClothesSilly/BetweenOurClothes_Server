@@ -11,6 +11,7 @@ public enum ErrorCode {
     /* 400 */
     REQUEST_FORMAT_ERROR(HttpStatus.BAD_REQUEST, "요청 형식이 잘못되었음"),
     NOT_AUTHENTICATED(HttpStatus.BAD_REQUEST, "인증되지 않았음"),
+    WRONG_PASSWORD(HttpStatus.BAD_REQUEST, "잘못된 비밀번호"),
 
     /* 404 */
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "사용자를 찾을 수 없음"),
