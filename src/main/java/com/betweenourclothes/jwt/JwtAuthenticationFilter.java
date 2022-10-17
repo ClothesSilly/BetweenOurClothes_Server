@@ -33,6 +33,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // security context에 저장함
         if(token != null && jwtTokenProvider.validateToken(token)==JwtStatus.ACCESS){
             Authentication authentication = jwtTokenProvider.getAuthentication(token);
+            //System.out.println(authentication.getName());
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
 
@@ -44,7 +45,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer")) {
-            return bearerToken.substring(7);
+            //System.out.println(bearerToken);
+            //System.out.println(bearerToken.substring(6));
+            return bearerToken.substring(6);
         }
         return null;
     }

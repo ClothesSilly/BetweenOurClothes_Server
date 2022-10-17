@@ -3,8 +3,9 @@ package com.betweenourclothes.service.auth;
 import com.betweenourclothes.web.dto.request.AuthEmailRequestDto;
 import com.betweenourclothes.web.dto.request.AuthSignInRequestDto;
 import com.betweenourclothes.web.dto.request.AuthSignUpRequestDto;
-import com.betweenourclothes.web.dto.request.AuthTokenRequestDto;
 import com.betweenourclothes.web.dto.response.AuthTokenResponseDto;
+
+import javax.servlet.http.HttpServletRequest;
 
 public interface AuthService {
     void signUp(AuthSignUpRequestDto requestDto);
@@ -12,6 +13,6 @@ public interface AuthService {
 
     AuthTokenResponseDto login(AuthSignInRequestDto requestDto);
 
-    AuthTokenResponseDto issueToken(AuthTokenRequestDto requestDto);
+    AuthTokenResponseDto issueToken(HttpServletRequest request);
     void checkAuthCode(AuthEmailRequestDto receiver);
 }

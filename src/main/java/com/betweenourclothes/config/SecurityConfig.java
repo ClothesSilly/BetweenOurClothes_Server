@@ -1,13 +1,13 @@
 package com.betweenourclothes.config;
 
+import com.betweenourclothes.domain.members.Role;
 import com.betweenourclothes.jwt.JwtAuthenticationFilter;
 import com.betweenourclothes.jwt.JwtTokenProvider;
-import com.betweenourclothes.service.auth.CustomUserDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -39,6 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests() // HttpServletRequest를 사용하는 요청들에 대한 접근제한 설정
                     .antMatchers("/api/v1/auth/**").permitAll() // 회원가입, 로그인 화면 모두에게 허용
+                    .antMatchers("/api/v1/closets/post").hasAuthority("ROLE_USER")
                     .anyRequest().authenticated() // 나머지 요청들은 모두 인증 필요
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)

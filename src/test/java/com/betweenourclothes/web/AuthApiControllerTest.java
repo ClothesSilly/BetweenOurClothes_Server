@@ -2,11 +2,10 @@ package com.betweenourclothes.web;
 
 import com.betweenourclothes.domain.auth.Email;
 import com.betweenourclothes.domain.auth.EmailRepository;
+import com.betweenourclothes.domain.closets.ClosetsRepository;
 import com.betweenourclothes.domain.members.*;
-import com.betweenourclothes.web.dto.request.AuthEmailRequestDto;
-import com.betweenourclothes.web.dto.request.AuthSignInRequestDto;
-import com.betweenourclothes.web.dto.request.AuthSignUpRequestDto;
-import com.betweenourclothes.web.dto.request.AuthTokenRequestDto;
+import com.betweenourclothes.jwt.JwtTokenProvider;
+import com.betweenourclothes.web.dto.request.*;
 import com.betweenourclothes.web.dto.response.AuthTokenResponseDto;
 import org.junit.After;
 import org.junit.Test;
@@ -15,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
@@ -50,14 +51,46 @@ public class AuthApiControllerTest {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
+    @Autowired
+    private ClosetsRepository closetsRepository;
+
     @After
     public void cleanup(){
+        closetsRepository.deleteAll();
         membersRepository.deleteAll();
         emailRepository.deleteAll();
     }
 
     @Test
-    public void 로그인_액세스토큰만료() throws Exception {
+    public void 내옷장_글등록() throws Exception{
+        회원가입();
+        String url_login = "http://localhost:" + port + "/api/v1/auth/login";
+        String email = "gunsong2@naver.com";
+        String pw = "abcde1234!";
+        AuthSignInRequestDto reqDto = AuthSignInRequestDto.builder().email(email).password(pw).build();
+        ResponseEntity<AuthTokenResponseDto> respDto = restTemplate.postForEntity(url_login, reqDto, AuthTokenResponseDto.class);
+        assertThat(respDto.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(respDto.getBody()).isNotNull();
+
+        String url_post = "http://localhost:" + port + "/api/v1/closets/post";
+        ClosetsPostRequestDto reqDto2 = ClosetsPostRequestDto.builder().content("게시글게시글게시글우와아아아아").build();
+        String token = respDto.getBody().getAccessToken();
+        String grantType = respDto.getBody().getGrantType();
+        //jwtTokenProvider.getAuthentication(token).getAuthorities().stream().map(e -> String.format(e.getAuthority())).forEach(System.out::println);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", grantType+token);
+        HttpEntity<ClosetsPostRequestDto> request = new HttpEntity<>(reqDto2, headers);
+
+        ResponseEntity<String> respDto2 = restTemplate.postForEntity(url_post, request, String.class);
+
+        System.out.println(respDto2.getBody());
+        assertThat(respDto2.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(respDto2.getBody()).isEqualTo("등록 완료");
+    }
+
+    @Test
+    public void 로그인_토큰재발급() throws Exception {
         회원가입();
 
         String url_login = "http://localhost:" + port + "api/v1/auth/login";
@@ -76,8 +109,11 @@ public class AuthApiControllerTest {
 
         Thread.sleep(1000 * 5);
         String url_issue = "http://localhost:" + port + "api/v1/auth/issue";
-        AuthTokenRequestDto reqDto2 = AuthTokenRequestDto.builder().accessToken(accessToken).refreshToken(refreshToken).build();
-        ResponseEntity<AuthTokenResponseDto> respDto2 = restTemplate.postForEntity(url_issue, respDto, AuthTokenResponseDto.class);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("ACCESS_TOKEN", accessToken);
+        headers.set("REFRESH_TOKEN", refreshToken);
+        HttpEntity<ClosetsPostRequestDto> request = new HttpEntity<>(headers);
+        ResponseEntity<AuthTokenResponseDto> respDto2 = restTemplate.postForEntity(url_issue, request, AuthTokenResponseDto.class);
 
         assertThat(respDto2.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(respDto2.getBody().getAccessToken()).isNotEqualTo(accessToken);

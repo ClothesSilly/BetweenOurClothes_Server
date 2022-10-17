@@ -11,7 +11,6 @@ import com.betweenourclothes.jwt.JwtTokenProvider;
 import com.betweenourclothes.web.dto.request.AuthEmailRequestDto;
 import com.betweenourclothes.web.dto.request.AuthSignInRequestDto;
 import com.betweenourclothes.web.dto.request.AuthSignUpRequestDto;
-import com.betweenourclothes.web.dto.request.AuthTokenRequestDto;
 import com.betweenourclothes.web.dto.response.AuthTokenResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -26,6 +25,7 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 
 @RequiredArgsConstructor
@@ -172,21 +172,25 @@ public class AuthServiceImpl implements AuthService{
 
     @Transactional
     @Override
-    public AuthTokenResponseDto issueToken(AuthTokenRequestDto requestDto) {
+    public AuthTokenResponseDto issueToken(HttpServletRequest request) {
+
+        String accessToken = request.getHeader("ACCESS_TOKEN");
+        String refreshToken = request.getHeader("REFRESH_TOKEN");
 
         // Refresh Token 상태 확인
-        if (jwtTokenProvider.validateToken(requestDto.getRefreshToken()) != JwtStatus.ACCESS) {
+        if (jwtTokenProvider.validateToken(refreshToken) != JwtStatus.ACCESS) {
             System.out.println("여기까지 오면 재로그인 진행해야함");
             throw new AuthTokenException(ErrorCode.REFRESH_TOKEN_ERROR);
         }
 
+
         // Access Token에서 유저 정보 확인
         // DB에서 해당 유저의 Refresh Token을 꺼내서
         // request로 받은 정보와 일치하는지 확인
-        Authentication authentication = jwtTokenProvider.getAuthentication(requestDto.getAccessToken());
+        Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
         Members member = membersRepository.findByEmail(authentication.getName())
                 .orElseThrow(() -> new AuthTokenException(ErrorCode.USER_NOT_FOUND));
-        if (!member.getRefreshToken().equals(requestDto.getRefreshToken())) {
+        if (!member.getRefreshToken().equals(refreshToken)) {
             throw new AuthTokenException(ErrorCode.WRONG_USER);
         }
 

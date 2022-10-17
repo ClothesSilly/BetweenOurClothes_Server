@@ -6,7 +6,6 @@ import com.betweenourclothes.service.auth.AuthServiceImpl;
 import com.betweenourclothes.web.dto.request.AuthEmailRequestDto;
 import com.betweenourclothes.web.dto.request.AuthSignInRequestDto;
 import com.betweenourclothes.web.dto.request.AuthSignUpRequestDto;
-import com.betweenourclothes.web.dto.request.AuthTokenRequestDto;
 import com.betweenourclothes.web.dto.response.AuthTokenResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
@@ -81,8 +81,8 @@ public class AuthApiController {
     }
 
     @PostMapping("/issue")
-    public ResponseEntity<AuthTokenResponseDto> issueToken(@RequestBody AuthTokenRequestDto requestDto) throws Exception{
-        AuthTokenResponseDto responseDto = authService.issueToken(requestDto);
+    public ResponseEntity<AuthTokenResponseDto> issueToken(HttpServletRequest request) throws Exception{
+        AuthTokenResponseDto responseDto = authService.issueToken(request);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 }
