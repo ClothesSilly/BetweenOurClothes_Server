@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -27,14 +28,14 @@ public class Closets extends BaseTimeEntity {
 
     // 옷 정보: DB에 저장
 
-    // 스타일
+    // 스타일: DB에 저장
     @JoinColumn(referencedColumnName = "name")
     @ManyToOne(fetch = FetchType.EAGER)
     private Style style;
 
-    //@OneToMany
-    //@JoinColumn(name = images)
-    //private List<Images> images;
+    @OneToMany(fetch=FetchType.LAZY, cascade= CascadeType.ALL)
+    @JoinColumn(name="images")
+    private List<ClosetsImage> images;
 
     @Builder
     public Closets(Members author, String content, Style style){
