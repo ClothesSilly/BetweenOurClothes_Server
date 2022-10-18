@@ -55,11 +55,11 @@ public class AuthApiControllerTest {
     private ClosetsRepository closetsRepository;
 
     @After
-    public void cleanup(){
+    /*public void cleanup(){
         closetsRepository.deleteAll();
         membersRepository.deleteAll();
         emailRepository.deleteAll();
-    }
+    }*/
 
     @Test
     public void 내옷장_글등록() throws Exception{
@@ -153,7 +153,6 @@ public class AuthApiControllerTest {
 
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(url_email, dto1, String.class);
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-
 
         responseEntity = restTemplate.postForEntity(url_code, dto1, String.class);
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);

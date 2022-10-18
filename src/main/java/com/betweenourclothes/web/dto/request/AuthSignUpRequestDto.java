@@ -38,7 +38,6 @@ public class AuthSignUpRequestDto {
         this.name = name;
         this.phone = phone;
         this.image = image;
-        this.role = Role.ROLE_USER;
     }
 
     public Members toEntity(){

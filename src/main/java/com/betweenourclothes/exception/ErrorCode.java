@@ -20,6 +20,7 @@ public enum ErrorCode {
 
     /* 404 */
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "사용자를 찾을 수 없음"),
+    ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "아이템을 찾을 수 없음"),
 
     /* 409 */
     DUPLICATE_EMAIL(HttpStatus.CONFLICT, "이미 존재하는 이메일"),

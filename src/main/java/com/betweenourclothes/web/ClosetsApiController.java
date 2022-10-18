@@ -7,6 +7,7 @@ import com.betweenourclothes.web.dto.request.ClosetsPostRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,7 +18,7 @@ public class ClosetsApiController {
     private final ClosetsService closetsService;
 
     @PostMapping("/post")
-    ResponseEntity<String> post(ClosetsPostRequestDto requestDto){
+    ResponseEntity<String> post(@RequestBody ClosetsPostRequestDto requestDto){
         closetsService.post(requestDto);
         return new ResponseEntity<>("등록 완료", HttpStatus.OK);
     }

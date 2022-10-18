@@ -1,6 +1,7 @@
 package com.betweenourclothes.domain.closets;
 
 import com.betweenourclothes.domain.BaseTimeEntity;
+import com.betweenourclothes.domain.clothes.Style;
 import com.betweenourclothes.domain.members.Members;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,24 +26,20 @@ public class Closets extends BaseTimeEntity {
     private String content;
 
     // 옷 정보: DB에 저장
-    //@Enumerated(EnumType.STRING)
-    //private ClothesCategoryL large_category;
-    //private String small_category;
-    //private String option_length;
-    //private String option_material;
-    //private String option_fit;
-    //private String option_color;
 
     // 스타일
-    //private String style;
+    @JoinColumn(referencedColumnName = "name")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Style style;
 
     //@OneToMany
     //@JoinColumn(name = images)
     //private List<Images> images;
 
     @Builder
-    public Closets(Members author, String content){
+    public Closets(Members author, String content, Style style){
         this.author = author;
         this.content = content;
+        this.style = style;
     }
 }

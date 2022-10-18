@@ -4,6 +4,7 @@ import com.betweenourclothes.domain.auth.Email;
 import com.betweenourclothes.domain.auth.EmailRepository;
 import com.betweenourclothes.domain.members.Members;
 import com.betweenourclothes.domain.members.MembersRepository;
+import com.betweenourclothes.domain.members.Role;
 import com.betweenourclothes.exception.ErrorCode;
 import com.betweenourclothes.exception.customException.*;
 import com.betweenourclothes.jwt.JwtStatus;
@@ -67,6 +68,7 @@ public class AuthServiceImpl implements AuthService{
         // Member 테이블에 저장
         Members member= requestDto.toEntity();
         member.encodePassword(passwordEncoder);
+        member.updateRole(Role.ROLE_USER);
         membersRepository.save(member);
     }
 

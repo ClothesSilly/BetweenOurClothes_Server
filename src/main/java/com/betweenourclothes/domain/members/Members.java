@@ -65,6 +65,10 @@ public class Members implements UserDetails {
         this.refreshToken = token;
     }
 
+    public void updateRole(Role role){
+        this.role = role;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         ArrayList<GrantedAuthority> auth = new ArrayList<>();
