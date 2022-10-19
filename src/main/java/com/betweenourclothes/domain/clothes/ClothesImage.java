@@ -15,7 +15,7 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name="closets_image")
+@Table(name="clothes_image")
 public class ClothesImage {
 
     @Id

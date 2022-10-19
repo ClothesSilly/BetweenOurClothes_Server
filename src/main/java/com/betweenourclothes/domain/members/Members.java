@@ -1,5 +1,6 @@
 package com.betweenourclothes.domain.members;
 
+import com.betweenourclothes.domain.closets.Closets;
 import com.betweenourclothes.exception.ErrorCode;
 import com.betweenourclothes.exception.customException.AuthSignInException;
 import lombok.Builder;
@@ -17,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -53,6 +55,10 @@ public class Members implements UserDetails {
 
     private String refreshToken;
 
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @JoinColumn(name="user_id")
+    private List<Closets> closetsPosts;
+
     @Builder
     public Members(String email, String password, String name, String nickname, String phone){
         this.email = email;
@@ -60,6 +66,7 @@ public class Members implements UserDetails {
         this.nickname = nickname;
         this.name = name;
         this.phone = phone;
+        this.closetsPosts = new ArrayList<>();
     }
 
     public void encodePassword(PasswordEncoder passwordEncoder){
@@ -101,6 +108,10 @@ public class Members implements UserDetails {
         } catch (IOException e) {
             throw new AuthSignInException(ErrorCode.IMAGE_OPEN_ERROR);
         }
+    }
+
+    public void updateClosetsPosts(Closets post){
+        this.closetsPosts.add(post);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.betweenourclothes.web;
 
 import com.betweenourclothes.web.dto.request.ClosetsPostRequestDto;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import com.betweenourclothes.service.closets.ClosetsService;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +20,24 @@ public class ClosetsApiController {
     @PostMapping("/post")
     public ResponseEntity<String> post(@RequestPart(name="data") ClosetsPostRequestDto requestDto,
                                        @RequestPart(name="image") List<MultipartFile> imgs){
-        closetsService.post(requestDto, imgs);
-        return new ResponseEntity<>("등록 완료", HttpStatus.OK);
+        Long id = closetsService.post(requestDto, imgs);
+        return new ResponseEntity<>(id.toString(), HttpStatus.OK);
     }
+
+    @PatchMapping("/post/{id}")
+    public ResponseEntity<String> update(@PathVariable @RequestPart(name="id") String id,
+                                         @RequestPart(name="data") ClosetsPostRequestDto requestDto,
+                                         @RequestPart(name="image") List<MultipartFile> imgs){
+        closetsService.update(Long.parseLong(id), requestDto, imgs);
+        return new ResponseEntity<>("수정 완료", HttpStatus.OK);
+    }
+
+    @DeleteMapping("/post/{id}")
+    public ResponseEntity<String> delete(@PathVariable Long id){
+        closetsService.delete(id);
+        return new ResponseEntity<>("삭제 완료", HttpStatus.OK);
+    }
+
 
     @PostMapping("/test")
     public ResponseEntity<String> test(HttpServletRequest req){

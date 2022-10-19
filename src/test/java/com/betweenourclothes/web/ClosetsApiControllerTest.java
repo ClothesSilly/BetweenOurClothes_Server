@@ -3,6 +3,7 @@ package com.betweenourclothes.web;
 import com.betweenourclothes.domain.closets.Closets;
 import com.betweenourclothes.domain.closets.ClosetsRepository;
 import com.betweenourclothes.domain.clothes.ClothesImage;
+import com.betweenourclothes.domain.clothes.ClothesImageRepository;
 import com.betweenourclothes.jwt.JwtTokenProvider;
 import com.betweenourclothes.web.dto.request.AuthSignInRequestDto;
 import com.betweenourclothes.web.dto.request.ClosetsPostRequestDto;
@@ -18,6 +19,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.*;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.mock.web.MockPart;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
@@ -33,6 +35,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -50,6 +53,9 @@ public class ClosetsApiControllerTest {
     private ClosetsRepository closetsRepository;
 
     @Autowired
+    private ClothesImageRepository clothesImageRepository;
+
+    @Autowired
     private WebApplicationContext webApplicationContext;
 
     @Autowired
@@ -57,10 +63,12 @@ public class ClosetsApiControllerTest {
 
     @Before
     public void cleanup(){
-        closetsRepository.deleteAll();
+        clothesImageRepository.deleteAllInBatch();
+        closetsRepository.deleteAllInBatch();
     }
 
-    private String AT ;
+    private String AT;
+    private String postId;
 
     @Test
     public void 로그인() throws Exception{
@@ -74,9 +82,71 @@ public class ClosetsApiControllerTest {
     }
 
     @Test
+    public void 내옷장_게시글삭제() throws Exception{
+        로그인();
+        내옷장_게시글등록();
+
+        String token = "Bearer" + AT;
+        String url_delete = "http://localhost:" + port + "/api/v1/closets/post/" + postId;
+
+        HttpHeaders header = new HttpHeaders();
+        header.set("Authorization", token);
+        HttpEntity<Long> req = new HttpEntity<>(Long.parseLong(postId), header);
+
+        ResponseEntity<String> resp = restTemplate.exchange(url_delete, HttpMethod.DELETE, req, String.class);
+        assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        List<Closets> all = closetsRepository.findAll();
+        assertThat(all.size()).isEqualTo(0);
+        List<ClothesImage> clothesImages = clothesImageRepository.findAll();
+        assertThat(clothesImages.size()).isEqualTo(0);
+    }
+
+    @Test
+    public void 내옷장_게시글수정() throws Exception{
+        로그인();
+        내옷장_게시글등록();
+
+        String token = "Bearer" + AT;
+        String url_patch = "http://localhost:" + port + "/api/v1/closets/post/" + postId;
+
+        // 게시글
+        ClosetsPostRequestDto reqDto = ClosetsPostRequestDto.builder().content("게시글수정수정이야아아아아").style("레트로").build();
+        ObjectMapper mapper = new ObjectMapper();
+        String dto2Json = mapper.writeValueAsString(reqDto);
+        MockPart id = new MockPart("id", postId.getBytes(StandardCharsets.UTF_8));
+        MockMultipartFile dtofile = new MockMultipartFile("data", "", "application/json", dto2Json.getBytes(StandardCharsets.UTF_8));
+
+        // 사진
+        MockMultipartFile file1 = new MockMultipartFile("image", "test4.png",
+                "multipart/form-data", new FileInputStream("src/test/resources/static/images/test4.png"));
+        MockMultipartFile file2 = new MockMultipartFile("image", "test4.png",
+                "multipart/form-data", new FileInputStream("src/test/resources/static/images/test4.png"));
+
+        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
+        mockMvc.perform(multipart(url_patch).part(id).file(dtofile).file(file1).file(file2).accept(MediaType.APPLICATION_JSON)
+                .header("Authorization", token)
+                        .with(r -> { r.setMethod("PATCH"); return r; }))
+                .andDo(print()).andExpect(status().isOk());
+
+        List<Closets> closets = closetsRepository.findAll();
+        assertThat(closets.get(0).getAuthor().getEmail()).isEqualTo("gunsong2@naver.com");
+        assertThat(closets.get(0).getContent()).isEqualTo("게시글수정수정이야아아아아");
+        assertThat(closets.get(0).getStyle().getName()).isEqualTo("레트로");
+        assertThat(closets.get(0).getImages().size()).isEqualTo(2);
+
+        List<ClothesImage> clothesImages = clothesImageRepository.findAll();
+        assertThat(clothesImages.size()).isEqualTo(2);
+    }
+
+    @Test
     public void 내옷장_게시글등록() throws Exception{
 
         로그인();
+        List<Closets> all = closetsRepository.findAll();
+        assertThat(all.size()).isEqualTo(0);
+        List<ClothesImage> all2 = clothesImageRepository.findAll();
+        assertThat(all2.size()).isEqualTo(0);
 
         String token = "Bearer" + AT;
         System.out.println(token);
@@ -102,12 +172,14 @@ public class ClosetsApiControllerTest {
 
 
         List<Closets> closets = closetsRepository.findAll();
+        postId = closets.get(0).getId().toString();
         assertThat(closets.get(0).getAuthor().getEmail()).isEqualTo("gunsong2@naver.com");
         assertThat(closets.get(0).getContent()).isEqualTo("게시글게시글게시글우와아아아아");
         assertThat(closets.get(0).getStyle().getName()).isEqualTo("스포티");
-        for(ClothesImage img: closets.get(0).getImages()){
-            System.out.println(img);
-        }
+        assertThat(closets.get(0).getImages().size()).isEqualTo(3);
+
+        List<ClothesImage> clothesImages = clothesImageRepository.findAll();
+        assertThat(clothesImages.size()).isEqualTo(3);
     }
 
     @Test

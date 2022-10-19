@@ -18,10 +18,10 @@ public class Closets extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long post_id;
+    private Long id;
 
-    @JoinColumn(name="user_id")
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="user_id")
     private Members author;
 
     @Column(columnDefinition = "TEXT")
@@ -30,12 +30,12 @@ public class Closets extends BaseTimeEntity {
     // 옷 정보: DB에 저장
 
     // 스타일: DB에 저장
-    @JoinColumn(referencedColumnName = "name")
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(referencedColumnName = "name")
     private Style style;
 
-    @OneToMany(fetch=FetchType.EAGER, cascade= CascadeType.ALL)
-    @JoinColumn(name="images")
+    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="post_id")
     private List<ClothesImage> images;
 
     @Builder
@@ -45,4 +45,14 @@ public class Closets extends BaseTimeEntity {
         this.style = style;
         this.images = imgs;
     }
+
+    public void update(String content, Style style){
+        this.content = content;
+        this.style = style;
+    }
+
+    public void updateImage(List<ClothesImage> clothesImages){
+        this.images = clothesImages;
+    }
+
 }
