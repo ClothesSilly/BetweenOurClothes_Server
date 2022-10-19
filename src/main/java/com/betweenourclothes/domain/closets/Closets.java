@@ -1,6 +1,7 @@
 package com.betweenourclothes.domain.closets;
 
 import com.betweenourclothes.domain.BaseTimeEntity;
+import com.betweenourclothes.domain.clothes.ClothesImage;
 import com.betweenourclothes.domain.clothes.Style;
 import com.betweenourclothes.domain.members.Members;
 import lombok.Builder;
@@ -33,14 +34,15 @@ public class Closets extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     private Style style;
 
-    @OneToMany(fetch=FetchType.LAZY, cascade= CascadeType.ALL)
+    @OneToMany(fetch=FetchType.EAGER, cascade= CascadeType.ALL)
     @JoinColumn(name="images")
-    private List<ClosetsImage> images;
+    private List<ClothesImage> images;
 
     @Builder
-    public Closets(Members author, String content, Style style){
+    public Closets(Members author, String content, Style style, List<ClothesImage> imgs){
         this.author = author;
         this.content = content;
         this.style = style;
+        this.images = imgs;
     }
 }

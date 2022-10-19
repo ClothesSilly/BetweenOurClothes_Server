@@ -25,8 +25,8 @@ import java.util.stream.Collectors;
 public class JwtTokenProvider {
 
     private Key key;
-    private static long ACCESS_TOKEN_VALID_TIME = 1000L * 60 * 60; //test 1초
-    private static long REFRESH_TOKEN_VALID_TIME = 1000L * 60 * 120; //test 2초
+    private static long ACCESS_TOKEN_VALID_TIME = 1000L * 60 * 60; //test 1시간
+    private static long REFRESH_TOKEN_VALID_TIME = 1000L * 60 * 120; //test 2시간
 
 
     /*** 토큰을 암호화할 키 생성 ***/
@@ -41,7 +41,7 @@ public class JwtTokenProvider {
         // 권한 부여
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>authorities: "+ authorities);
+        //System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>authorities: "+ authorities);
 
         long now = new Date().getTime();
 

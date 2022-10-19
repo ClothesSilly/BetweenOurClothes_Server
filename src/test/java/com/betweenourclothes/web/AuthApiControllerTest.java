@@ -1,23 +1,24 @@
 package com.betweenourclothes.web;
 
+import com.betweenourclothes.web.dto.request.AuthEmailRequestDto;
+import com.betweenourclothes.web.dto.request.AuthSignInRequestDto;
+import com.betweenourclothes.web.dto.request.AuthSignUpRequestDto;
+import com.betweenourclothes.web.dto.request.ClosetsPostRequestDto;
 import com.betweenourclothes.domain.auth.Email;
 import com.betweenourclothes.domain.auth.EmailRepository;
 import com.betweenourclothes.domain.closets.ClosetsRepository;
 import com.betweenourclothes.domain.members.*;
-import com.betweenourclothes.jwt.JwtTokenProvider;
-import com.betweenourclothes.web.dto.request.*;
 import com.betweenourclothes.web.dto.response.AuthTokenResponseDto;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -25,6 +26,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.io.FileInputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -51,47 +53,17 @@ public class AuthApiControllerTest {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
-    @Autowired
-    private ClosetsRepository closetsRepository;
 
-    @After
-    /*public void cleanup(){
-        closetsRepository.deleteAll();
+    @Before
+    public void cleanup(){
         membersRepository.deleteAll();
         emailRepository.deleteAll();
-    }*/
-
-    @Test
-    public void 내옷장_글등록() throws Exception{
-        회원가입();
-        String url_login = "http://localhost:" + port + "/api/v1/auth/login";
-        String email = "gunsong2@naver.com";
-        String pw = "abcde1234!";
-        AuthSignInRequestDto reqDto = AuthSignInRequestDto.builder().email(email).password(pw).build();
-        ResponseEntity<AuthTokenResponseDto> respDto = restTemplate.postForEntity(url_login, reqDto, AuthTokenResponseDto.class);
-        assertThat(respDto.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(respDto.getBody()).isNotNull();
-
-        String url_post = "http://localhost:" + port + "/api/v1/closets/post";
-        ClosetsPostRequestDto reqDto2 = ClosetsPostRequestDto.builder().content("게시글게시글게시글우와아아아아").build();
-        String token = respDto.getBody().getAccessToken();
-        String grantType = respDto.getBody().getGrantType();
-        //jwtTokenProvider.getAuthentication(token).getAuthorities().stream().map(e -> String.format(e.getAuthority())).forEach(System.out::println);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", grantType+token);
-        HttpEntity<ClosetsPostRequestDto> request = new HttpEntity<>(reqDto2, headers);
-
-        ResponseEntity<String> respDto2 = restTemplate.postForEntity(url_post, request, String.class);
-
-        System.out.println(respDto2.getBody());
-        assertThat(respDto2.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(respDto2.getBody()).isEqualTo("등록 완료");
     }
+
 
     @Test
     public void 로그인_토큰재발급() throws Exception {
-        회원가입();
+        //회원가입();
 
         String url_login = "http://localhost:" + port + "api/v1/auth/login";
         String email = "gunsong2@naver.com";
@@ -104,8 +76,8 @@ public class AuthApiControllerTest {
         assertThat(respDto.getBody()).isNotNull();
 
         String grantType = respDto.getBody().getGrantType();
-        String accessToken = respDto.getBody().getAccessToken();   // 유효기간 1초
-        String refreshToken = respDto.getBody().getRefreshToken(); // 유효기간 1시간
+        String accessToken = respDto.getBody().getAccessToken();
+        String refreshToken = respDto.getBody().getRefreshToken();
 
         Thread.sleep(1000 * 5);
         String url_issue = "http://localhost:" + port + "api/v1/auth/issue";
@@ -122,7 +94,7 @@ public class AuthApiControllerTest {
 
     @Test
     public void 로그인_토큰전송() throws Exception{
-        회원가입();
+        //회원가입();
 
         String url = "http://localhost:" + port + "api/v1/auth/login";
         String email = "gunsong2@naver.com";
@@ -161,20 +133,35 @@ public class AuthApiControllerTest {
         assertThat(all.get(all.size()-1).getEmail()).isEqualTo(email);
         assertThat(all.get(all.size()-1).getStatus()).isEqualTo("Y");
 
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         String password = "abcde1234!";
         String name = "이름";
         String nickname = "송아";
         String phone = "00033334444";
-        String image = "C:/Users/user1/Desktop/송아/캡스톤/repo/between-our-clothes-server/src/test/resources/static/images/test.png";
 
-        AuthSignUpRequestDto dto2 = AuthSignUpRequestDto.builder().email(email).password(password).name(name).nickname(nickname).phone(phone).image(image).build();
+        AuthSignUpRequestDto dto2 = AuthSignUpRequestDto.builder()
+                .email(email)
+                .password(password)
+                .name(name)
+                .nickname(nickname)
+                .phone(phone)
+                .build();
 
-        ResponseEntity<String> responseEntity2 = restTemplate.postForEntity(url_signup, dto2, String.class);
-        assertThat(responseEntity2.getStatusCode()).isEqualTo(HttpStatus.OK);
+        MockMultipartFile file = new MockMultipartFile("image", "test.png",
+                "multipart/form-data", new FileInputStream("src/test/resources/static/images/test.png"));
+
+        ObjectMapper mapper = new ObjectMapper();
+        String dto2Json = mapper.writeValueAsString(dto2);
+        System.out.println(dto2Json);
+        MockMultipartFile dtofile = new MockMultipartFile("data", "", "application/json", dto2Json.getBytes(StandardCharsets.UTF_8));
+
+        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        mockMvc.perform(multipart(url_signup).file(dtofile).file(file).accept(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk());
 
         List<Members> mems = membersRepository.findAll();
         assertThat(mems.get(mems.size()-1).getEmail()).isEqualTo(email);
-        assertThat(mems.get(mems.size()-1).getImage()).isEqualTo(image);
+        System.out.println(mems.get(mems.size()-1).getImage());
 
         all = emailRepository.findAll();
         assertThat(all.size()).isEqualTo(0);
@@ -196,17 +183,6 @@ public class AuthApiControllerTest {
 
     }
 
-    @Test
-    public void 프로필이미지_업로드() throws Exception{
-
-        MockMultipartFile file = new MockMultipartFile("image", "test.png",
-                "multipart/form-data", new FileInputStream("src/test/resources/static/images/test.png"));
-
-        String url = "http://localhost:" + port + "api/v1/auth/sign-up/image";
-
-        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-        mockMvc.perform(multipart(url).file(file)).andExpect(status().isOk()).andDo(print());
-    }
 
     @Test
     public void 이메일_전송() throws Exception{

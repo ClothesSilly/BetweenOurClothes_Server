@@ -26,14 +26,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // request의 헤더에서 token 분리
         String token = resolveToken(request);
-        //System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>token: " + token);
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>token: " + token);
 
         // token의 상태가 유효한 경우,
         // 토큰에서 사용자 정보를 가지고 옴
         // security context에 저장함
         if(token != null && jwtTokenProvider.validateToken(token)==JwtStatus.ACCESS){
             Authentication authentication = jwtTokenProvider.getAuthentication(token);
-            //System.out.println(authentication.getName());
+            System.out.println(authentication.getName());
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
 
@@ -45,8 +45,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer")) {
-            //System.out.println(bearerToken);
-            //System.out.println(bearerToken.substring(6));
             return bearerToken.substring(6);
         }
         return null;

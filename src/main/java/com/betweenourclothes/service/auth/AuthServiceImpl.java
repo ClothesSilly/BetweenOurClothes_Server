@@ -21,6 +21,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -44,7 +45,7 @@ public class AuthServiceImpl implements AuthService{
 
     @Transactional
     @Override
-    public void signUp(AuthSignUpRequestDto requestDto){
+    public void signUp(AuthSignUpRequestDto requestDto, MultipartFile img){
 
         // 이메일 중복 체크
         if(membersRepository.findByEmail(requestDto.getEmail()).isPresent()){
@@ -69,6 +70,7 @@ public class AuthServiceImpl implements AuthService{
         Members member= requestDto.toEntity();
         member.encodePassword(passwordEncoder);
         member.updateRole(Role.ROLE_USER);
+        member.updateImage(img);
         membersRepository.save(member);
     }
 
@@ -94,7 +96,7 @@ public class AuthServiceImpl implements AuthService{
 
         // 이메일 전송
         try{
-            System.out.println(message);
+            //System.out.println(message);
             sender.send(message);
         }catch(Exception e){
             e.printStackTrace();
