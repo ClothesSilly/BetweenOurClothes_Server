@@ -55,60 +55,30 @@ public class Members implements UserDetails {
 
     private String refreshToken;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="user_id")
     private List<Closets> closetsPosts;
 
     @Builder
-    public Members(String email, String password, String name, String nickname, String phone){
+    public Members(String email, String password, String name, String nickname, String phone, Role role, String image){
         this.email = email;
         this.password = password;
         this.nickname = nickname;
         this.name = name;
         this.phone = phone;
+        this.image = image;
+        this.role = role;
         this.closetsPosts = new ArrayList<>();
     }
 
     public void encodePassword(PasswordEncoder passwordEncoder){
         this.password = passwordEncoder.encode(password);
     }
+
     public void updateRefreshToken(String token){
         this.refreshToken = token;
     }
 
-    public void updateRole(Role role){
-        this.role = role;
-    }
-
-    public void updateImage(MultipartFile img){
-        try{
-            // 업로드 파일 이름 생성
-            // 업로드 파일 식별을 위한 uuid 생성
-            String uuid = UUID.randomUUID().toString();
-            String path = new File("./src/main/resources/static/images/profile").getAbsolutePath();
-            String uploadedFileName = "profile-" + uuid;
-
-            // 확장자
-            String extension = '.' + img.getOriginalFilename().replaceAll("^.*\\.(.*)$", "$1");
-
-            // 파일 객체 생성: 파일이 저장될 디렉토리를 만듦
-            File file = new File(path);
-            if(!file.exists()){
-                file.mkdirs();
-            }
-
-            // 파일 객체 생성: 업로드될 파일을 위한 것
-            file = new File(path+"/"+uploadedFileName+extension);
-
-            // 전송 후, 파일 경로 반환
-            img.transferTo(file);
-            this.image = file.getAbsolutePath();
-        } catch(NullPointerException e){
-            throw new AuthSignInException(ErrorCode.REQUEST_FORMAT_ERROR);
-        } catch (IOException e) {
-            throw new AuthSignInException(ErrorCode.IMAGE_OPEN_ERROR);
-        }
-    }
 
     public void updateClosetsPosts(Closets post){
         this.closetsPosts.add(post);

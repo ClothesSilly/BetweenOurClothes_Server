@@ -36,22 +36,27 @@ public class AuthSignUpRequestDto {
     private String nickname;
     private String phone;
 
+    private Role role;
+
     @Builder
-    public AuthSignUpRequestDto(String email, String password, String name, String nickname, String phone){
+    public AuthSignUpRequestDto(String email, String password, String name, String nickname, String phone, Role role){
         this.email = email;
         this.password = password;
         this.nickname = nickname;
         this.name = name;
         this.phone = phone;
+        this.role = Role.ROLE_USER;
     }
 
-    public Members toEntity(){
+    public Members toEntity(String image){
         return Members.builder()
                 .email(email)
                 .password(password)
                 .name(name)
+                .image(image)
                 .nickname(nickname)
                 .phone(phone)
+                .role(role)
                 .build();
     }
 

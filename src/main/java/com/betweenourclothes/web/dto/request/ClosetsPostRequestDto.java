@@ -11,18 +11,16 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class ClosetsPostRequestDto {
-    private String content;
     private String style;
 
     @Builder
-    public ClosetsPostRequestDto(String content, String style){
-        this.content = content;
+    public ClosetsPostRequestDto(String style){
         this.style = style;
     }
 
 
     public Closets toEntity(Members member, Style style, List<ClothesImage> images){
-        return Closets.builder().author(member).content(this.content).style(style).imgs(images).build();
+        return Closets.builder().author(member).style(style).imgs(images).build();
     }
 
 }

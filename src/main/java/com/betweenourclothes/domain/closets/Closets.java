@@ -21,11 +21,7 @@ public class Closets extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="user_id")
     private Members author;
-
-    @Column(columnDefinition = "TEXT")
-    private String content;
 
     // 옷 정보: DB에 저장
 
@@ -34,20 +30,18 @@ public class Closets extends BaseTimeEntity {
     @JoinColumn(referencedColumnName = "name")
     private Style style;
 
-    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="post_id")
     private List<ClothesImage> images;
 
     @Builder
-    public Closets(Members author, String content, Style style, List<ClothesImage> imgs){
+    public Closets(Members author, Style style, List<ClothesImage> imgs){
         this.author = author;
-        this.content = content;
         this.style = style;
         this.images = imgs;
     }
 
-    public void update(String content, Style style){
-        this.content = content;
+    public void update(Style style){
         this.style = style;
     }
 

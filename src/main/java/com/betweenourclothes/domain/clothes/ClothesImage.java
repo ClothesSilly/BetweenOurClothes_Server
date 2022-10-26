@@ -19,7 +19,9 @@ import java.util.UUID;
 public class ClothesImage {
 
     @Id
-    @Column(length=255)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String path;
 
     private String type;

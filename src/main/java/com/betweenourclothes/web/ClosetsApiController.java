@@ -25,7 +25,7 @@ public class ClosetsApiController {
     }
 
     @PatchMapping("/post/{id}")
-    public ResponseEntity<String> update(@PathVariable @RequestPart(name="id") String id,
+    public ResponseEntity<String> update(@PathVariable("id") @RequestPart(name="id") String id,
                                          @RequestPart(name="data") ClosetsPostRequestDto requestDto,
                                          @RequestPart(name="image") List<MultipartFile> imgs){
         closetsService.update(Long.parseLong(id), requestDto, imgs);
@@ -33,7 +33,7 @@ public class ClosetsApiController {
     }
 
     @DeleteMapping("/post/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id){
+    public ResponseEntity<String> delete(@PathVariable("id") Long id){
         closetsService.delete(id);
         return new ResponseEntity<>("삭제 완료", HttpStatus.OK);
     }

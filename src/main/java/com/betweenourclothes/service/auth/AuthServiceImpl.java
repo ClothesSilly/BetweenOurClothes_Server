@@ -45,7 +45,7 @@ public class AuthServiceImpl implements AuthService{
 
     @Transactional
     @Override
-    public void signUp(AuthSignUpRequestDto requestDto, MultipartFile img){
+    public void signUp(AuthSignUpRequestDto requestDto, String imgPath){
 
         // 이메일 중복 체크
         if(membersRepository.findByEmail(requestDto.getEmail()).isPresent()){
@@ -67,10 +67,8 @@ public class AuthServiceImpl implements AuthService{
 
         // 비밀번호 인코딩 후
         // Member 테이블에 저장
-        Members member= requestDto.toEntity();
+        Members member= requestDto.toEntity(imgPath);
         member.encodePassword(passwordEncoder);
-        member.updateRole(Role.ROLE_USER);
-        member.updateImage(img);
         membersRepository.save(member);
     }
 
