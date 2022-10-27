@@ -1,25 +1,15 @@
 package com.betweenourclothes.web.dto.request;
 
-import com.betweenourclothes.domain.members.Members;
-import com.betweenourclothes.domain.members.Role;
-import com.betweenourclothes.exception.ErrorCode;
-import com.betweenourclothes.exception.customException.AuthSignInException;
+import com.betweenourclothes.config.domain.members.Members;
+import com.betweenourclothes.config.domain.members.Role;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.io.File;
-import java.io.IOException;
-import java.util.UUID;
 
 @Getter
 @NoArgsConstructor
@@ -37,6 +27,11 @@ public class AuthSignUpRequestDto {
     private String phone;
 
     private Role role;
+
+
+    public void setRole(Role role){
+        this.role = role;
+    }
 
     @Builder
     public AuthSignUpRequestDto(String email, String password, String name, String nickname, String phone, Role role){

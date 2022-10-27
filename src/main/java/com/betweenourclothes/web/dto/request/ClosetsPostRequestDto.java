@@ -1,9 +1,9 @@
 package com.betweenourclothes.web.dto.request;
 
-import com.betweenourclothes.domain.closets.Closets;
-import com.betweenourclothes.domain.clothes.ClothesImage;
-import com.betweenourclothes.domain.clothes.Style;
-import com.betweenourclothes.domain.members.Members;
+import com.betweenourclothes.config.domain.closets.Closets;
+import com.betweenourclothes.config.domain.clothes.ClothesImage;
+import com.betweenourclothes.config.domain.clothes.Style;
+import com.betweenourclothes.config.domain.members.Members;
 import lombok.*;
 
 import java.util.List;

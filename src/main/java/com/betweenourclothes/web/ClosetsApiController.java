@@ -1,6 +1,9 @@
 package com.betweenourclothes.web;
 
 import com.betweenourclothes.web.dto.request.ClosetsPostRequestDto;
+import com.betweenourclothes.web.dto.response.ThumbnailsResponseDto;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import com.betweenourclothes.service.closets.ClosetsService;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.nio.file.Files;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -25,7 +29,7 @@ public class ClosetsApiController {
     }
 
     @PatchMapping("/post/{id}")
-    public ResponseEntity<String> update(@PathVariable("id") @RequestPart(name="id") String id,
+    public ResponseEntity<String> update(@PathVariable("id") String id,
                                          @RequestPart(name="data") ClosetsPostRequestDto requestDto,
                                          @RequestPart(name="image") List<MultipartFile> imgs){
         closetsService.update(Long.parseLong(id), requestDto, imgs);
@@ -39,9 +43,34 @@ public class ClosetsApiController {
     }
 
 
-    @PostMapping("/test")
-    public ResponseEntity<String> test(HttpServletRequest req){
-        System.out.println("test 성공");
-        return new ResponseEntity<>("테스트 성공", HttpStatus.OK);
+    // GET
+    // 마지막에 추가된 게시글 9개 가져오기 (id, 사진)
+    @GetMapping("/post/thumbnails")
+    public ResponseEntity<ThumbnailsResponseDto > findThumbnails(HttpServletRequest req){
+        ThumbnailsResponseDto responseDto = closetsService.findImagesByCreatedDateDesc();
+
+        //HttpHeaders header = new HttpHeaders();
+        //header.set("Content-Type", "image/jpeg");
+
+        return new ResponseEntity<ThumbnailsResponseDto>(responseDto, HttpStatus.OK);
     }
+
+    // id로 게시글 찾아오기
+    @GetMapping("/post/{id}")
+    public ResponseEntity<String> findPost(@PathVariable("id") Long id){
+        return null;
+    }
+
+
+
+    /*@GetMapping("/post/thumbnails/display")
+    public ResponseEntity<byte[]> findThumbnailsDisplay(){
+        ThumbnailsResponseDto responseDto = closetsService.findImagesByCreatedDateDescDisplay();
+
+        HttpHeaders header = new HttpHeaders();
+        header.set("Content-Type", "image/jpeg");
+
+        return new ResponseEntity<byte[]>(responseDto.getImages().get(0), header, HttpStatus.OK);
+    }*/
+
 }

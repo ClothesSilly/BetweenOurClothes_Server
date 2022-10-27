@@ -1,10 +1,10 @@
 package com.betweenourclothes.service.auth;
 
-import com.betweenourclothes.domain.auth.Email;
-import com.betweenourclothes.domain.auth.EmailRepository;
-import com.betweenourclothes.domain.members.Members;
-import com.betweenourclothes.domain.members.MembersRepository;
-import com.betweenourclothes.domain.members.Role;
+import com.betweenourclothes.config.domain.auth.Email;
+import com.betweenourclothes.config.domain.auth.EmailRepository;
+import com.betweenourclothes.config.domain.members.Members;
+import com.betweenourclothes.config.domain.members.MembersRepository;
+import com.betweenourclothes.config.domain.members.Role;
 import com.betweenourclothes.exception.ErrorCode;
 import com.betweenourclothes.exception.customException.*;
 import com.betweenourclothes.jwt.JwtStatus;
@@ -21,7 +21,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -67,6 +66,7 @@ public class AuthServiceImpl implements AuthService{
 
         // 비밀번호 인코딩 후
         // Member 테이블에 저장
+        requestDto.setRole(Role.ROLE_USER);
         Members member= requestDto.toEntity(imgPath);
         member.encodePassword(passwordEncoder);
         membersRepository.save(member);

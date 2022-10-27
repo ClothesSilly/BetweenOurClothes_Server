@@ -27,7 +27,7 @@ public class AuthApiController {
 
     private final AuthServiceImpl authService;
 
-    @PostMapping("/sign-up")
+    @PostMapping(path="/sign-up", consumes = {"multipart/form-data", "application/json"})
     public ResponseEntity<String> signUp(@Valid @RequestPart(name="data") AuthSignUpRequestDto requestDto,
                                          @RequestPart(name="image") MultipartFile img) throws Exception {
         String path = convertFile2Path(img);
