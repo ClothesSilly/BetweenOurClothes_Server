@@ -3,6 +3,8 @@ package com.betweenourclothes.web;
 import com.betweenourclothes.web.dto.request.ClosetsPostRequestDto;
 import com.betweenourclothes.web.dto.response.ClosetsImagesResponseDto;
 import com.betweenourclothes.web.dto.response.ClosetsThumbnailsResponseDto;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import com.betweenourclothes.service.closets.ClosetsService;
 import lombok.RequiredArgsConstructor;
@@ -44,8 +46,8 @@ public class ClosetsApiController {
     // GET
     // 마지막에 추가된 게시글 9개 가져오기 (id, 사진)
     @GetMapping("/post/thumbnails")
-    public ResponseEntity<ClosetsThumbnailsResponseDto> findThumbnails(HttpServletRequest req){
-        ClosetsThumbnailsResponseDto responseDto = closetsService.findImagesByCreatedDateDesc();
+    public ResponseEntity<ClosetsThumbnailsResponseDto> findThumbnails(@PageableDefault(size=18) Pageable pageable){
+        ClosetsThumbnailsResponseDto responseDto = closetsService.findImagesByCreatedDateDesc(pageable);
 
         //HttpHeaders header = new HttpHeaders();
         //header.set("Content-Type", "image/jpeg");

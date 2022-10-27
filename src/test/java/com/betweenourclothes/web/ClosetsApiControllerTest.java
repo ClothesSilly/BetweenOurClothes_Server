@@ -17,23 +17,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.*;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.mock.web.MockPart;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.io.FileInputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -79,6 +84,32 @@ public class ClosetsApiControllerTest {
     }
 
 
+    @Test
+    public void 내옷장_썸네일페이징() throws Exception{
+
+        로그인();
+        for(int i=0; i<20; i++){
+            내옷장_게시글등록();
+        }
+
+        String token = "Bearer" + AT;
+
+        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
+        MvcResult result = mockMvc.perform(get("/api/v1/closets/post/thumbnails?page=0").header("Authorization", token))
+                .andExpect(status().isOk()).andReturn();
+
+        String json = result.getResponse().getContentAsString();
+        ClosetsThumbnailsResponseDto resp = new ObjectMapper().readValue(json, ClosetsThumbnailsResponseDto.class);
+        assertThat(resp.getImages().size()).isEqualTo(18);
+
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
+        result = mockMvc.perform(get("/api/v1/closets/post/thumbnails?page=1").header("Authorization", token))
+                .andExpect(status().isOk()).andReturn();
+
+        json = result.getResponse().getContentAsString();
+        resp = new ObjectMapper().readValue(json, ClosetsThumbnailsResponseDto.class);
+        assertThat(resp.getImages().size()).isEqualTo(2);
+    }
     @Test
     public void 내옷장_게시글ID로불러오기() throws Exception{
 

@@ -16,10 +16,12 @@ import com.betweenourclothes.web.dto.response.ClosetsImagesResponseDto;
 import com.betweenourclothes.web.dto.response.ClosetsThumbnailsResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.IOUtils;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import org.springframework.data.domain.Pageable;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -135,15 +137,20 @@ public class ClosetsServiceImpl implements ClosetsService{
     }
 
     @Override
-    public ClosetsThumbnailsResponseDto findImagesByCreatedDateDesc() {
+    public ClosetsThumbnailsResponseDto findImagesByCreatedDateDesc(Pageable pageable) {
         // 회원 체크
         Members member = membersRepository.findByEmail(SecurityUtil.getMemberEmail())
                 .orElseThrow(()->new ClosetsPostException(ErrorCode.USER_NOT_FOUND));
 
-        List<ClothesImage> images = closetsRepository.findImagesByMemberIdOrderByCreatedDateDesc(member.getId());
+        Page<ClothesImage> images = closetsRepository.findImagesByMemberIdOrderByCreatedDateDesc(member.getId(),  pageable);
+        System.out.println("total page: " + images.getTotalPages());
+        System.out.println("total elements: " + images.getTotalElements());
+        System.out.println("getNumber: " + images.getNumber());
+        System.out.println("getNE: " + images.getNumberOfElements());
+        System.out.println("getsize: " + images.getSize());
 
         List<byte[]> returnArr = new ArrayList<>();
-        for(ClothesImage image : images){
+        for(ClothesImage image : images.getContent()){
             try {
                 InputStream is = new FileInputStream(image.getPath());
                 byte[] imageByteArr = IOUtils.toByteArray(is);
@@ -154,7 +161,7 @@ public class ClosetsServiceImpl implements ClosetsService{
             }
         }
 
-        ClosetsThumbnailsResponseDto responseDto = ClosetsThumbnailsResponseDto.builder().images(returnArr).build();
+        ClosetsThumbnailsResponseDto responseDto = ClosetsThumbnailsResponseDto.builder().images(returnArr).length(returnArr.size()).build();
         return responseDto;
     }
 

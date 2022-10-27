@@ -3,6 +3,7 @@ package com.betweenourclothes.service.closets;
 import com.betweenourclothes.web.dto.request.ClosetsPostRequestDto;
 import com.betweenourclothes.web.dto.response.ClosetsImagesResponseDto;
 import com.betweenourclothes.web.dto.response.ClosetsThumbnailsResponseDto;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public interface ClosetsService {
     void delete(Long id);
 
     //GET
-    ClosetsThumbnailsResponseDto findImagesByCreatedDateDesc();
+    ClosetsThumbnailsResponseDto findImagesByCreatedDateDesc(Pageable pageable);
 
     ClosetsImagesResponseDto findImagesByPostId(Long id);
 
