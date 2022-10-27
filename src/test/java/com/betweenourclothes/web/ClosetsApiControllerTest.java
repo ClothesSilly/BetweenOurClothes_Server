@@ -17,8 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.*;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.mock.web.MockPart;
@@ -30,15 +28,12 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.io.FileInputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -192,7 +187,9 @@ public class ClosetsApiControllerTest {
         String url_patch = "http://localhost:" + port + "/api/v1/closets/post/" + postId;
 
         // 게시글
-        ClosetsPostRequestDto reqDto = ClosetsPostRequestDto.builder().style("레트로").build();
+        ClosetsPostRequestDto reqDto = ClosetsPostRequestDto.builder().style("레트로")
+                .large_category("원피스").small_category("점프수트").length("맥시").fit("루즈")
+                .color("레드").material("니트").build();
         ObjectMapper mapper = new ObjectMapper();
         String dto2Json = mapper.writeValueAsString(reqDto);
         MockPart id = new MockPart("id", postId.getBytes(StandardCharsets.UTF_8));
@@ -218,6 +215,18 @@ public class ClosetsApiControllerTest {
 
         List<ClothesImage> clothesImages = clothesImageRepository.findAll();
         assertThat(clothesImages.size()).isEqualTo(2);*/
+
+        List<Closets> closets = closetsRepository.findAll();
+        postId = closets.get(0).getId().toString();
+        Closets last = closets.get(closets.size()-1);
+        //assertThat(closets.get(0).getAuthor().getEmail()).isEqualTo("gunsong2@naver.com");
+        assertThat(last.getStyle().getName()).isEqualTo("레트로");
+        assertThat(last.getClothesInfo().getCategoryL()).isEqualTo("원피스");
+        assertThat(last.getClothesInfo().getCategoryS()).isEqualTo("점프수트");
+        assertThat(last.getClothesInfo().getLength()).isEqualTo("맥시");
+        assertThat(last.getClothesInfo().getFit()).isEqualTo("루즈");
+        assertThat(last.getColors().getName()).isEqualTo("레드");
+        assertThat(last.getMaterials().getName()).isEqualTo("니트");
     }
 
     //@Transactional
@@ -232,7 +241,9 @@ public class ClosetsApiControllerTest {
         String url_post = "http://localhost:" + port + "/api/v1/closets/post";
 
         // 게시글
-        ClosetsPostRequestDto reqDto = ClosetsPostRequestDto.builder().style("스포티").build();
+        ClosetsPostRequestDto reqDto = ClosetsPostRequestDto.builder().style("스포티")
+                .large_category("상의").small_category("탑").length("크롭").fit("타이트")
+                .color("블랙").material("퍼").build();
         ObjectMapper mapper = new ObjectMapper();
         String dto2Json = mapper.writeValueAsString(reqDto);
         MockMultipartFile dtofile = new MockMultipartFile("data", "", "application/json", dto2Json.getBytes(StandardCharsets.UTF_8));
@@ -251,10 +262,16 @@ public class ClosetsApiControllerTest {
 
         List<Closets> closets = closetsRepository.findAll();
         postId = closets.get(0).getId().toString();
-        /*assertThat(closets.get(0).getAuthor().getEmail()).isEqualTo("gunsong2@naver.com");
+        //assertThat(closets.get(0).getAuthor().getEmail()).isEqualTo("gunsong2@naver.com");
         assertThat(closets.get(0).getStyle().getName()).isEqualTo("스포티");
-        assertThat(closets.get(0).getImages().size()).isEqualTo(3);
+        assertThat(closets.get(0).getClothesInfo().getCategoryL()).isEqualTo("상의");
+        assertThat(closets.get(0).getClothesInfo().getCategoryS()).isEqualTo("탑");
+        assertThat(closets.get(0).getClothesInfo().getLength()).isEqualTo("크롭");
+        assertThat(closets.get(0).getClothesInfo().getFit()).isEqualTo("타이트");
+        assertThat(closets.get(0).getColors().getName()).isEqualTo("블랙");
+        assertThat(closets.get(0).getMaterials().getName()).isEqualTo("퍼");
 
+        /*assertThat(closets.get(0).getImages().size()).isEqualTo(3);
         List<ClothesImage> clothesImages = clothesImageRepository.findAll();
         assertThat(clothesImages.size()).isEqualTo(3);*/
     }

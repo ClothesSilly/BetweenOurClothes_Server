@@ -44,9 +44,8 @@ public class ClosetsApiController {
 
 
     // GET
-    // 마지막에 추가된 게시글 9개 가져오기 (id, 사진)
     @GetMapping("/post/thumbnails")
-    public ResponseEntity<ClosetsThumbnailsResponseDto> findThumbnails(@PageableDefault(size=18) Pageable pageable){
+    public ResponseEntity<ClosetsThumbnailsResponseDto> findThumbnails(@PageableDefault(size=15) Pageable pageable){
         ClosetsThumbnailsResponseDto responseDto = closetsService.findImagesByCreatedDateDesc(pageable);
 
         //HttpHeaders header = new HttpHeaders();

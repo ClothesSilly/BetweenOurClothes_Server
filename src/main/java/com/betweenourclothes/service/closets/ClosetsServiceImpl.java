@@ -2,10 +2,7 @@ package com.betweenourclothes.service.closets;
 
 import com.betweenourclothes.domain.closets.Closets;
 import com.betweenourclothes.domain.closets.ClosetsRepository;
-import com.betweenourclothes.domain.clothes.ClothesImage;
-import com.betweenourclothes.domain.clothes.ClothesImageRepository;
-import com.betweenourclothes.domain.clothes.Style;
-import com.betweenourclothes.domain.clothes.StyleRepository;
+import com.betweenourclothes.domain.clothes.*;
 import com.betweenourclothes.domain.members.Members;
 import com.betweenourclothes.domain.members.MembersRepository;
 import com.betweenourclothes.exception.ErrorCode;
@@ -34,6 +31,9 @@ public class ClosetsServiceImpl implements ClosetsService{
 
     private final MembersRepository membersRepository;
     private final StyleRepository styleRepository;
+    private final MaterialsRepository materialsRepository;
+    private final ColorsRepository colorsRepository;
+    private final ClothesInfoRepository clothesInfoRepository;
     private final ClosetsRepository closetsRepository;
 
     private final ClothesImageRepository clothesImageRepository;
@@ -46,9 +46,20 @@ public class ClosetsServiceImpl implements ClosetsService{
         Members member = membersRepository.findByEmail(SecurityUtil.getMemberEmail())
                 .orElseThrow(()->new ClosetsPostException(ErrorCode.USER_NOT_FOUND));
 
-        // 스타일 형식 체크
+        // 옷 정보 & 스타일
         Style style = styleRepository.findByName(requestDto.getStyle())
                 .orElseThrow(()->new ClosetsPostException(ErrorCode.ITEM_NOT_FOUND));
+
+        Materials material = materialsRepository.findByName(requestDto.getMaterial())
+                .orElseThrow(()->new ClosetsPostException(ErrorCode.ITEM_NOT_FOUND));
+
+        Colors color = colorsRepository.findByName(requestDto.getColor())
+                .orElseThrow(()->new ClosetsPostException(ErrorCode.ITEM_NOT_FOUND));
+
+        ClothesInfo clothesInfo = clothesInfoRepository.findByCategoryLAndCategorySAndLengthAndFit(
+                requestDto.getLarge_category(), requestDto.getSmall_category(), requestDto.getLength(), requestDto.getFit()
+        ).orElseThrow(()->new ClosetsPostException(ErrorCode.ITEM_NOT_FOUND));
+
 
         // 이미지 테이블에 추가
         List<ClothesImage> imgArr = new ArrayList<>();
@@ -61,7 +72,7 @@ public class ClosetsServiceImpl implements ClosetsService{
         }
 
         // 게시
-        Closets post = requestDto.toEntity(member, style, imgArr);
+        Closets post = requestDto.toEntity(member, style, material, color, clothesInfo, imgArr);
         closetsRepository.save(post);
         member.updateClosetsPosts(post);
         return post.getId();
@@ -74,9 +85,20 @@ public class ClosetsServiceImpl implements ClosetsService{
         membersRepository.findByEmail(SecurityUtil.getMemberEmail())
                 .orElseThrow(()->new ClosetsPostException(ErrorCode.USER_NOT_FOUND));
 
-        //스타일 형식 체크
+        //옷 & 스타일 체크
         Style style = styleRepository.findByName(requestDto.getStyle())
                 .orElseThrow(()->new ClosetsPostException(ErrorCode.ITEM_NOT_FOUND));
+
+        Materials material = materialsRepository.findByName(requestDto.getMaterial())
+                .orElseThrow(()->new ClosetsPostException(ErrorCode.ITEM_NOT_FOUND));
+
+        Colors color = colorsRepository.findByName(requestDto.getColor())
+                .orElseThrow(()->new ClosetsPostException(ErrorCode.ITEM_NOT_FOUND));
+
+        ClothesInfo clothesInfo = clothesInfoRepository.findByCategoryLAndCategorySAndLengthAndFit(
+                requestDto.getLarge_category(), requestDto.getSmall_category(), requestDto.getLength(), requestDto.getFit()
+        ).orElseThrow(()->new ClosetsPostException(ErrorCode.ITEM_NOT_FOUND));
+
 
         System.out.println("....................................................");
         for(Closets all: closetsRepository.findAll()){
@@ -84,7 +106,7 @@ public class ClosetsServiceImpl implements ClosetsService{
         }
         // 게시글 찾고 업데이트
         Closets post = closetsRepository.findById(id).orElseThrow(()->new ClosetsPostException(ErrorCode.ITEM_NOT_FOUND));
-        post.update(style);
+        post.update(style, material, color, clothesInfo);
 
         // 경로에 저장되어 있는 실제 이미지 삭제
         for(ClothesImage img : post.getImages()){
