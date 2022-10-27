@@ -1,10 +1,10 @@
 package com.betweenourclothes.service.auth;
 
-import com.betweenourclothes.config.domain.auth.Email;
-import com.betweenourclothes.config.domain.auth.EmailRepository;
-import com.betweenourclothes.config.domain.members.Members;
-import com.betweenourclothes.config.domain.members.MembersRepository;
-import com.betweenourclothes.config.domain.members.Role;
+import com.betweenourclothes.domain.auth.Email;
+import com.betweenourclothes.domain.auth.EmailRepository;
+import com.betweenourclothes.domain.members.Members;
+import com.betweenourclothes.domain.members.MembersRepository;
+import com.betweenourclothes.domain.members.Role;
 import com.betweenourclothes.exception.ErrorCode;
 import com.betweenourclothes.exception.customException.*;
 import com.betweenourclothes.jwt.JwtStatus;

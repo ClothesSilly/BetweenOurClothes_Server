@@ -1,9 +1,8 @@
 package com.betweenourclothes.web;
 
 import com.betweenourclothes.web.dto.request.ClosetsPostRequestDto;
-import com.betweenourclothes.web.dto.response.ThumbnailsResponseDto;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import com.betweenourclothes.web.dto.response.ClosetsImagesResponseDto;
+import com.betweenourclothes.web.dto.response.ClosetsThumbnailsResponseDto;
 import org.springframework.web.bind.annotation.*;
 import com.betweenourclothes.service.closets.ClosetsService;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.nio.file.Files;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -29,10 +27,10 @@ public class ClosetsApiController {
     }
 
     @PatchMapping("/post/{id}")
-    public ResponseEntity<String> update(@PathVariable("id") String id,
+    public ResponseEntity<String> update(@PathVariable("id") Long id,
                                          @RequestPart(name="data") ClosetsPostRequestDto requestDto,
                                          @RequestPart(name="image") List<MultipartFile> imgs){
-        closetsService.update(Long.parseLong(id), requestDto, imgs);
+        closetsService.update(id, requestDto, imgs);
         return new ResponseEntity<>("수정 완료", HttpStatus.OK);
     }
 
@@ -46,19 +44,20 @@ public class ClosetsApiController {
     // GET
     // 마지막에 추가된 게시글 9개 가져오기 (id, 사진)
     @GetMapping("/post/thumbnails")
-    public ResponseEntity<ThumbnailsResponseDto > findThumbnails(HttpServletRequest req){
-        ThumbnailsResponseDto responseDto = closetsService.findImagesByCreatedDateDesc();
+    public ResponseEntity<ClosetsThumbnailsResponseDto> findThumbnails(HttpServletRequest req){
+        ClosetsThumbnailsResponseDto responseDto = closetsService.findImagesByCreatedDateDesc();
 
         //HttpHeaders header = new HttpHeaders();
         //header.set("Content-Type", "image/jpeg");
 
-        return new ResponseEntity<ThumbnailsResponseDto>(responseDto, HttpStatus.OK);
+        return new ResponseEntity<ClosetsThumbnailsResponseDto>(responseDto, HttpStatus.OK);
     }
 
     // id로 게시글 찾아오기
     @GetMapping("/post/{id}")
-    public ResponseEntity<String> findPost(@PathVariable("id") Long id){
-        return null;
+    public ResponseEntity<ClosetsImagesResponseDto> findPostById(@PathVariable("id") Long id){
+        ClosetsImagesResponseDto responseDto = closetsService.findImagesByPostId(id);
+        return new ResponseEntity<ClosetsImagesResponseDto>(responseDto, HttpStatus.OK);
     }
 
 

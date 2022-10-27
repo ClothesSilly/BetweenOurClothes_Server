@@ -1,7 +1,5 @@
 package com.betweenourclothes.domain.members;
 
-import com.betweenourclothes.config.domain.members.Members;
-import com.betweenourclothes.config.domain.members.MembersRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

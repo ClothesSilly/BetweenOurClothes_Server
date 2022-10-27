@@ -1,18 +1,19 @@
 package com.betweenourclothes.service.closets;
 
-import com.betweenourclothes.config.domain.closets.Closets;
-import com.betweenourclothes.config.domain.closets.ClosetsRepository;
-import com.betweenourclothes.config.domain.clothes.ClothesImage;
-import com.betweenourclothes.config.domain.clothes.ClothesImageRepository;
-import com.betweenourclothes.config.domain.clothes.Style;
-import com.betweenourclothes.config.domain.clothes.StyleRepository;
-import com.betweenourclothes.config.domain.members.Members;
-import com.betweenourclothes.config.domain.members.MembersRepository;
+import com.betweenourclothes.domain.closets.Closets;
+import com.betweenourclothes.domain.closets.ClosetsRepository;
+import com.betweenourclothes.domain.clothes.ClothesImage;
+import com.betweenourclothes.domain.clothes.ClothesImageRepository;
+import com.betweenourclothes.domain.clothes.Style;
+import com.betweenourclothes.domain.clothes.StyleRepository;
+import com.betweenourclothes.domain.members.Members;
+import com.betweenourclothes.domain.members.MembersRepository;
 import com.betweenourclothes.exception.ErrorCode;
 import com.betweenourclothes.exception.customException.ClosetsPostException;
 import com.betweenourclothes.jwt.SecurityUtil;
 import com.betweenourclothes.web.dto.request.ClosetsPostRequestDto;
-import com.betweenourclothes.web.dto.response.ThumbnailsResponseDto;
+import com.betweenourclothes.web.dto.response.ClosetsImagesResponseDto;
+import com.betweenourclothes.web.dto.response.ClosetsThumbnailsResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Service;
@@ -134,12 +135,12 @@ public class ClosetsServiceImpl implements ClosetsService{
     }
 
     @Override
-    public ThumbnailsResponseDto findImagesByCreatedDateDesc() {
+    public ClosetsThumbnailsResponseDto findImagesByCreatedDateDesc() {
         // 회원 체크
         Members member = membersRepository.findByEmail(SecurityUtil.getMemberEmail())
                 .orElseThrow(()->new ClosetsPostException(ErrorCode.USER_NOT_FOUND));
 
-        List<ClothesImage> images = closetsRepository.findImagesByIdOrderByCreatedDateDesc(member.getId());
+        List<ClothesImage> images = closetsRepository.findImagesByMemberIdOrderByCreatedDateDesc(member.getId());
 
         List<byte[]> returnArr = new ArrayList<>();
         for(ClothesImage image : images){
@@ -153,9 +154,35 @@ public class ClosetsServiceImpl implements ClosetsService{
             }
         }
 
-        ThumbnailsResponseDto responseDto = ThumbnailsResponseDto.builder().images(returnArr).build();
+        ClosetsThumbnailsResponseDto responseDto = ClosetsThumbnailsResponseDto.builder().images(returnArr).build();
         return responseDto;
     }
+
+    @Override
+    public ClosetsImagesResponseDto findImagesByPostId(Long id) {
+
+        membersRepository.findByEmail(SecurityUtil.getMemberEmail())
+                .orElseThrow(()->new ClosetsPostException(ErrorCode.USER_NOT_FOUND));
+
+        Closets post = closetsRepository.findById(id).orElseThrow(()->new ClosetsPostException(ErrorCode.ITEM_NOT_FOUND));
+
+        List<byte[]> returnArr = new ArrayList<>();
+        for(ClothesImage image : post.getImages()){
+            try {
+                InputStream is = new FileInputStream(image.getPath());
+                byte[] imageByteArr = IOUtils.toByteArray(is);
+                is.close();
+                returnArr.add(imageByteArr);
+            } catch (Exception e){
+                throw new ClosetsPostException(ErrorCode.IMAGE_OPEN_ERROR);
+            }
+        }
+
+        ClosetsImagesResponseDto responseDto = ClosetsImagesResponseDto.builder().images(returnArr).id(id.toString()).build();
+
+        return responseDto;
+    }
+
 
 
     /*

@@ -1,13 +1,14 @@
 package com.betweenourclothes.web;
 
-import com.betweenourclothes.config.domain.closets.Closets;
-import com.betweenourclothes.config.domain.closets.ClosetsRepository;
-import com.betweenourclothes.config.domain.clothes.ClothesImageRepository;
+import com.betweenourclothes.domain.closets.Closets;
+import com.betweenourclothes.domain.closets.ClosetsRepository;
+import com.betweenourclothes.domain.clothes.ClothesImageRepository;
 import com.betweenourclothes.jwt.JwtTokenProvider;
 import com.betweenourclothes.web.dto.request.AuthSignInRequestDto;
 import com.betweenourclothes.web.dto.request.ClosetsPostRequestDto;
 import com.betweenourclothes.web.dto.response.AuthTokenResponseDto;
-import com.betweenourclothes.web.dto.response.ThumbnailsResponseDto;
+import com.betweenourclothes.web.dto.response.ClosetsImagesResponseDto;
+import com.betweenourclothes.web.dto.response.ClosetsThumbnailsResponseDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,8 +25,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import javax.swing.*;
-import java.awt.*;
 import java.io.FileInputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -81,6 +80,28 @@ public class ClosetsApiControllerTest {
 
 
     @Test
+    public void 내옷장_게시글ID로불러오기() throws Exception{
+
+        로그인();
+        내옷장_게시글등록();
+
+        String token = "Bearer" + AT;
+        String url_get = "http://localhost:" + port + "/api/v1/closets/post/" + postId;
+
+        HttpHeaders header = new HttpHeaders();
+        header.set("Authorization", token);
+        HttpEntity<Long> req = new HttpEntity<>(Long.parseLong(postId), header);
+
+        ResponseEntity<ClosetsImagesResponseDto> resp
+                = restTemplate.exchange(url_get, HttpMethod.GET, req, ClosetsImagesResponseDto.class);
+
+        System.out.println(resp.getBody());
+        assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(resp.getBody().getId()).isEqualTo(postId);
+        assertThat(resp.getBody().getImages().size()).isEqualTo(3);
+    }
+
+    @Test
     public void 내옷장_썸네일불러오기() throws Exception{
 
         로그인();
@@ -96,8 +117,8 @@ public class ClosetsApiControllerTest {
         header.set("Authorization", token);
         HttpEntity<Long> req = new HttpEntity<>(header);
 
-        ResponseEntity<ThumbnailsResponseDto> resp
-         = restTemplate.exchange(url_get, HttpMethod.GET, req, ThumbnailsResponseDto.class);
+        ResponseEntity<ClosetsThumbnailsResponseDto> resp
+         = restTemplate.exchange(url_get, HttpMethod.GET, req, ClosetsThumbnailsResponseDto.class);
 
         System.out.println(resp.getBody());
         assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);

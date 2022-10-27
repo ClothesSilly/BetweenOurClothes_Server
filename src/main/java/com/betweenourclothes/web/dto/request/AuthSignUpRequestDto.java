@@ -1,7 +1,7 @@
 package com.betweenourclothes.web.dto.request;
 
-import com.betweenourclothes.config.domain.members.Members;
-import com.betweenourclothes.config.domain.members.Role;
+import com.betweenourclothes.domain.members.Members;
+import com.betweenourclothes.domain.members.Role;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
