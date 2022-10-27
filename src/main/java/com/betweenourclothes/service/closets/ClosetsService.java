@@ -27,6 +27,8 @@ public interface ClosetsService {
 
     ClosetsThumbnailsResponseDto findImagesByCategoryL(Pageable pageable, String name);
 
+    ClosetsThumbnailsResponseDto findImagesByCategoryLS(Pageable pageable, String nameL, String nameS);
+
     //ClosetsThumbnailsResponseDto findImagesByCreatedDateDescDisplay();
 
 }

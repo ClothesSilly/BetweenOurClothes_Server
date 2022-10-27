@@ -6,6 +6,7 @@ import com.betweenourclothes.domain.clothes.ClothesImageRepository;
 import com.betweenourclothes.jwt.JwtTokenProvider;
 import com.betweenourclothes.web.dto.request.AuthSignInRequestDto;
 import com.betweenourclothes.web.dto.request.ClosetsPostRequestDto;
+import com.betweenourclothes.web.dto.request.ClosetsPostSearchCategoryLSRequestDto;
 import com.betweenourclothes.web.dto.response.AuthTokenResponseDto;
 import com.betweenourclothes.web.dto.response.ClosetsImagesResponseDto;
 import com.betweenourclothes.web.dto.response.ClosetsThumbnailsResponseDto;
@@ -80,6 +81,50 @@ public class ClosetsApiControllerTest {
         ResponseEntity<AuthTokenResponseDto> respDto = restTemplate.postForEntity(url_login, reqDto, AuthTokenResponseDto.class);
         assertThat(respDto.getStatusCode()).isEqualTo(HttpStatus.OK);
         AT = respDto.getBody().getAccessToken();
+    }
+
+    @Test
+    public void 내옷장_작은카테고리조회() throws Exception{
+
+        내옷장_테스트데이터추가();
+        내옷장_테스트데이터등록();
+        String token = "Bearer" + AT;
+        System.out.println(token);
+
+        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
+        String data1 = "상의";
+        String data2 = "블라우스";
+        ClosetsPostSearchCategoryLSRequestDto req = ClosetsPostSearchCategoryLSRequestDto.builder()
+                .nameL(data1).nameS(data2).build();
+
+        ObjectMapper mapper = new ObjectMapper();
+        String content = mapper.writeValueAsString(req);
+
+        MvcResult result = mockMvc.perform(get("/api/v1/closets/post/category-ls?page=0")
+                        .contentType(MediaType.APPLICATION_JSON).content(content).header("Authorization", token))
+                .andExpect(status().isOk()).andReturn();
+
+        String json = result.getResponse().getContentAsString();
+        ClosetsThumbnailsResponseDto resp = new ObjectMapper().readValue(json, ClosetsThumbnailsResponseDto.class);
+        assertThat(resp.getImages().size()).isEqualTo(1);
+
+
+        data1 = "하의";
+        data2 = "청바지";
+
+        req = ClosetsPostSearchCategoryLSRequestDto.builder().nameL(data1).nameS(data2).build();
+
+        mapper = new ObjectMapper();
+        content = mapper.writeValueAsString(req);
+
+        result = mockMvc.perform(get("/api/v1/closets/post/category-ls?page=0")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(content).header("Authorization", token))
+                .andExpect(status().isOk()).andReturn();
+
+        json = result.getResponse().getContentAsString();
+        resp = new ObjectMapper().readValue(json, ClosetsThumbnailsResponseDto.class);
+        assertThat(resp.getImages().size()).isEqualTo(2);
     }
 
     @Test
@@ -182,7 +227,7 @@ public class ClosetsApiControllerTest {
         requestDto = requestDto.builder()
                 .style("프레피")
                 .large_category("하의")
-                .small_category("조거팬츠")
+                .small_category("청바지")
                 .fit("스키니")
                 .length("니렝스")
                 .color("네온")

@@ -1,6 +1,7 @@
 package com.betweenourclothes.web;
 
 import com.betweenourclothes.web.dto.request.ClosetsPostRequestDto;
+import com.betweenourclothes.web.dto.request.ClosetsPostSearchCategoryLSRequestDto;
 import com.betweenourclothes.web.dto.response.ClosetsImagesResponseDto;
 import com.betweenourclothes.web.dto.response.ClosetsThumbnailsResponseDto;
 import org.springframework.data.domain.Pageable;
@@ -71,9 +72,12 @@ public class ClosetsApiController {
     }
 
     // 큰 카테고리, 작은 카테고리
-    @GetMapping("/post/category-m")
-    public ResponseEntity<ClosetsThumbnailsResponseDto> findByCategory(@PageableDefault(size=15) Pageable pageable){
-        return null;
+    @GetMapping("/post/category-ls")
+    public ResponseEntity<ClosetsThumbnailsResponseDto> findByCategoryLS(@PageableDefault(size=15) Pageable pageable
+    , @RequestBody ClosetsPostSearchCategoryLSRequestDto req){
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+ req.getNameL() + " " + req.getNameS());
+        ClosetsThumbnailsResponseDto responseDto = closetsService.findImagesByCategoryLS(pageable, req.getNameL(), req.getNameS());
+        return new ResponseEntity<ClosetsThumbnailsResponseDto>(responseDto, HttpStatus.OK);
     }
 
     // 큰 카테고리, 작은 카테고리, 기장, 핏, 재질, 색상

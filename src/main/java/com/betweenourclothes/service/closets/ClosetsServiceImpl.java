@@ -243,6 +243,30 @@ public class ClosetsServiceImpl implements ClosetsService{
         return responseDto;
     }
 
+    @Override
+    public ClosetsThumbnailsResponseDto findImagesByCategoryLS(Pageable pageable, String nameL, String nameS) {
+        Members member = membersRepository.findByEmail(SecurityUtil.getMemberEmail())
+                .orElseThrow(()->new ClosetsPostException(ErrorCode.USER_NOT_FOUND));
+
+        Page<ClothesImage> images = closetsRepository.findImagesByCategoryLAndCategorySDesc(member.getId(), nameL, nameS, pageable);
+
+        List<byte[]> returnArr = new ArrayList<>();
+        for(ClothesImage image : images.getContent()){
+            try {
+                InputStream is = new FileInputStream(image.getPath());
+                byte[] imageByteArr = IOUtils.toByteArray(is);
+                is.close();
+                returnArr.add(imageByteArr);
+            } catch (Exception e){
+                throw new ClosetsPostException(ErrorCode.IMAGE_OPEN_ERROR);
+            }
+            System.out.println(image.getPath());
+        }
+
+        ClosetsThumbnailsResponseDto responseDto = ClosetsThumbnailsResponseDto.builder().images(returnArr).length(returnArr.size()).build();
+        return responseDto;
+    }
+
 
 /*
 

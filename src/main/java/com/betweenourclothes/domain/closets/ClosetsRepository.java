@@ -28,6 +28,17 @@ public interface ClosetsRepository extends JpaRepository<Closets, Long> {
     Page<ClothesImage> findImagesByCategoryLDesc(@Param("member") Long id, @Param("name") String category_l, Pageable pageable);
 
 
+    @Query(value =
+            "select i " +
+                    "from Closets c join c.images i on c.author.id = :member "
+                    + " where index(i) = 0 and c.clothesInfo.categoryL = :nameL" +
+                    " and c.clothesInfo.categoryS = :nameS"
+                    + " order by c.createdDate desc"
+    )
+    Page<ClothesImage> findImagesByCategoryLAndCategorySDesc(@Param("member")Long id, @Param("nameL")String nameL,
+                                                             @Param("nameS")String nameS, Pageable pageable);
+
+
 
     /*
     @Query(value =
