@@ -163,6 +163,7 @@ public class ClosetsServiceImpl implements ClosetsService{
         closetsRepository.deleteById(id);
     }
 
+    @Transactional
     @Override
     public ClosetsThumbnailsResponseDto findImagesByCreatedDateDesc(Pageable pageable) {
         // 회원 체크
@@ -170,11 +171,6 @@ public class ClosetsServiceImpl implements ClosetsService{
                 .orElseThrow(()->new ClosetsPostException(ErrorCode.USER_NOT_FOUND));
 
         Page<ClothesImage> images = closetsRepository.findImagesByMemberIdOrderByCreatedDateDesc(member.getId(),  pageable);
-        System.out.println("total page: " + images.getTotalPages());
-        System.out.println("total elements: " + images.getTotalElements());
-        System.out.println("getNumber: " + images.getNumber());
-        System.out.println("getNE: " + images.getNumberOfElements());
-        System.out.println("getsize: " + images.getSize());
 
         List<byte[]> returnArr = new ArrayList<>();
         for(ClothesImage image : images.getContent()){
@@ -192,6 +188,7 @@ public class ClosetsServiceImpl implements ClosetsService{
         return responseDto;
     }
 
+    @Transactional
     @Override
     public ClosetsImagesResponseDto findImagesByPostId(Long id) {
 
@@ -218,6 +215,31 @@ public class ClosetsServiceImpl implements ClosetsService{
 
         ClosetsImagesResponseDto responseDto = ClosetsImagesResponseDto.builder().images(returnArr).id(id.toString()).build();
 
+        return responseDto;
+    }
+
+    @Transactional
+    @Override
+    public ClosetsThumbnailsResponseDto findImagesByCategoryL(Pageable pageable, String name) {
+        Members member = membersRepository.findByEmail(SecurityUtil.getMemberEmail())
+                .orElseThrow(()->new ClosetsPostException(ErrorCode.USER_NOT_FOUND));
+
+        Page<ClothesImage> images = closetsRepository.findImagesByCategoryLDesc(member.getId(), name, pageable);
+
+        List<byte[]> returnArr = new ArrayList<>();
+        for(ClothesImage image : images.getContent()){
+            try {
+                InputStream is = new FileInputStream(image.getPath());
+                byte[] imageByteArr = IOUtils.toByteArray(is);
+                is.close();
+                returnArr.add(imageByteArr);
+            } catch (Exception e){
+                throw new ClosetsPostException(ErrorCode.IMAGE_OPEN_ERROR);
+            }
+            System.out.println(image.getPath());
+        }
+
+        ClosetsThumbnailsResponseDto responseDto = ClosetsThumbnailsResponseDto.builder().images(returnArr).length(returnArr.size()).build();
         return responseDto;
     }
 

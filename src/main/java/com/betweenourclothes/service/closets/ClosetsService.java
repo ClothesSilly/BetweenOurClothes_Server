@@ -25,7 +25,7 @@ public interface ClosetsService {
 
     ClosetsImagesResponseDto findImagesByPostId(Long id);
 
-
+    ClosetsThumbnailsResponseDto findImagesByCategoryL(Pageable pageable, String name);
 
     //ClosetsThumbnailsResponseDto findImagesByCreatedDateDescDisplay();
 

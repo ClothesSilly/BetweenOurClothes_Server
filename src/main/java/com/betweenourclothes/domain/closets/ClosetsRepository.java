@@ -14,10 +14,22 @@ public interface ClosetsRepository extends JpaRepository<Closets, Long> {
             "select i " +
                     "from Closets c join c.images i on c.author.id = :member"
             + " where index(i) = 0"
-            + " order by c.createdDate asc"
+            + " order by c.createdDate desc"
     )
     Page<ClothesImage> findImagesByMemberIdOrderByCreatedDateDesc(@Param("member") Long id, Pageable pageable);
 
+
+    @Query(value =
+            "select i " +
+                    "from Closets c join c.images i on c.author.id = :member "
+            + " where index(i) = 0 and c.clothesInfo.categoryL = :name"
+            + " order by c.createdDate desc"
+    )
+    Page<ClothesImage> findImagesByCategoryLDesc(@Param("member") Long id, @Param("name") String category_l, Pageable pageable);
+
+
+
+    /*
     @Query(value =
             "select i " +
                     "from Closets c join c.images i on c.author.id = :member"
@@ -25,4 +37,7 @@ public interface ClosetsRepository extends JpaRepository<Closets, Long> {
                     + " order by c.createdDate asc"
     )
     List<ClothesImage> findImagesByMemberIdOrderByCreatedDateDesc(@Param("member") Long id);
+    */
+
+
 }

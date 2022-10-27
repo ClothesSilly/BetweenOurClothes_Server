@@ -28,6 +28,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.io.FileInputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -67,6 +68,9 @@ public class ClosetsApiControllerTest {
     private String AT;
     private String postId;
 
+    private List<ClosetsPostRequestDto> testData;
+    private List<MockMultipartFile> testData_img;
+
     @Test
     public void 로그인() throws Exception{
         String url_login = "http://localhost:" + port + "/api/v1/auth/login";
@@ -78,6 +82,132 @@ public class ClosetsApiControllerTest {
         AT = respDto.getBody().getAccessToken();
     }
 
+    @Test
+    public void 내옷장_큰카테고리조회() throws Exception{
+
+        내옷장_테스트데이터추가();
+        내옷장_테스트데이터등록();
+        String token = "Bearer" + AT;
+        System.out.println(token);
+
+
+        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
+        String data = "상의";
+
+        MvcResult result = mockMvc.perform(get("/api/v1/closets/post/category-l?page=0").content(data).header("Authorization", token))
+                .andExpect(status().isOk()).andReturn();
+
+        String json = result.getResponse().getContentAsString();
+        ClosetsThumbnailsResponseDto resp = new ObjectMapper().readValue(json, ClosetsThumbnailsResponseDto.class);
+        System.out.println(resp.getImages().get(0));
+        //assertThat(resp.getImages().size()).isEqualTo(1);
+    }
+
+    @Test
+    public void 내옷장_테스트데이터등록() throws Exception{
+
+        로그인();
+
+        String token = "Bearer" + AT;
+        System.out.println(token);
+
+        String url_post = "http://localhost:" + port + "/api/v1/closets/post";
+
+        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
+        MockMultipartFile img =  new MockMultipartFile("image", "test.jpg",
+                "multipart/form-data", new FileInputStream("src/test/resources/static/images/test.png"));
+
+        for(int i=0; i<testData_img.size(); i++){
+            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>" + i);
+            ObjectMapper mapper = new ObjectMapper();
+            String dto2Json = mapper.writeValueAsString(testData.get(i));
+            MockMultipartFile dtofile = new MockMultipartFile("data", "", "application/json", dto2Json.getBytes(StandardCharsets.UTF_8));
+            mockMvc.perform(multipart(url_post).file(dtofile).file(testData_img.get(i)).file(img).accept(MediaType.APPLICATION_JSON).header("Authorization", token)).andExpect(status().isOk());
+        }
+
+    }
+
+    @Test
+    public void 내옷장_테스트데이터추가() throws Exception{
+
+
+        testData = new ArrayList<>();
+        testData_img = new ArrayList<>();
+        ClosetsPostRequestDto requestDto = null;
+        MockMultipartFile img = null;
+
+
+        requestDto = requestDto.builder()
+                .style("컨트리")
+                .large_category("하의")
+                .small_category("청바지")
+                .fit("벨보텀")
+                .length("미니")
+                .color("카키")
+                .material("스웨이드")
+                .build();
+        testData.add(requestDto);
+        img =  new MockMultipartFile("image", "test.jpg",
+                "multipart/form-data", new FileInputStream("src/test/resources/static/images/pants2.jpg"));
+        testData_img.add(img);
+
+        requestDto = requestDto.builder()
+                .style("레트로")
+                .large_category("상의")
+                .small_category("블라우스")
+                .fit("타이트")
+                .length("노멀")
+                .color("블랙")
+                .material("니트")
+                .build();
+        testData.add(requestDto);
+        img =  new MockMultipartFile("image", "test.jpg",
+                "multipart/form-data", new FileInputStream("src/test/resources/static/images/top.jpg"));
+        testData_img.add(img);
+
+        requestDto = requestDto.builder()
+                .style("로맨틱")
+                .large_category("상의")
+                .small_category("후드티")
+                .fit("루즈")
+                .length("롱")
+                .color("골드")
+                .material("앙고라")
+                .build();
+        testData.add(requestDto);
+        img =  new MockMultipartFile("image", "test.jpg",
+                "multipart/form-data", new FileInputStream("src/test/resources/static/images/top2.jpg"));
+        testData_img.add(img);
+
+        requestDto = requestDto.builder()
+                .style("프레피")
+                .large_category("하의")
+                .small_category("조거팬츠")
+                .fit("스키니")
+                .length("니렝스")
+                .color("네온")
+                .material("실크")
+                .build();
+        testData.add(requestDto);
+        img =  new MockMultipartFile("image", "test.jpg",
+                "multipart/form-data", new FileInputStream("src/test/resources/static/images/pants3.jpg"));
+        testData_img.add(img);
+
+        requestDto = requestDto.builder()
+                .style("아방가르드")
+                .large_category("원피스")
+                .small_category("점프수트")
+                .fit("오버사이즈")
+                .length("미니")
+                .color("골드")
+                .material("플리스")
+                .build();
+        testData.add(requestDto);
+        img =  new MockMultipartFile("image", "test.jpg",
+                "multipart/form-data", new FileInputStream("src/test/resources/static/images/one-piece.jpg"));
+        testData_img.add(img);
+
+    }
 
     @Test
     public void 내옷장_썸네일페이징() throws Exception{

@@ -63,16 +63,21 @@ public class ClosetsApiController {
 
 
     // 큰 카테고리
-    public ResponseEntity<ClosetsThumbnailsResponseDto> findByCategoryL(@PageableDefault(size=15) Pageable pageable){
-        return null;
+    @GetMapping("/post/category-l")
+    public ResponseEntity<ClosetsThumbnailsResponseDto> findByCategoryL(@PageableDefault(size=15) Pageable pageable, @RequestBody String name){
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+ name);
+        ClosetsThumbnailsResponseDto responseDto = closetsService.findImagesByCategoryL(pageable, name);
+        return new ResponseEntity<ClosetsThumbnailsResponseDto>(responseDto, HttpStatus.OK);
     }
 
     // 큰 카테고리, 작은 카테고리
+    @GetMapping("/post/category-m")
     public ResponseEntity<ClosetsThumbnailsResponseDto> findByCategory(@PageableDefault(size=15) Pageable pageable){
         return null;
     }
 
     // 큰 카테고리, 작은 카테고리, 기장, 핏, 재질, 색상
+    @GetMapping("/post/category-all")
     public ResponseEntity<ClosetsThumbnailsResponseDto> findByCategoryAndClothesInfo(@PageableDefault(size=15) Pageable pageable){
         return null;
     }
