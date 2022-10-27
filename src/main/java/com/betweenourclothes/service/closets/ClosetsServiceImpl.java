@@ -12,6 +12,7 @@ import com.betweenourclothes.web.dto.request.ClosetsPostRequestDto;
 import com.betweenourclothes.web.dto.response.ClosetsImagesResponseDto;
 import com.betweenourclothes.web.dto.response.ClosetsThumbnailsResponseDto;
 import lombok.RequiredArgsConstructor;
+import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.io.IOUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import org.springframework.data.domain.Pageable;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -198,9 +203,13 @@ public class ClosetsServiceImpl implements ClosetsService{
         List<byte[]> returnArr = new ArrayList<>();
         for(ClothesImage image : post.getImages()){
             try {
-                InputStream is = new FileInputStream(image.getPath());
-                byte[] imageByteArr = IOUtils.toByteArray(is);
-                is.close();
+                BufferedImage bi = Thumbnails.of(new File(image.getPath()))
+                        .size(300, 300)
+                        .asBufferedImage();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                ImageIO.write(bi, "jpeg", baos);
+                byte[] imageByteArr = baos.toByteArray();
+                baos.close();
                 returnArr.add(imageByteArr);
             } catch (Exception e){
                 throw new ClosetsPostException(ErrorCode.IMAGE_OPEN_ERROR);
@@ -213,32 +222,36 @@ public class ClosetsServiceImpl implements ClosetsService{
     }
 
 
+/*
 
-    /*
     @Override
-    public ThumbnailsResponseDto findImagesByCreatedDateDescDisplay() {
+    public ClosetsThumbnailsResponseDto findImagesByCreatedDateDescDisplay() {
         Members member = membersRepository.findByEmail("gunsong2@naver.com")
                 .orElseThrow(()->new ClosetsPostException(ErrorCode.USER_NOT_FOUND));
 
-        List<ClothesImage> images = closetsRepository.findImagesByIdOrderByCreatedDateDesc(member.getId());
+        List<ClothesImage> images = closetsRepository.findImagesByMemberIdOrderByCreatedDateDesc(member.getId());
 
 
         List<byte[]> returnArr = new ArrayList<>();
         for(ClothesImage image : images){
             try {
-                InputStream is = new FileInputStream(image.getPath());
-                byte[] imageByteArr = IOUtils.toByteArray(is);
-                is.close();
+                BufferedImage bi = Thumbnails.of(new File(image.getPath()))
+                        .size(300, 300)
+                        .asBufferedImage();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                ImageIO.write(bi, "jpeg", baos);
+                byte[] imageByteArr = baos.toByteArray();
+                baos.close();
                 returnArr.add(imageByteArr);
             } catch (Exception e){
                 throw new ClosetsPostException(ErrorCode.IMAGE_OPEN_ERROR);
             }
         }
 
-        ThumbnailsResponseDto responseDto = ThumbnailsResponseDto.builder().images(returnArr).build();
+        ClosetsThumbnailsResponseDto responseDto = ClosetsThumbnailsResponseDto.builder().images(returnArr).build();
         return responseDto;
     }
-    */
+*/
 
 }
 

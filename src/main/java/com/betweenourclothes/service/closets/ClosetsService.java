@@ -27,6 +27,6 @@ public interface ClosetsService {
 
 
 
-    //ThumbnailsResponseDto findImagesByCreatedDateDescDisplay();
+    //ClosetsThumbnailsResponseDto findImagesByCreatedDateDescDisplay();
 
 }

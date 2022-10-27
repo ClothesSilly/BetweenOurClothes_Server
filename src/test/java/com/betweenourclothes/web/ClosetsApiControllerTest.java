@@ -95,7 +95,7 @@ public class ClosetsApiControllerTest {
 
         String json = result.getResponse().getContentAsString();
         ClosetsThumbnailsResponseDto resp = new ObjectMapper().readValue(json, ClosetsThumbnailsResponseDto.class);
-        assertThat(resp.getImages().size()).isEqualTo(18);
+        assertThat(resp.getImages().size()).isEqualTo(15);
 
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
         result = mockMvc.perform(get("/api/v1/closets/post/thumbnails?page=1").header("Authorization", token))
@@ -103,7 +103,7 @@ public class ClosetsApiControllerTest {
 
         json = result.getResponse().getContentAsString();
         resp = new ObjectMapper().readValue(json, ClosetsThumbnailsResponseDto.class);
-        assertThat(resp.getImages().size()).isEqualTo(2);
+        assertThat(resp.getImages().size()).isEqualTo(5);
     }
     @Test
     public void 내옷장_게시글ID로불러오기() throws Exception{

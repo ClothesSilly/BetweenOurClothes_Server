@@ -5,6 +5,7 @@ import com.betweenourclothes.web.dto.response.ClosetsImagesResponseDto;
 import com.betweenourclothes.web.dto.response.ClosetsThumbnailsResponseDto;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 import com.betweenourclothes.service.closets.ClosetsService;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -62,15 +62,30 @@ public class ClosetsApiController {
     }
 
 
+    // 큰 카테고리
+    public ResponseEntity<ClosetsThumbnailsResponseDto> findByCategoryL(@PageableDefault(size=15) Pageable pageable){
+        return null;
+    }
 
-    /*@GetMapping("/post/thumbnails/display")
+    // 큰 카테고리, 작은 카테고리
+    public ResponseEntity<ClosetsThumbnailsResponseDto> findByCategory(@PageableDefault(size=15) Pageable pageable){
+        return null;
+    }
+
+    // 큰 카테고리, 작은 카테고리, 기장, 핏, 재질, 색상
+    public ResponseEntity<ClosetsThumbnailsResponseDto> findByCategoryAndClothesInfo(@PageableDefault(size=15) Pageable pageable){
+        return null;
+    }
+
+    /*
+    @GetMapping("/post/thumbnails/display")
     public ResponseEntity<byte[]> findThumbnailsDisplay(){
-        ThumbnailsResponseDto responseDto = closetsService.findImagesByCreatedDateDescDisplay();
+        ClosetsThumbnailsResponseDto responseDto = closetsService.findImagesByCreatedDateDescDisplay();
 
         HttpHeaders header = new HttpHeaders();
         header.set("Content-Type", "image/jpeg");
 
         return new ResponseEntity<byte[]>(responseDto.getImages().get(0), header, HttpStatus.OK);
-    }*/
-
+    }
+*/
 }
