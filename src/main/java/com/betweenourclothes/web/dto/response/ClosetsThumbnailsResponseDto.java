@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 public class ClosetsThumbnailsResponseDto {
     List<byte[]> images;
+    List<Long> id;
     int length;
 }
 

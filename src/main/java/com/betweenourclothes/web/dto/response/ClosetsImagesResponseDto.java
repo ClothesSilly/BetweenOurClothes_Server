@@ -13,5 +13,5 @@ import java.util.List;
 @NoArgsConstructor
 public class ClosetsImagesResponseDto {
     List<byte[]> images;
-    String id;
+    Long id;
 }

@@ -1,13 +1,19 @@
 package com.betweenourclothes.domain.clothes;
 
+import com.betweenourclothes.domain.closets.Closets;
 import com.betweenourclothes.exception.ErrorCode;
 import com.betweenourclothes.exception.customException.ClosetsPostException;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
 import javax.persistence.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
@@ -16,6 +22,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @Table(name="clothes_image")
+@AllArgsConstructor
 public class ClothesImage {
 
     @Id
@@ -25,6 +32,9 @@ public class ClothesImage {
     private String path;
 
     private String type;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Closets post_id;
 
     @Builder
     public ClothesImage(String type){
@@ -61,4 +71,28 @@ public class ClothesImage {
         }
     }
 
+    public void updatePostId(Closets closets){
+        this.post_id = closets;
+    }
+
+    public byte[] toByte(int width, int height){
+        try {
+            BufferedImage bi = null;
+            if(width == -1 && height == -1){
+                bi = ImageIO.read(new File(this.path));
+            } else{
+                bi = Thumbnails.of(new File(this.path))
+                        .size(width, height)
+                        .asBufferedImage();
+            }
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(bi, "jpeg", baos);
+            byte[] imageByteArr = baos.toByteArray();
+            baos.close();
+            return imageByteArr;
+        } catch (Exception e){
+            throw new ClosetsPostException(ErrorCode.IMAGE_OPEN_ERROR);
+        }
+    }
 }

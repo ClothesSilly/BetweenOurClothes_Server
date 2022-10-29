@@ -3,3 +3,4 @@
 *.properties
 *.png
 *.jpg
+generated/

@@ -6,6 +6,7 @@ import com.betweenourclothes.domain.clothes.ClothesImageRepository;
 import com.betweenourclothes.jwt.JwtTokenProvider;
 import com.betweenourclothes.web.dto.request.AuthSignInRequestDto;
 import com.betweenourclothes.web.dto.request.ClosetsPostRequestDto;
+import com.betweenourclothes.web.dto.request.ClosetsPostSearchCategoryAllRequestDto;
 import com.betweenourclothes.web.dto.request.ClosetsPostSearchCategoryLSRequestDto;
 import com.betweenourclothes.web.dto.response.AuthTokenResponseDto;
 import com.betweenourclothes.web.dto.response.ClosetsImagesResponseDto;
@@ -83,6 +84,37 @@ public class ClosetsApiControllerTest {
         AT = respDto.getBody().getAccessToken();
     }
 
+
+    @Test
+    public void 내옷장_카테고리전부() throws Exception{
+
+        내옷장_테스트데이터추가();
+        내옷장_테스트데이터등록();
+        String token = "Bearer" + AT;
+        System.out.println(token);
+
+        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
+        String data1 = "상의";
+        String data2 = "블라우스";
+        String data3 = "타이트";
+        String color = "레드";
+        ClosetsPostSearchCategoryAllRequestDto req = ClosetsPostSearchCategoryAllRequestDto.builder().color(color).nameL("상의").nameS("블라우스").fit(data3).build();
+                //.nameL(data1).nameS(data2).build();
+
+        ObjectMapper mapper = new ObjectMapper();
+        String content = mapper.writeValueAsString(req);
+
+        MvcResult result = mockMvc.perform(get("/api/v1/closets/post/category?page=0")
+                        .contentType(MediaType.APPLICATION_JSON).content(content).header("Authorization", token))
+                .andExpect(status().isOk()).andReturn();
+
+        String json = result.getResponse().getContentAsString();
+        ClosetsThumbnailsResponseDto resp = new ObjectMapper().readValue(json, ClosetsThumbnailsResponseDto.class);
+        assertThat(resp.getImages().size()).isEqualTo(0);
+
+
+    }
+
     @Test
     public void 내옷장_작은카테고리조회() throws Exception{
 
@@ -100,7 +132,7 @@ public class ClosetsApiControllerTest {
         ObjectMapper mapper = new ObjectMapper();
         String content = mapper.writeValueAsString(req);
 
-        MvcResult result = mockMvc.perform(get("/api/v1/closets/post/category-ls?page=0")
+        MvcResult result = mockMvc.perform(get("/api/v1/closets/post/category?page=0")
                         .contentType(MediaType.APPLICATION_JSON).content(content).header("Authorization", token))
                 .andExpect(status().isOk()).andReturn();
 
@@ -117,7 +149,7 @@ public class ClosetsApiControllerTest {
         mapper = new ObjectMapper();
         content = mapper.writeValueAsString(req);
 
-        result = mockMvc.perform(get("/api/v1/closets/post/category-ls?page=0")
+        result = mockMvc.perform(get("/api/v1/closets/post/category?page=0")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(content).header("Authorization", token))
                 .andExpect(status().isOk()).andReturn();
@@ -135,16 +167,19 @@ public class ClosetsApiControllerTest {
         String token = "Bearer" + AT;
         System.out.println(token);
 
-
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
-        String data = "상의";
-
-        MvcResult result = mockMvc.perform(get("/api/v1/closets/post/category-l?page=0").content(data).header("Authorization", token))
-                .andExpect(status().isOk()).andReturn();
+        ClosetsPostSearchCategoryLSRequestDto req = ClosetsPostSearchCategoryLSRequestDto.builder().nameL("상의").build();
+        String data2json = new ObjectMapper().writeValueAsString(req);
+        System.out.println(data2json);
+        MvcResult result = mockMvc.perform(get("/api/v1/closets/post/category?page=0")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(data2json)
+                        .header("Authorization", token)).andExpect(status().isOk()).andReturn();
 
         String json = result.getResponse().getContentAsString();
         ClosetsThumbnailsResponseDto resp = new ObjectMapper().readValue(json, ClosetsThumbnailsResponseDto.class);
         System.out.println(resp.getImages().get(0));
+        System.out.println(resp.getId().get(0));
         //assertThat(resp.getImages().size()).isEqualTo(1);
     }
 
@@ -265,7 +300,7 @@ public class ClosetsApiControllerTest {
         String token = "Bearer" + AT;
 
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
-        MvcResult result = mockMvc.perform(get("/api/v1/closets/post/thumbnails?page=0").header("Authorization", token))
+        MvcResult result = mockMvc.perform(get("/api/v1/closets/post/all?page=0").header("Authorization", token))
                 .andExpect(status().isOk()).andReturn();
 
         String json = result.getResponse().getContentAsString();
@@ -273,7 +308,7 @@ public class ClosetsApiControllerTest {
         assertThat(resp.getImages().size()).isEqualTo(15);
 
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
-        result = mockMvc.perform(get("/api/v1/closets/post/thumbnails?page=1").header("Authorization", token))
+        result = mockMvc.perform(get("/api/v1/closets/post/all?page=1").header("Authorization", token))
                 .andExpect(status().isOk()).andReturn();
 
         json = result.getResponse().getContentAsString();
@@ -298,7 +333,7 @@ public class ClosetsApiControllerTest {
 
         System.out.println(resp.getBody());
         assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(resp.getBody().getId()).isEqualTo(postId);
+        assertThat(resp.getBody().getId()).isEqualTo(Long.parseLong(postId));
         assertThat(resp.getBody().getImages().size()).isEqualTo(3);
     }
 
@@ -312,7 +347,7 @@ public class ClosetsApiControllerTest {
         내옷장_게시글등록();
 
         String token = "Bearer" + AT;
-        String url_get = "http://localhost:" + port + "/api/v1/closets/post/thumbnails";
+        String url_get = "http://localhost:" + port + "/api/v1/closets/post/all";
 
         HttpHeaders header = new HttpHeaders();
         header.set("Authorization", token);
@@ -324,6 +359,12 @@ public class ClosetsApiControllerTest {
         System.out.println(resp.getBody());
         assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(resp.getBody().getImages().size()).isEqualTo(4);
+        System.out.println(resp.getBody().getId().get(0));
+        System.out.println(resp.getBody().getId().get(1));
+        System.out.println(resp.getBody().getId().get(2));
+        System.out.println(resp.getBody().getId().get(3));
+
+
 
     }
 
@@ -451,22 +492,4 @@ public class ClosetsApiControllerTest {
         assertThat(clothesImages.size()).isEqualTo(3);*/
     }
 
-    @Test
-    public void 내옷장_테스트() throws Exception{
-        로그인();
-        String token = "Bearer" + AT;
-        System.out.println(token);
-        //jwtTokenProvider.getAuthentication(AT).getAuthorities().stream().map(e->e.getAuthority()).forEach(System.out::println);
-
-        HttpHeaders header = new HttpHeaders();
-        header.set("Authorization", token);
-
-        HttpEntity<ClosetsPostRequestDto> req = new HttpEntity<>(header);
-
-        String url = "http://localhost:" + port + "/api/v1/closets/test";
-        ResponseEntity<String> respDto = restTemplate.postForEntity(url, req, String.class);
-
-        assertThat(respDto.getStatusCode()).isEqualTo(HttpStatus.OK);
-        System.out.println(respDto.getBody());
-    }
 }

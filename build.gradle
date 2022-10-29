@@ -1,13 +1,16 @@
 buildscript{
     ext{
         springBootVersion = '2.1.7.RELEASE'
+        querydslVersion = '1.0.10'
     }
     repositories {
         mavenCentral()
         jcenter()
+        maven{ url "https://plugins.gradle.org/m2/"}
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("gradle.plugin.com.ewerk.gradle.plugins:querydsl-plugin:${querydslVersion}")
     }
 }
 
@@ -36,10 +39,29 @@ dependencies {
     compile('io.jsonwebtoken:jjwt-impl:0.11.5')
     compile('io.jsonwebtoken:jjwt-jackson:0.11.5')
     compile('net.coobird:thumbnailator:0.4.8')
+    compile('com.querydsl:querydsl-jpa')
+    compile('com.querydsl:querydsl-apt')
     runtimeOnly('mysql:mysql-connector-java')
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('org.springframework.security:spring-security-test')
     testCompile('com.fasterxml.jackson.core:jackson-core:2.13.4')
     testCompile('com.fasterxml.jackson.core:jackson-annotations:2.13.4')
     testCompile('com.fasterxml.jackson.core:jackson-databind:2.13.4')
+}
+
+apply plugin: "com.ewerk.gradle.plugins.querydsl" // Plugin 적용
+def querydslSrcDir = 'src/main/generated' // QClass 생성 위치
+
+querydsl {
+    library = "com.querydsl:querydsl-apt"
+    jpa = true
+    querydslSourcesDir = querydslSrcDir
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java', querydslSrcDir]
+        }
+    }
 }

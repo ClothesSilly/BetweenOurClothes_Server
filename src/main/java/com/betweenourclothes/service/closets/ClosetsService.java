@@ -1,6 +1,8 @@
 package com.betweenourclothes.service.closets;
 
 import com.betweenourclothes.web.dto.request.ClosetsPostRequestDto;
+import com.betweenourclothes.web.dto.request.ClosetsPostSearchCategoryAllRequestDto;
+import com.betweenourclothes.web.dto.request.ClosetsPostSearchCategoryLSRequestDto;
 import com.betweenourclothes.web.dto.response.ClosetsImagesResponseDto;
 import com.betweenourclothes.web.dto.response.ClosetsThumbnailsResponseDto;
 import org.springframework.data.domain.Pageable;
@@ -23,11 +25,11 @@ public interface ClosetsService {
     //GET
     ClosetsThumbnailsResponseDto findImagesByCreatedDateDesc(Pageable pageable);
 
-    ClosetsImagesResponseDto findImagesByPostId(Long id);
+    ClosetsImagesResponseDto findPostById(Long id);
 
-    ClosetsThumbnailsResponseDto findImagesByCategoryL(Pageable pageable, String name);
+    ClosetsThumbnailsResponseDto findImagesByAllCategory(Pageable pageable, ClosetsPostSearchCategoryAllRequestDto req);
 
-    ClosetsThumbnailsResponseDto findImagesByCategoryLS(Pageable pageable, String nameL, String nameS);
+    ClosetsThumbnailsResponseDto findImagesByCategoryLS(Pageable pageable, ClosetsPostSearchCategoryLSRequestDto req);
 
     //ClosetsThumbnailsResponseDto findImagesByCreatedDateDescDisplay();
 

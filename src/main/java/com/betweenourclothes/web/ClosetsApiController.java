@@ -1,6 +1,7 @@
 package com.betweenourclothes.web;
 
 import com.betweenourclothes.web.dto.request.ClosetsPostRequestDto;
+import com.betweenourclothes.web.dto.request.ClosetsPostSearchCategoryAllRequestDto;
 import com.betweenourclothes.web.dto.request.ClosetsPostSearchCategoryLSRequestDto;
 import com.betweenourclothes.web.dto.response.ClosetsImagesResponseDto;
 import com.betweenourclothes.web.dto.response.ClosetsThumbnailsResponseDto;
@@ -45,45 +46,21 @@ public class ClosetsApiController {
 
 
     // GET
-    @GetMapping("/post/thumbnails")
-    public ResponseEntity<ClosetsThumbnailsResponseDto> findThumbnails(@PageableDefault(size=15) Pageable pageable){
-        ClosetsThumbnailsResponseDto responseDto = closetsService.findImagesByCreatedDateDesc(pageable);
-
-        //HttpHeaders header = new HttpHeaders();
-        //header.set("Content-Type", "image/jpeg");
-
-        return new ResponseEntity<ClosetsThumbnailsResponseDto>(responseDto, HttpStatus.OK);
-    }
 
     // id로 게시글 찾아오기
     @GetMapping("/post/{id}")
     public ResponseEntity<ClosetsImagesResponseDto> findPostById(@PathVariable("id") Long id){
-        ClosetsImagesResponseDto responseDto = closetsService.findImagesByPostId(id);
+        ClosetsImagesResponseDto responseDto = closetsService.findPostById(id);
         return new ResponseEntity<ClosetsImagesResponseDto>(responseDto, HttpStatus.OK);
     }
 
 
-    // 큰 카테고리
-    @GetMapping("/post/category-l")
-    public ResponseEntity<ClosetsThumbnailsResponseDto> findByCategoryL(@PageableDefault(size=15) Pageable pageable, @RequestBody String name){
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+ name);
-        ClosetsThumbnailsResponseDto responseDto = closetsService.findImagesByCategoryL(pageable, name);
-        return new ResponseEntity<ClosetsThumbnailsResponseDto>(responseDto, HttpStatus.OK);
-    }
-
-    // 큰 카테고리, 작은 카테고리
-    @GetMapping("/post/category-ls")
-    public ResponseEntity<ClosetsThumbnailsResponseDto> findByCategoryLS(@PageableDefault(size=15) Pageable pageable
-    , @RequestBody ClosetsPostSearchCategoryLSRequestDto req){
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+ req.getNameL() + " " + req.getNameS());
-        ClosetsThumbnailsResponseDto responseDto = closetsService.findImagesByCategoryLS(pageable, req.getNameL(), req.getNameS());
-        return new ResponseEntity<ClosetsThumbnailsResponseDto>(responseDto, HttpStatus.OK);
-    }
-
     // 큰 카테고리, 작은 카테고리, 기장, 핏, 재질, 색상
-    @GetMapping("/post/category-all")
-    public ResponseEntity<ClosetsThumbnailsResponseDto> findByCategoryAndClothesInfo(@PageableDefault(size=15) Pageable pageable){
-        return null;
+    @GetMapping("/post/category")
+    public ResponseEntity<ClosetsThumbnailsResponseDto> findImagesByAllCategory(@PageableDefault(size=15) Pageable pageable,
+                                                                                @RequestBody ClosetsPostSearchCategoryAllRequestDto req){
+        ClosetsThumbnailsResponseDto responseDto = closetsService.findImagesByAllCategory(pageable, req);
+        return new ResponseEntity<ClosetsThumbnailsResponseDto>(responseDto, HttpStatus.OK);
     }
 
     /*
