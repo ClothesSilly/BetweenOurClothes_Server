@@ -1,8 +1,7 @@
 package com.betweenourclothes.service.closets;
 
 import com.betweenourclothes.web.dto.request.ClosetsPostRequestDto;
-import com.betweenourclothes.web.dto.request.ClosetsPostSearchCategoryAllRequestDto;
-import com.betweenourclothes.web.dto.request.ClosetsPostSearchCategoryLSRequestDto;
+import com.betweenourclothes.web.dto.request.ClosetsSearchCategoryAllRequestDto;
 import com.betweenourclothes.web.dto.response.ClosetsImagesResponseDto;
 import com.betweenourclothes.web.dto.response.ClosetsThumbnailsResponseDto;
 import org.springframework.data.domain.Pageable;
@@ -12,24 +11,23 @@ import java.util.List;
 
 public interface ClosetsService {
 
-    //POST
+    /*** 게시글 등록 ***/
     Long post(ClosetsPostRequestDto requestDto, List<MultipartFile> imgs);
     // 추천항목 등록
 
-    //PATCH
+    /*** 게시글 수정 ***/
     void update(Long id, ClosetsPostRequestDto requestDto, List<MultipartFile> imgs);
 
-    //DELETE
+    /*** 게시글 삭제 ***/
     void delete(Long id);
 
-    //GET
-    ClosetsThumbnailsResponseDto findImagesByCreatedDateDesc(Pageable pageable);
-
+    /*** 게시글 조회 ***/
+    // 1. post id로 게시글 찾아오기 (full image)
     ClosetsImagesResponseDto findPostById(Long id);
 
-    ClosetsThumbnailsResponseDto findImagesByAllCategory(Pageable pageable, ClosetsPostSearchCategoryAllRequestDto req);
+    // 2. 카테고리 필터링 (300x300)
+    ClosetsThumbnailsResponseDto findImagesByAllCategory(Pageable pageable, ClosetsSearchCategoryAllRequestDto req);
 
-    ClosetsThumbnailsResponseDto findImagesByCategoryLS(Pageable pageable, ClosetsPostSearchCategoryLSRequestDto req);
 
     //ClosetsThumbnailsResponseDto findImagesByCreatedDateDescDisplay();
 

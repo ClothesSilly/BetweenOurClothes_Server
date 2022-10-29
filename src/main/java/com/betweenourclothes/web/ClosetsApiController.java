@@ -1,13 +1,11 @@
 package com.betweenourclothes.web;
 
 import com.betweenourclothes.web.dto.request.ClosetsPostRequestDto;
-import com.betweenourclothes.web.dto.request.ClosetsPostSearchCategoryAllRequestDto;
-import com.betweenourclothes.web.dto.request.ClosetsPostSearchCategoryLSRequestDto;
+import com.betweenourclothes.web.dto.request.ClosetsSearchCategoryAllRequestDto;
 import com.betweenourclothes.web.dto.response.ClosetsImagesResponseDto;
 import com.betweenourclothes.web.dto.response.ClosetsThumbnailsResponseDto;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 import com.betweenourclothes.service.closets.ClosetsService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +21,7 @@ import java.util.List;
 public class ClosetsApiController {
     private final ClosetsService closetsService;
 
+    /*** 게시글 등록 ***/
     @PostMapping("/post")
     public ResponseEntity<String> post(@RequestPart(name="data") ClosetsPostRequestDto requestDto,
                                        @RequestPart(name="image") List<MultipartFile> imgs){
@@ -30,6 +29,8 @@ public class ClosetsApiController {
         return new ResponseEntity<>(id.toString(), HttpStatus.OK);
     }
 
+
+    /*** 게시글 수정 ***/
     @PatchMapping("/post/{id}")
     public ResponseEntity<String> update(@PathVariable("id") Long id,
                                          @RequestPart(name="data") ClosetsPostRequestDto requestDto,
@@ -38,6 +39,8 @@ public class ClosetsApiController {
         return new ResponseEntity<>("수정 완료", HttpStatus.OK);
     }
 
+
+    /*** 게시글 삭제 ***/
     @DeleteMapping("/post/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") Long id){
         closetsService.delete(id);
@@ -45,9 +48,8 @@ public class ClosetsApiController {
     }
 
 
-    // GET
-
-    // id로 게시글 찾아오기
+    /*** 게시글 조회 ***/
+    // 1. post id로 게시글 찾아오기 (full image)
     @GetMapping("/post/{id}")
     public ResponseEntity<ClosetsImagesResponseDto> findPostById(@PathVariable("id") Long id){
         ClosetsImagesResponseDto responseDto = closetsService.findPostById(id);
@@ -55,10 +57,10 @@ public class ClosetsApiController {
     }
 
 
-    // 큰 카테고리, 작은 카테고리, 기장, 핏, 재질, 색상
+    // 2. 카테고리 필터링 (300x300)
     @GetMapping("/post/category")
     public ResponseEntity<ClosetsThumbnailsResponseDto> findImagesByAllCategory(@PageableDefault(size=15) Pageable pageable,
-                                                                                @RequestBody ClosetsPostSearchCategoryAllRequestDto req){
+                                                                                @RequestBody ClosetsSearchCategoryAllRequestDto req){
         ClosetsThumbnailsResponseDto responseDto = closetsService.findImagesByAllCategory(pageable, req);
         return new ResponseEntity<ClosetsThumbnailsResponseDto>(responseDto, HttpStatus.OK);
     }

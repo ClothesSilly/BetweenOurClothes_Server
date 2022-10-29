@@ -3,7 +3,7 @@ package com.betweenourclothes.service.auth;
 import com.betweenourclothes.domain.auth.Email;
 import com.betweenourclothes.domain.auth.EmailRepository;
 import com.betweenourclothes.domain.members.Members;
-import com.betweenourclothes.domain.members.MembersRepository;
+import com.betweenourclothes.domain.members.repository.MembersRepository;
 import com.betweenourclothes.domain.members.Role;
 import com.betweenourclothes.exception.ErrorCode;
 import com.betweenourclothes.exception.customException.*;

@@ -1,6 +1,6 @@
 package com.betweenourclothes.service.auth;
 
-import com.betweenourclothes.domain.members.MembersRepository;
+import com.betweenourclothes.domain.members.repository.MembersRepository;
 import com.betweenourclothes.exception.ErrorCode;
 import com.betweenourclothes.exception.customException.AuthSignInException;
 import lombok.RequiredArgsConstructor;

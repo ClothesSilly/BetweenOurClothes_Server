@@ -1,13 +1,12 @@
 package com.betweenourclothes.web;
 
 import com.betweenourclothes.domain.closets.Closets;
-import com.betweenourclothes.domain.closets.ClosetsRepository;
-import com.betweenourclothes.domain.clothes.ClothesImageRepository;
+import com.betweenourclothes.domain.closets.repository.ClosetsRepository;
+import com.betweenourclothes.domain.clothes.repository.ClothesImageRepository;
 import com.betweenourclothes.jwt.JwtTokenProvider;
 import com.betweenourclothes.web.dto.request.AuthSignInRequestDto;
 import com.betweenourclothes.web.dto.request.ClosetsPostRequestDto;
-import com.betweenourclothes.web.dto.request.ClosetsPostSearchCategoryAllRequestDto;
-import com.betweenourclothes.web.dto.request.ClosetsPostSearchCategoryLSRequestDto;
+import com.betweenourclothes.web.dto.request.ClosetsSearchCategoryAllRequestDto;
 import com.betweenourclothes.web.dto.response.AuthTokenResponseDto;
 import com.betweenourclothes.web.dto.response.ClosetsImagesResponseDto;
 import com.betweenourclothes.web.dto.response.ClosetsThumbnailsResponseDto;
@@ -97,8 +96,8 @@ public class ClosetsApiControllerTest {
         String data1 = "상의";
         String data2 = "블라우스";
         String data3 = "타이트";
-        String color = "레드";
-        ClosetsPostSearchCategoryAllRequestDto req = ClosetsPostSearchCategoryAllRequestDto.builder().color(color).nameL("상의").nameS("블라우스").fit(data3).build();
+        String color = "블랙";
+        ClosetsSearchCategoryAllRequestDto req = ClosetsSearchCategoryAllRequestDto.builder().color(color).nameL("상의").nameS("블라우스").fit(data3).build();
                 //.nameL(data1).nameS(data2).build();
 
         ObjectMapper mapper = new ObjectMapper();
@@ -110,7 +109,8 @@ public class ClosetsApiControllerTest {
 
         String json = result.getResponse().getContentAsString();
         ClosetsThumbnailsResponseDto resp = new ObjectMapper().readValue(json, ClosetsThumbnailsResponseDto.class);
-        assertThat(resp.getImages().size()).isEqualTo(0);
+        assertThat(resp.getImages().size()).isEqualTo(1);
+        System.out.println(resp.getId().get(0));
 
 
     }
@@ -126,7 +126,7 @@ public class ClosetsApiControllerTest {
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
         String data1 = "상의";
         String data2 = "블라우스";
-        ClosetsPostSearchCategoryLSRequestDto req = ClosetsPostSearchCategoryLSRequestDto.builder()
+        ClosetsSearchCategoryAllRequestDto req = ClosetsSearchCategoryAllRequestDto.builder()
                 .nameL(data1).nameS(data2).build();
 
         ObjectMapper mapper = new ObjectMapper();
@@ -144,7 +144,7 @@ public class ClosetsApiControllerTest {
         data1 = "하의";
         data2 = "청바지";
 
-        req = ClosetsPostSearchCategoryLSRequestDto.builder().nameL(data1).nameS(data2).build();
+        req = ClosetsSearchCategoryAllRequestDto.builder().nameL(data1).nameS(data2).build();
 
         mapper = new ObjectMapper();
         content = mapper.writeValueAsString(req);
@@ -168,7 +168,7 @@ public class ClosetsApiControllerTest {
         System.out.println(token);
 
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
-        ClosetsPostSearchCategoryLSRequestDto req = ClosetsPostSearchCategoryLSRequestDto.builder().nameL("상의").build();
+        ClosetsSearchCategoryAllRequestDto req = ClosetsSearchCategoryAllRequestDto.builder().nameL("상의").build();
         String data2json = new ObjectMapper().writeValueAsString(req);
         System.out.println(data2json);
         MvcResult result = mockMvc.perform(get("/api/v1/closets/post/category?page=0")

@@ -1,7 +1,7 @@
 package com.betweenourclothes.web;
 
 import com.betweenourclothes.domain.members.Members;
-import com.betweenourclothes.domain.members.MembersRepository;
+import com.betweenourclothes.domain.members.repository.MembersRepository;
 import com.betweenourclothes.web.dto.request.AuthEmailRequestDto;
 import com.betweenourclothes.web.dto.request.AuthSignInRequestDto;
 import com.betweenourclothes.web.dto.request.AuthSignUpRequestDto;

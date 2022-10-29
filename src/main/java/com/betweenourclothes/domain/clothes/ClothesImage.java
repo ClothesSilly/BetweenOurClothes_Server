@@ -1,6 +1,7 @@
 package com.betweenourclothes.domain.clothes;
 
 import com.betweenourclothes.domain.closets.Closets;
+import com.betweenourclothes.domain.stores.Stores;
 import com.betweenourclothes.exception.ErrorCode;
 import com.betweenourclothes.exception.customException.ClosetsPostException;
 import lombok.AllArgsConstructor;
@@ -35,6 +36,9 @@ public class ClothesImage {
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Closets post_id;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Stores stores_post_id;
 
     @Builder
     public ClothesImage(String type){
@@ -73,6 +77,10 @@ public class ClothesImage {
 
     public void updatePostId(Closets closets){
         this.post_id = closets;
+    }
+
+    public void updatePostId(Stores stores){
+        this.stores_post_id = stores;
     }
 
     public byte[] toByte(int width, int height){

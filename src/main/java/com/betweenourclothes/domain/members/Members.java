@@ -1,6 +1,7 @@
 package com.betweenourclothes.domain.members;
 
 import com.betweenourclothes.domain.closets.Closets;
+import com.betweenourclothes.domain.stores.Stores;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -53,6 +54,10 @@ public class Members implements UserDetails {
     @JoinColumn(name="user_id")
     private List<Closets> closetsPosts;
 
+    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name="user_id")
+    private List<Stores> storesPosts;
+
     @Builder
     public Members(String email, String password, String name, String nickname, String phone, Role role, String image){
         this.email = email;
@@ -63,6 +68,7 @@ public class Members implements UserDetails {
         this.image = image;
         this.role = role;
         this.closetsPosts = new ArrayList<>();
+        this.storesPosts = new ArrayList<>();
     }
 
     public void encodePassword(PasswordEncoder passwordEncoder){
@@ -76,6 +82,11 @@ public class Members implements UserDetails {
 
     public void updateClosetsPosts(Closets post){
         this.closetsPosts.add(post);
+    }
+
+
+    public void updateStoresPosts(Stores post){
+        this.storesPosts.add(post);
     }
 
     @Override
