@@ -66,8 +66,7 @@ public class AuthServiceImpl implements AuthService{
 
         // 비밀번호 인코딩 후
         // Member 테이블에 저장
-        requestDto.setRole(Role.ROLE_USER);
-        Members member= requestDto.toEntity(imgPath);
+        Members member= requestDto.toEntity(imgPath, Role.ROLE_USER);
         member.encodePassword(passwordEncoder);
         membersRepository.save(member);
     }
@@ -77,11 +76,13 @@ public class AuthServiceImpl implements AuthService{
 
     @Transactional
     @Override
-    public void sendMail(AuthEmailRequestDto requestDto){
+    public void sendMail(String email){
         // 이메일 중복 체크
-        if(membersRepository.findByEmail(requestDto.getEmail()).isPresent()){
+        if(membersRepository.findByEmail(email).isPresent()){
             throw new AuthSignUpException(ErrorCode.DUPLICATE_EMAIL);
         }
+
+        AuthEmailRequestDto requestDto = AuthEmailRequestDto.builder().email(email).build();
 
         // 이메일 인증코드 생성: Dto 객체가 생성될 때 생성함
         // 이메일 메시지 생성
@@ -102,7 +103,7 @@ public class AuthServiceImpl implements AuthService{
         }
 
         // 임시테이블에 저장
-        emailRepository.save(requestDto.toEntity());
+        emailRepository.save(requestDto.toEntity(false));
     }
 
     @Transactional
@@ -116,8 +117,7 @@ public class AuthServiceImpl implements AuthService{
         // 코드 일치 여부 확인 후
         // 임시 테이블의 상태 업데이트
         if(user.getCode().equals(receiver.getCode())){
-            receiver.setStatusAccepted();
-            user.updateStatus(receiver.getStatus());
+            user.updateStatus("Y");
             return;
         }
         // 일치하지 않으면 예외 던지기

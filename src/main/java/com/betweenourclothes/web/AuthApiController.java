@@ -8,6 +8,7 @@ import com.betweenourclothes.service.auth.AuthServiceImpl;
 import com.betweenourclothes.web.dto.request.AuthEmailRequestDto;
 import com.betweenourclothes.web.dto.response.AuthTokenResponseDto;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,8 @@ public class AuthApiController {
 
     private final AuthServiceImpl authService;
 
-    @PostMapping(path="/sign-up", consumes = {"multipart/form-data", "application/json"})
+    @ApiOperation(value="최종 회원가입")
+    @PostMapping(path="/sign-up")
     public ResponseEntity<String> signUp(@Valid @RequestPart(name="data") AuthSignUpRequestDto requestDto,
                                          @RequestPart(name="image") MultipartFile img) throws Exception {
         String path = convertFile2Path(img);
@@ -66,24 +68,29 @@ public class AuthApiController {
         }
     }
 
+    @ApiOperation(value="이메일 인증코드 발송")
     @PostMapping("/sign-up/email")
-    public ResponseEntity<String> sendEmail(@RequestBody @Valid AuthEmailRequestDto requestDto) throws Exception{
-        authService.sendMail(requestDto);
+    public ResponseEntity<String> sendEmail(@RequestBody @Valid String email) throws Exception{
+        authService.sendMail(email);
         return new ResponseEntity<>("이메일 전송 성공", HttpStatus.OK);
     }
 
+
+    @ApiOperation(value="이메일 인증코드 일치여부 확인")
     @PostMapping("/sign-up/code")
     public ResponseEntity<String> checkAuthCode(@RequestBody @Valid AuthEmailRequestDto requestDto) throws Exception{
         authService.checkAuthCode(requestDto);
         return new ResponseEntity<>("인증 성공", HttpStatus.OK);
     }
 
+    @ApiOperation(value="로그인", notes="header의 Authorization: grantType+accessToken")
     @PostMapping("/login")
     public ResponseEntity<AuthTokenResponseDto> login(@RequestBody AuthSignInRequestDto requestDto) throws Exception{
         AuthTokenResponseDto responseDto = authService.login(requestDto);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
+    @ApiOperation(value="토큰 재발급", notes="header의 ACCESS_TOKEN: accessToken, REFRESH_TOKEN: refreshToken")
     @PostMapping("/issue")
     public ResponseEntity<AuthTokenResponseDto> issueToken(HttpServletRequest request) throws Exception{
         AuthTokenResponseDto responseDto = authService.issueToken(request);

@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface AuthService {
     void signUp(AuthSignUpRequestDto requestDto, String imgPath);
-    void sendMail(AuthEmailRequestDto receiver);
+    void sendMail(String email);
 
     AuthTokenResponseDto login(AuthSignInRequestDto requestDto);
 
