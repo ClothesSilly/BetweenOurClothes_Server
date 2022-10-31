@@ -1,7 +1,7 @@
 package com.betweenourclothes.domain.members;
 
 import com.betweenourclothes.domain.closets.Closets;
-import com.betweenourclothes.jwt.stores.Stores;
+import com.betweenourclothes.domain.stores.Stores;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

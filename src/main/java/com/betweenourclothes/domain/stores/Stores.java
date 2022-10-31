@@ -1,4 +1,4 @@
-package com.betweenourclothes.jwt.stores;
+package com.betweenourclothes.domain.stores;
 
 import com.betweenourclothes.domain.BaseTimeEntity;
 import com.betweenourclothes.domain.Posts;

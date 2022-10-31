@@ -1,7 +1,7 @@
 package com.betweenourclothes.domain.clothes;
 
 import com.betweenourclothes.domain.closets.Closets;
-import com.betweenourclothes.jwt.stores.Stores;
+import com.betweenourclothes.domain.stores.Stores;
 import com.betweenourclothes.exception.ErrorCode;
 import com.betweenourclothes.exception.customException.ClosetsPostException;
 import lombok.AllArgsConstructor;

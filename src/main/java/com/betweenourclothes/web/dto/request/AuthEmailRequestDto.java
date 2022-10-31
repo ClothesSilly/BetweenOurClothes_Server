@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Random;
 
 @Getter
+@NoArgsConstructor
 public class AuthEmailRequestDto {
 
     @NotBlank(message = "이메일을 입력하세요.")
@@ -46,20 +47,17 @@ public class AuthEmailRequestDto {
         }
     }
 
-
-    public AuthEmailRequestDto(){
-        this.code = createAuthCode();
-    }
-
-    @Builder
-    public AuthEmailRequestDto(String email){
-        this.email = email;
-        this.code = createAuthCode();
-    }
-
     @Builder
     public AuthEmailRequestDto(String email, String code){
         this.email = email;
+        this.code = code;
+    }
+
+    public String createCode(){
+        return createAuthCode();
+    }
+
+    public void setAuthCode(String code){
         this.code = code;
     }
 

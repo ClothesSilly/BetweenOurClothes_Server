@@ -83,6 +83,7 @@ public class AuthServiceImpl implements AuthService{
         }
 
         AuthEmailRequestDto requestDto = AuthEmailRequestDto.builder().email(email).build();
+        requestDto.setAuthCode(requestDto.createCode());
 
         // 이메일 인증코드 생성: Dto 객체가 생성될 때 생성함
         // 이메일 메시지 생성

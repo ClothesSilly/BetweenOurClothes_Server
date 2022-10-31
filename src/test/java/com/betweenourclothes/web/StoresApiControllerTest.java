@@ -1,8 +1,8 @@
 package com.betweenourclothes.web;
 
 import com.betweenourclothes.domain.clothes.repository.ClothesImageRepository;
-import com.betweenourclothes.jwt.stores.Stores;
-import com.betweenourclothes.jwt.stores.repository.StoresRepository;
+import com.betweenourclothes.domain.stores.Stores;
+import com.betweenourclothes.domain.stores.repository.StoresRepository;
 import com.betweenourclothes.jwt.JwtTokenProvider;
 import com.betweenourclothes.web.dto.request.AuthSignInRequestDto;
 import com.betweenourclothes.web.dto.request.StoresPostRequestDto;

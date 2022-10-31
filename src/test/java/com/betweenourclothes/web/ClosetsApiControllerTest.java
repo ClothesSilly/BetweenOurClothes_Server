@@ -396,7 +396,7 @@ public class ClosetsApiControllerTest {
         assertThat(clothesImages.size()).isEqualTo(0);*/
     }
 
-    //@Transactional
+
     @Test
     public void 내옷장_게시글수정() throws Exception{
         로그인();
@@ -448,7 +448,7 @@ public class ClosetsApiControllerTest {
         assertThat(last.getMaterials().getName()).isEqualTo("니트");
     }
 
-    //@Transactional
+
     @Test
     public void 내옷장_게시글등록() throws Exception{
 

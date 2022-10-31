@@ -25,8 +25,8 @@ import java.util.stream.Collectors;
 public class JwtTokenProvider {
 
     private Key key;
-    private static long ACCESS_TOKEN_VALID_TIME = 1000L * 60 * 60; //test 1시간
-    private static long REFRESH_TOKEN_VALID_TIME = 1000L * 60 * 120; //test 2시간
+    private static long ACCESS_TOKEN_VALID_TIME = 1000L * 60 * 60 * 3; //3시간
+    private static long REFRESH_TOKEN_VALID_TIME = 1000L * 60 * 60 * 24 * 7; //1주일
 
 
     /*** 토큰을 암호화할 키 생성 ***/

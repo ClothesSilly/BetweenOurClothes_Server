@@ -55,8 +55,8 @@ public class AuthApiControllerTest {
 
     @Before
     public void cleanup(){
-        membersRepository.deleteAll();
-        emailRepository.deleteAll();
+        //membersRepository.deleteAll();
+        //emailRepository.deleteAll();
     }
 
 
@@ -120,15 +120,21 @@ public class AuthApiControllerTest {
         String url_signup = "http://localhost:" + port + "api/v1/auth/sign-up";
 
         String email = "gunsong2@naver.com";
-        AuthEmailRequestDto dto1 = AuthEmailRequestDto.builder().email(email).build();
 
-        ResponseEntity<String> responseEntity = restTemplate.postForEntity(url_email, dto1, String.class);
-        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-
-        responseEntity = restTemplate.postForEntity(url_code, dto1, String.class);
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(url_email, email, String.class);
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
 
         List<Email> all = emailRepository.findAll();
+        assertThat(all.get(all.size()-1).getEmail()).isEqualTo(email);
+        assertThat(all.get(all.size()-1).getStatus()).isEqualTo("N");
+
+        String authcode = all.get(all.size()-1).getCode();
+        AuthEmailRequestDto requestDto = AuthEmailRequestDto.builder().email(email).code(authcode).build();
+
+        responseEntity = restTemplate.postForEntity(url_code, requestDto, String.class);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        all = emailRepository.findAll();
         assertThat(all.get(all.size()-1).getEmail()).isEqualTo(email);
         assertThat(all.get(all.size()-1).getStatus()).isEqualTo("Y");
 
@@ -174,8 +180,7 @@ public class AuthApiControllerTest {
 
         String url_email = "http://localhost:" + port + "api/v1/auth/sign-up/email";
         String email = "gunsong2@naver.com";
-        AuthEmailRequestDto dto1 = AuthEmailRequestDto.builder().email(email).build();
-        ResponseEntity<String> responseEntity = restTemplate.postForEntity(url_email, dto1, String.class);
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(url_email, email, String.class);
 
         System.out.println(responseEntity.getBody());
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.CONFLICT);
@@ -187,9 +192,9 @@ public class AuthApiControllerTest {
     public void 이메일_전송() throws Exception{
         String url = "http://localhost:" + port + "api/v1/auth/sign-up/email";
         String email = "gunsong2@naver.com";
-        AuthEmailRequestDto requestDto = AuthEmailRequestDto.builder().email(email).build();
+        //AuthEmailRequestDto requestDto = AuthEmailRequestDto.builder().email(email).build();
 
-        ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, requestDto, String.class);
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, email, String.class);
         System.out.println(responseEntity.getBody().toString());
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
 
@@ -204,9 +209,8 @@ public class AuthApiControllerTest {
 
         String url = "http://localhost:" + port + "api/v1/auth/sign-up/email";
         String email = "gunsong2@naver.com";
-        AuthEmailRequestDto requestDto = AuthEmailRequestDto.builder().email(email).build();
 
-        ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, requestDto, String.class);
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, email, String.class);
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
 
         List<Email> all = emailRepository.findAll();
@@ -214,7 +218,8 @@ public class AuthApiControllerTest {
         assertThat(all.get(all.size()-1).getStatus()).isEqualTo("N");
 
         url = "http://localhost:" + port + "api/v1/auth/sign-up/code";
-        String authcode = requestDto.getCode();
+        String authcode = all.get(all.size()-1).getCode();
+        AuthEmailRequestDto requestDto = AuthEmailRequestDto.builder().email(email).code(authcode).build();
         responseEntity = restTemplate.postForEntity(url, requestDto, String.class);
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
 

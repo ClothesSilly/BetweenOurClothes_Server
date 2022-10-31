@@ -1,4 +1,4 @@
-package com.betweenourclothes.jwt.stores.repository;
+package com.betweenourclothes.domain.stores.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
