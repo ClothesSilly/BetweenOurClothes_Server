@@ -196,7 +196,7 @@ public class ClosetsServiceImpl implements ClosetsService{
         List<byte[]> returnArr = new ArrayList<>();
         for(ClothesImage image : images.getContent()){
             returnArr.add(image.toByte(300, 300));
-            postId.add(image.getPost_id().getId());
+            postId.add(image.getClosets_post_id().getId());
         }
 
         ClosetsThumbnailsResponseDto responseDto = ClosetsThumbnailsResponseDto.builder().id(postId).images(returnArr).length(returnArr.size()).build();

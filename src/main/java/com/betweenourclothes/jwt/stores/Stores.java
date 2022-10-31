@@ -1,6 +1,7 @@
-package com.betweenourclothes.domain.stores;
+package com.betweenourclothes.jwt.stores;
 
 import com.betweenourclothes.domain.BaseTimeEntity;
+import com.betweenourclothes.domain.Posts;
 import com.betweenourclothes.domain.clothes.*;
 import com.betweenourclothes.domain.members.Members;
 import lombok.Builder;
@@ -13,35 +14,13 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Stores extends BaseTimeEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Stores extends Posts {
 
     private String title;
 
     @Column(columnDefinition = "TEXT")
     private String content;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Members author;
-
-    // 옷 정보 & 스타일
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(referencedColumnName = "name")
-    private Style style;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(referencedColumnName = "name")
-    private Materials materials;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(referencedColumnName = "name")
-    private Colors colors;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    private ClothesInfo clothesInfo;
 
     @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     @OrderColumn()

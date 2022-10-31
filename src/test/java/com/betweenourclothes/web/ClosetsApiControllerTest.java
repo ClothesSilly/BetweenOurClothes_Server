@@ -299,8 +299,11 @@ public class ClosetsApiControllerTest {
 
         String token = "Bearer" + AT;
 
+        ClosetsPostRequestDto req = ClosetsPostRequestDto.builder().build();
+        String data2json = new ObjectMapper().writeValueAsString(req);
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
-        MvcResult result = mockMvc.perform(get("/api/v1/closets/post/all?page=0").header("Authorization", token))
+        MvcResult result = mockMvc.perform(get("/api/v1/closets/post/category?page=0").header("Authorization", token)
+                        .content(data2json).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andReturn();
 
         String json = result.getResponse().getContentAsString();
@@ -308,7 +311,8 @@ public class ClosetsApiControllerTest {
         assertThat(resp.getImages().size()).isEqualTo(15);
 
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
-        result = mockMvc.perform(get("/api/v1/closets/post/all?page=1").header("Authorization", token))
+        result = mockMvc.perform(get("/api/v1/closets/post/category?page=1").header("Authorization", token)
+                        .content(data2json).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andReturn();
 
         json = result.getResponse().getContentAsString();
@@ -347,29 +351,28 @@ public class ClosetsApiControllerTest {
         내옷장_게시글등록();
 
         String token = "Bearer" + AT;
-        String url_get = "http://localhost:" + port + "/api/v1/closets/post/all";
 
-        HttpHeaders header = new HttpHeaders();
-        header.set("Authorization", token);
-        HttpEntity<Long> req = new HttpEntity<>(header);
+        ClosetsPostRequestDto req = ClosetsPostRequestDto.builder().build();
+        String data2json = new ObjectMapper().writeValueAsString(req);
+        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
+        MvcResult result = mockMvc.perform(get("/api/v1/closets/post/category?page=0").header("Authorization", token)
+                        .content(data2json).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andReturn();
 
-        ResponseEntity<ClosetsThumbnailsResponseDto> resp
-         = restTemplate.exchange(url_get, HttpMethod.GET, req, ClosetsThumbnailsResponseDto.class);
 
-        System.out.println(resp.getBody());
-        assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(resp.getBody().getImages().size()).isEqualTo(4);
-        System.out.println(resp.getBody().getId().get(0));
-        System.out.println(resp.getBody().getId().get(1));
-        System.out.println(resp.getBody().getId().get(2));
-        System.out.println(resp.getBody().getId().get(3));
+        String json = result.getResponse().getContentAsString();
+        ClosetsThumbnailsResponseDto resp = new ObjectMapper().readValue(json, ClosetsThumbnailsResponseDto.class);
+
+        assertThat(resp.getImages().size()).isEqualTo(4);
+        System.out.println(resp.getId().get(0));
+        System.out.println(resp.getId().get(1));
+        System.out.println(resp.getId().get(2));
+        System.out.println(resp.getId().get(3));
 
 
 
     }
 
-
-    //@Transactional
     @Test
     public void 내옷장_게시글삭제() throws Exception{
         로그인();

@@ -4,8 +4,6 @@ import com.betweenourclothes.domain.closets.Closets;
 import com.betweenourclothes.domain.closets.QClosets;
 import com.betweenourclothes.domain.clothes.ClothesImage;
 import com.betweenourclothes.domain.clothes.QClothesImage;
-import com.betweenourclothes.web.dto.response.ClosetsThumbnailsResponseDto;
-import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +42,8 @@ public class ClosetsQueryDslRepository {
                         eqMaterial(material),
                         eqColor(color))
                 .orderBy(closets.createdDate.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
 
         List<ClothesImage> content = new ArrayList<>();

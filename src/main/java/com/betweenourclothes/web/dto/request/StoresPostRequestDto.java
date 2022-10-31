@@ -1,9 +1,8 @@
 package com.betweenourclothes.web.dto.request;
 
-import com.betweenourclothes.domain.closets.Closets;
 import com.betweenourclothes.domain.clothes.*;
 import com.betweenourclothes.domain.members.Members;
-import com.betweenourclothes.domain.stores.Stores;
+import com.betweenourclothes.jwt.stores.Stores;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

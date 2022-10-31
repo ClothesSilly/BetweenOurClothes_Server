@@ -1,7 +1,7 @@
 package com.betweenourclothes.domain.clothes;
 
 import com.betweenourclothes.domain.closets.Closets;
-import com.betweenourclothes.domain.stores.Stores;
+import com.betweenourclothes.jwt.stores.Stores;
 import com.betweenourclothes.exception.ErrorCode;
 import com.betweenourclothes.exception.customException.ClosetsPostException;
 import lombok.AllArgsConstructor;
@@ -35,7 +35,7 @@ public class ClothesImage {
     private String type;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    private Closets post_id;
+    private Closets closets_post_id;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Stores stores_post_id;
@@ -76,7 +76,7 @@ public class ClothesImage {
     }
 
     public void updatePostId(Closets closets){
-        this.post_id = closets;
+        this.closets_post_id = closets;
     }
 
     public void updatePostId(Stores stores){
