@@ -103,11 +103,6 @@ public class ClosetsServiceImpl implements ClosetsService{
                 requestDto.getLarge_category(), requestDto.getSmall_category(), requestDto.getLength(), requestDto.getFit()
         ).orElseThrow(()->new ClosetsPostException(ErrorCode.ITEM_NOT_FOUND));
 
-
-        System.out.println("....................................................");
-        for(Closets all: closetsRepository.findAll()){
-            System.out.println(all.getId());
-        }
         // 게시글 찾고 업데이트
         Closets post = closetsRepository.findById(id).orElseThrow(()->new ClosetsPostException(ErrorCode.ITEM_NOT_FOUND));
         post.update(style, material, color, clothesInfo);
@@ -141,10 +136,6 @@ public class ClosetsServiceImpl implements ClosetsService{
         membersRepository.findByEmail(SecurityUtil.getMemberEmail())
                 .orElseThrow(()->new ClosetsPostException(ErrorCode.USER_NOT_FOUND));
 
-        /*System.out.println("....................................................");
-        for(Closets all: closetsRepository.findAll()){
-            System.out.println(all.getId());
-        }*/
 
         // 게시글 조회
         Closets post = closetsRepository.findById(id).orElseThrow(()->new ClosetsPostException(ErrorCode.ITEM_NOT_FOUND));

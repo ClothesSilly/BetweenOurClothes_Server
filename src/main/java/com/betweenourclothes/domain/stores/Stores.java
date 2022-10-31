@@ -41,6 +41,14 @@ public class Stores extends Posts {
         this.title = title;
     }
 
+    public void update(Style style, Materials materials, Colors colors, ClothesInfo clothesInfo){
+
+        this.style = style;
+        this.materials = materials;
+        this.colors = colors;
+        this.clothesInfo = clothesInfo;
+    }
+
     public void updateImage(List<ClothesImage> clothesImages){
         this.images = clothesImages;
     }
