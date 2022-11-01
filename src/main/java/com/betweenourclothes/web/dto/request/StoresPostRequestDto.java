@@ -2,7 +2,7 @@ package com.betweenourclothes.web.dto.request;
 
 import com.betweenourclothes.domain.clothes.*;
 import com.betweenourclothes.domain.members.Members;
-import com.betweenourclothes.domain.stores.Stores;
+import com.betweenourclothes.domain.stores.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,7 +26,9 @@ public class StoresPostRequestDto {
     private String content;
 
     public Stores toEntity(Members member, Style style, Materials material, Colors color,
-                           ClothesInfo clothesInfo, List<ClothesImage> images){
+                           ClothesInfo clothesInfo, List<ClothesImage> images, SalesInfoClothes salesInfoClothes,
+                           SalesInfoUser salesInfoUser, SalesInfoStatus salesInfoStatus, Long clothes_length,
+                           SalesStatus status){
         return Stores.builder()
                 .author(member)
                 .style(style)
@@ -36,6 +38,11 @@ public class StoresPostRequestDto {
                 .imgs(images)
                 .title(title)
                 .content(content)
+                .salesInfo_clothes(salesInfoClothes)
+                .salesInfo_status(salesInfoStatus)
+                .salesInfo_user(salesInfoUser)
+                .clothes_length(clothes_length)
+                .status(status)
                 .build();
     }
 }

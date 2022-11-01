@@ -1,22 +1,19 @@
 package com.betweenourclothes.service.stores;
 
-import com.betweenourclothes.domain.closets.Closets;
 import com.betweenourclothes.domain.clothes.*;
 import com.betweenourclothes.domain.clothes.repository.*;
 import com.betweenourclothes.domain.members.Members;
 import com.betweenourclothes.domain.members.repository.MembersRepository;
-import com.betweenourclothes.domain.stores.Stores;
-import com.betweenourclothes.domain.stores.repository.StoresQueryDslRepository;
-import com.betweenourclothes.domain.stores.repository.StoresRepository;
+import com.betweenourclothes.domain.stores.*;
+import com.betweenourclothes.domain.stores.repository.*;
 import com.betweenourclothes.exception.ErrorCode;
 import com.betweenourclothes.exception.customException.ClosetsPostException;
 import com.betweenourclothes.exception.customException.StoresPostException;
 import com.betweenourclothes.jwt.SecurityUtil;
 import com.betweenourclothes.web.dto.request.StoresPostRequestDto;
+import com.betweenourclothes.web.dto.request.StoresPostSalesRequestDto;
 import com.betweenourclothes.web.dto.request.StoresSearchCategoryAllRequestDto;
-import com.betweenourclothes.web.dto.response.ClosetsImagesResponseDto;
-import com.betweenourclothes.web.dto.response.ClosetsThumbnailsResponseDto;
-import com.betweenourclothes.web.dto.response.StoresImagesResponseDto;
+import com.betweenourclothes.web.dto.response.StoresPostResponseDto;
 import com.betweenourclothes.web.dto.response.StoresThumbnailsResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -42,27 +39,46 @@ public class StoresServiceImpl implements StoresService{
     private final StoresRepository storesRepository;
     private final StoresQueryDslRepository storesQueryDslRepository;
 
+    private final SalesInfoUserRepository salesInfoUserRepository;
+    private final SalesInfoClothesRepository salesInfoClothesRepository;
+    private final SalesInfoStatusRepository salesInfoStatusRepository;
+
     @Transactional
     @Override
-    public Long post(StoresPostRequestDto requestDto, List<MultipartFile> imgs) {
+    public Long post(StoresPostRequestDto clothesinfo, StoresPostSalesRequestDto salesinfo, List<MultipartFile> imgs) {
 
         // 1. 회원 체크
         Members member = membersRepository.findByEmail(SecurityUtil.getMemberEmail())
-                .orElseThrow(()->new ClosetsPostException(ErrorCode.USER_NOT_FOUND));
+                .orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
 
-        // 2. 옷 정보 & 스타일 형식 & 판매정보 체크
-        Style style = styleRepository.findByName(requestDto.getStyle())
-                .orElseThrow(()->new ClosetsPostException(ErrorCode.ITEM_NOT_FOUND));
+        // 2. 옷 정보 & 스타일 형식
+        Style style = styleRepository.findByName(clothesinfo.getStyle())
+                .orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
 
-        Materials material = materialsRepository.findByName(requestDto.getMaterial())
-                .orElseThrow(()->new ClosetsPostException(ErrorCode.ITEM_NOT_FOUND));
+        Materials material = materialsRepository.findByName(clothesinfo.getMaterial())
+                .orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
 
-        Colors color = colorsRepository.findByName(requestDto.getColor())
-                .orElseThrow(()->new ClosetsPostException(ErrorCode.ITEM_NOT_FOUND));
+        Colors color = colorsRepository.findByName(clothesinfo.getColor())
+                .orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
 
         ClothesInfo clothesInfo = clothesInfoRepository.findByCategoryLAndCategorySAndLengthAndFit(
-                requestDto.getLarge_category(), requestDto.getSmall_category(), requestDto.getLength(), requestDto.getFit()
-        ).orElseThrow(()->new ClosetsPostException(ErrorCode.ITEM_NOT_FOUND));
+                clothesinfo.getLarge_category(), clothesinfo.getSmall_category(), clothesinfo.getLength(), clothesinfo.getFit()
+        ).orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
+
+        // 판매 정보 체크
+        SalesInfoClothes salesInfoClothes = salesInfoClothesRepository.findByAll(salesinfo.getClothes_brand(),
+                salesinfo.getClothes_gender(), salesinfo.getClothes_size(), salesinfo.getClothes_color())
+                .orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
+
+        SalesInfoStatus salesInfoStatus = salesInfoStatusRepository.findByAll(salesinfo.getStatus_tag(),
+                        salesinfo.getStatus_score(), salesinfo.getStatus_times(), salesinfo.getStatus_when2buy(),
+                        salesinfo.getTransport())
+                .orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
+
+        SalesInfoUser salesInfoUser = salesInfoUserRepository.findByAll(salesinfo.getUser_size(),
+                        salesinfo.getUser_weight(), salesinfo.getUser_height())
+                .orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
+
 
 
         // 3. 이미지 테이블에 추가
@@ -75,7 +91,10 @@ public class StoresServiceImpl implements StoresService{
         }
 
         // 4. 게시글 게시
-        Stores post = requestDto.toEntity(member, style, material, color, clothesInfo, imgArr);
+        Stores post = clothesinfo.toEntity(member, style, material, color, clothesInfo, imgArr,
+            salesInfoClothes, salesInfoUser, salesInfoStatus, salesinfo.getClothes_length(),
+                StoresPostSalesRequestDto.string2enum(salesinfo.getStatus()));
+
         storesRepository.save(post);
         member.updateStoresPosts(post);
         for(ClothesImage img: imgArr){
@@ -86,33 +105,44 @@ public class StoresServiceImpl implements StoresService{
 
     @Transactional
     @Override
-    public void update(Long id, StoresPostRequestDto requestDto, List<MultipartFile> imgs) {
+    public void update(Long id, StoresPostRequestDto clothesinfo, StoresPostSalesRequestDto salesinfo, List<MultipartFile> imgs) {
         membersRepository.findByEmail(SecurityUtil.getMemberEmail())
                 .orElseThrow(()->new ClosetsPostException(ErrorCode.USER_NOT_FOUND));
 
         //옷 & 스타일 체크
-        Style style = styleRepository.findByName(requestDto.getStyle())
-                .orElseThrow(()->new ClosetsPostException(ErrorCode.ITEM_NOT_FOUND));
+        Style style = styleRepository.findByName(clothesinfo.getStyle())
+                .orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
 
-        Materials material = materialsRepository.findByName(requestDto.getMaterial())
-                .orElseThrow(()->new ClosetsPostException(ErrorCode.ITEM_NOT_FOUND));
+        Materials material = materialsRepository.findByName(clothesinfo.getMaterial())
+                .orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
 
-        Colors color = colorsRepository.findByName(requestDto.getColor())
-                .orElseThrow(()->new ClosetsPostException(ErrorCode.ITEM_NOT_FOUND));
+        Colors color = colorsRepository.findByName(clothesinfo.getColor())
+                .orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
 
         ClothesInfo clothesInfo = clothesInfoRepository.findByCategoryLAndCategorySAndLengthAndFit(
-                requestDto.getLarge_category(), requestDto.getSmall_category(), requestDto.getLength(), requestDto.getFit()
-        ).orElseThrow(()->new ClosetsPostException(ErrorCode.ITEM_NOT_FOUND));
+                clothesinfo.getLarge_category(), clothesinfo.getSmall_category(), clothesinfo.getLength(), clothesinfo.getFit()
+        ).orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
 
+        // 판매 정보 체크
+        SalesInfoClothes salesInfoClothes = salesInfoClothesRepository.findByAll(salesinfo.getClothes_brand(),
+                        salesinfo.getClothes_gender(), salesinfo.getClothes_size(), salesinfo.getClothes_color())
+                .orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
 
-        System.out.println("....................................................");
-        for(Stores all: storesRepository.findAll()){
-            System.out.println(all.getId());
-        }
+        SalesInfoStatus salesInfoStatus = salesInfoStatusRepository.findByAll(salesinfo.getStatus_tag(),
+                        salesinfo.getStatus_score(), salesinfo.getStatus_times(), salesinfo.getStatus_when2buy(),
+                        salesinfo.getTransport())
+                .orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
+
+        SalesInfoUser salesInfoUser = salesInfoUserRepository.findByAll(salesinfo.getUser_size(),
+                        salesinfo.getUser_weight(), salesinfo.getUser_height())
+                .orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
+
 
         // 게시글 찾고 업데이트
         Stores post = storesRepository.findById(id).orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
-        post.update(style, material, color, clothesInfo);
+        post.update(style, material, color, clothesInfo, salesInfoClothes, salesInfoStatus, salesInfoUser,
+                salesinfo.getClothes_length(), clothesinfo.getTitle(), clothesinfo.getContent(),
+                StoresPostSalesRequestDto.string2enum(salesinfo.getStatus()));
 
         // 경로에 저장되어 있는 실제 이미지 삭제
         for(ClothesImage img : post.getImages()){
@@ -161,7 +191,7 @@ public class StoresServiceImpl implements StoresService{
 
     @Transactional
     @Override
-    public StoresImagesResponseDto findPostById(Long id) {
+    public StoresPostResponseDto findPostById(Long id) {
         membersRepository.findByEmail(SecurityUtil.getMemberEmail())
                 .orElseThrow(()->new ClosetsPostException(ErrorCode.USER_NOT_FOUND));
 
@@ -172,7 +202,24 @@ public class StoresServiceImpl implements StoresService{
             returnArr.add(image.toByte(-1, -1));
         }
 
-        StoresImagesResponseDto responseDto = StoresImagesResponseDto.builder().images(returnArr).id(id).build();
+        StoresPostResponseDto responseDto = StoresPostResponseDto.builder()
+                .title(post.getTitle())
+                .content(post.getContent())
+                .clothes_brand(post.getSalesInfo_clothes().getClothes_brand())
+                .clothes_gender(post.getSalesInfo_clothes().getClothes_gender())
+                .clothes_size(post.getSalesInfo_clothes().getClothes_size())
+                .clothes_length(post.getClothes_length())
+                .clothes_color(post.getSalesInfo_clothes().getClothes_color())
+                .status_tag(post.getSalesInfo_status().getStatus_tag())
+                .status_score(post.getSalesInfo_status().getStatus_score())
+                .status_times(post.getSalesInfo_status().getStatus_times())
+                .status_when2buy(post.getSalesInfo_status().getStatus_when2buy())
+                .transport(post.getSalesInfo_status().getTransport())
+                .user_size(post.getSalesInfo_user().getUser_size())
+                .user_height(post.getSalesInfo_user().getUser_height())
+                .user_weight(post.getSalesInfo_user().getUser_weight())
+                .sales_status(StoresPostResponseDto.enum2String(post.getStatus()))
+                .images(returnArr).id(id).build();
         return responseDto;
     }
 
@@ -187,14 +234,26 @@ public class StoresServiceImpl implements StoresService{
                 req.getFit(), req.getLength(),
                 req.getMaterial(), req.getColor());
 
+
+        List<String> titles = new ArrayList<>();
+        List<String> modifiedDates = new ArrayList<>();
         List<Long> postId = new ArrayList<>();
         List<byte[]> returnArr = new ArrayList<>();
+
+
+        Stores post = null;
         for(ClothesImage image : images.getContent()){
-            returnArr.add(image.toByte(300, 300));
-            postId.add(image.getStores_post_id().getId());
+            if(image.getStores_post_id().getStatus() == SalesStatus.SALES){
+                returnArr.add(image.toByte(300, 300));
+                postId.add(image.getStores_post_id().getId());
+                titles.add(image.getStores_post_id().getTitle());
+                modifiedDates.add(image.getStores_post_id().getModifiedDate().toString());
+            }
         }
 
-        StoresThumbnailsResponseDto responseDto = StoresThumbnailsResponseDto.builder().id(postId).images(returnArr).length(returnArr.size()).build();
+        StoresThumbnailsResponseDto responseDto = StoresThumbnailsResponseDto.builder()
+                .title(titles).modified_date(modifiedDates)
+                .id(postId).images(returnArr).length(returnArr.size()).build();
         return responseDto;
     }
 }

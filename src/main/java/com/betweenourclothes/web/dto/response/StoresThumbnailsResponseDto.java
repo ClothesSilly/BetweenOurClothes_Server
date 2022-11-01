@@ -1,10 +1,11 @@
 package com.betweenourclothes.web.dto.response;
 
-import io.swagger.annotations.ApiParam;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 
 import java.util.List;
 
@@ -13,7 +14,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StoresThumbnailsResponseDto {
-    List<byte[]> images;
-    List<Long> id;
-    int length;
+    private List<byte[]> images;
+    private List<String> title;
+    private List<Long> id;
+    private List<String> modified_date;
+    private int length;
 }

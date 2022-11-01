@@ -2,6 +2,7 @@ package com.betweenourclothes.web;
 
 import com.betweenourclothes.domain.clothes.ClothesImage;
 import com.betweenourclothes.domain.clothes.repository.ClothesImageRepository;
+import com.betweenourclothes.domain.stores.SalesStatus;
 import com.betweenourclothes.domain.stores.Stores;
 import com.betweenourclothes.domain.stores.repository.StoresRepository;
 import com.betweenourclothes.jwt.JwtTokenProvider;
@@ -68,6 +69,7 @@ public class StoresApiControllerTest {
     private String postId;
 
     private List<StoresPostRequestDto> testData;
+    private List<StoresPostSalesRequestDto> testData_sales;
     private List<MockMultipartFile> testData_img;
 
     @Test
@@ -80,7 +82,6 @@ public class StoresApiControllerTest {
         assertThat(respDto.getStatusCode()).isEqualTo(HttpStatus.OK);
         AT = respDto.getBody().getAccessToken();
     }
-
 
 
     @Test
@@ -110,7 +111,6 @@ public class StoresApiControllerTest {
         assertThat(resp.getImages().size()).isEqualTo(1);
         System.out.println(resp.getId().get(0));
     }
-
 
     @Test
     public void 중고거래_작은카테고리조회() throws Exception{
@@ -194,9 +194,11 @@ public class StoresApiControllerTest {
 
         for(int i=0; i<testData_img.size(); i++){
             ObjectMapper mapper = new ObjectMapper();
-            String dto2Json = mapper.writeValueAsString(testData.get(i));
-            MockMultipartFile dtofile = new MockMultipartFile("data", "", "application/json", dto2Json.getBytes(StandardCharsets.UTF_8));
-            mockMvc.perform(multipart(url_post).file(dtofile).file(testData_img.get(i)).file(img).accept(MediaType.APPLICATION_JSON).header("Authorization", token)).andExpect(status().isOk());
+            String clothesdto2Json = mapper.writeValueAsString(testData.get(i));
+            String salesdto2Json = mapper.writeValueAsString(testData_sales.get(i));
+            MockMultipartFile dtofile1 = new MockMultipartFile("clothes_data", "", "application/json", clothesdto2Json.getBytes(StandardCharsets.UTF_8));
+            MockMultipartFile dtofile2 = new MockMultipartFile("sales_data", "", "application/json", salesdto2Json.getBytes(StandardCharsets.UTF_8));
+            mockMvc.perform(multipart(url_post).file(dtofile1).file(dtofile2).file(testData_img.get(i)).file(img).accept(MediaType.APPLICATION_JSON).header("Authorization", token)).andExpect(status().isOk());
         }
 
     }
@@ -206,12 +208,14 @@ public class StoresApiControllerTest {
 
 
         testData = new ArrayList<>();
+        testData_sales = new ArrayList<>();
         testData_img = new ArrayList<>();
-        StoresPostRequestDto requestDto = null;
+        StoresPostRequestDto clothesdto = null;
+        StoresPostSalesRequestDto salesdto = null;
         MockMultipartFile img = null;
 
 
-        requestDto = requestDto.builder()
+        clothesdto = StoresPostRequestDto.builder()
                 .style("컨트리")
                 .large_category("하의")
                 .small_category("청바지")
@@ -220,12 +224,29 @@ public class StoresApiControllerTest {
                 .color("카키")
                 .material("스웨이드")
                 .build();
-        testData.add(requestDto);
+        testData.add(clothesdto);
+        salesdto = StoresPostSalesRequestDto.builder()
+                .clothes_brand("브랜드")
+                .clothes_color("화면보다 밝아요")
+                .clothes_size("32")
+                .clothes_gender("남")
+                .status_score("4")
+                .status_tag("있음")
+                .status_times("3번 이하")
+                .status_when2buy("1년 전")
+                .user_size("2XL")
+                .user_height("~155")
+                .user_weight("45~50")
+                .transport("택배")
+                .clothes_length(36L)
+                .status("T")
+                .build();
+        testData_sales.add(salesdto);
         img =  new MockMultipartFile("image", "test.jpg",
                 "multipart/form-data", new FileInputStream("src/test/resources/static/images/pants2.jpg"));
         testData_img.add(img);
 
-        requestDto = requestDto.builder()
+        clothesdto = StoresPostRequestDto.builder()
                 .style("레트로")
                 .large_category("상의")
                 .small_category("블라우스")
@@ -234,12 +255,28 @@ public class StoresApiControllerTest {
                 .color("블랙")
                 .material("니트")
                 .build();
-        testData.add(requestDto);
+        testData.add(clothesdto);
+        salesdto = StoresPostSalesRequestDto.builder()
+                .clothes_brand("보세")
+                .clothes_color("화면과 같아요")
+                .clothes_size("M")
+                .clothes_gender("여")
+                .status_score("2")
+                .status_tag("없음")
+                .status_times("")
+                .status_when2buy("3~6개월 전")
+                .user_size("M")
+                .user_height("160~165")
+                .user_weight("55~60")
+                .transport("직거래")
+                .status("T")
+                .build();
+        testData_sales.add(salesdto);
         img =  new MockMultipartFile("image", "test.jpg",
                 "multipart/form-data", new FileInputStream("src/test/resources/static/images/top.jpg"));
         testData_img.add(img);
 
-        requestDto = requestDto.builder()
+        clothesdto = StoresPostRequestDto.builder()
                 .style("로맨틱")
                 .large_category("상의")
                 .small_category("후드티")
@@ -248,12 +285,29 @@ public class StoresApiControllerTest {
                 .color("골드")
                 .material("앙고라")
                 .build();
-        testData.add(requestDto);
+        testData.add(clothesdto);
+        salesdto = StoresPostSalesRequestDto.builder()
+                .clothes_brand("브랜드")
+                .clothes_color("화면보다 어두워요")
+                .clothes_size("XS")
+                .clothes_gender("남")
+                .status_score("5")
+                .status_tag("있음")
+                .status_times("")
+                .status_when2buy("~3개월 전")
+                .user_size("S")
+                .user_height("180~185")
+                .user_weight("75~80")
+                .transport("택배")
+                .clothes_length(72L)
+                .status("T")
+                .build();
+        testData_sales.add(salesdto);
         img =  new MockMultipartFile("image", "test.jpg",
                 "multipart/form-data", new FileInputStream("src/test/resources/static/images/top2.jpg"));
         testData_img.add(img);
 
-        requestDto = requestDto.builder()
+        clothesdto = StoresPostRequestDto.builder()
                 .style("프레피")
                 .large_category("하의")
                 .small_category("청바지")
@@ -262,12 +316,28 @@ public class StoresApiControllerTest {
                 .color("네온")
                 .material("실크")
                 .build();
-        testData.add(requestDto);
+        testData.add(clothesdto);
+        salesdto = StoresPostSalesRequestDto.builder()
+                .clothes_brand("보세")
+                .clothes_color("")
+                .clothes_size("XL")
+                .clothes_gender("여")
+                .status_score("4")
+                .status_tag("없음")
+                .status_times("3번 이하")
+                .status_when2buy("3~6개월 전")
+                .user_size("L")
+                .user_height("175~180")
+                .user_weight("65~70")
+                .transport("직거래")
+                .status("T")
+                .build();
+        testData_sales.add(salesdto);
         img =  new MockMultipartFile("image", "test.jpg",
                 "multipart/form-data", new FileInputStream("src/test/resources/static/images/pants3.jpg"));
         testData_img.add(img);
 
-        requestDto = requestDto.builder()
+        clothesdto = StoresPostRequestDto.builder()
                 .style("아방가르드")
                 .large_category("원피스")
                 .small_category("점프수트")
@@ -276,7 +346,23 @@ public class StoresApiControllerTest {
                 .color("골드")
                 .material("플리스")
                 .build();
-        testData.add(requestDto);
+        testData.add(clothesdto);
+        salesdto = StoresPostSalesRequestDto.builder()
+                .clothes_brand("브랜드")
+                .clothes_color("화면과 같아요")
+                .clothes_size("2XL")
+                .clothes_gender("남")
+                .status_score("5")
+                .status_tag("있음")
+                .status_times("3번 이하")
+                .status_when2buy("~3개월 전")
+                .user_size("XL")
+                .user_height("175~180")
+                .user_weight("80~85")
+                .transport("택배")
+                .status("T")
+                .build();
+        testData_sales.add(salesdto);
         img =  new MockMultipartFile("image", "test.jpg",
                 "multipart/form-data", new FileInputStream("src/test/resources/static/images/one-piece.jpg"));
         testData_img.add(img);
@@ -305,10 +391,11 @@ public class StoresApiControllerTest {
         StoresThumbnailsResponseDto resp = new ObjectMapper().readValue(json, StoresThumbnailsResponseDto.class);
 
         assertThat(resp.getImages().size()).isEqualTo(4);
-        System.out.println(resp.getId().get(0));
-        System.out.println(resp.getId().get(1));
-        System.out.println(resp.getId().get(2));
-        System.out.println(resp.getId().get(3));
+        for(int i = 0; i<4; i++){
+            System.out.println(resp.getId().get(i));
+            System.out.println(resp.getTitle().get(i));
+            System.out.println(resp.getModified_date().get(i));
+        }
     }
 
     @Test
@@ -323,13 +410,19 @@ public class StoresApiControllerTest {
         header.set("Authorization", token);
         HttpEntity<Long> req = new HttpEntity<>(Long.parseLong(postId), header);
 
-        ResponseEntity<StoresImagesResponseDto> resp
-                = restTemplate.exchange(url_get, HttpMethod.GET, req, StoresImagesResponseDto.class);
+        ResponseEntity<StoresPostResponseDto> resp
+                = restTemplate.exchange(url_get, HttpMethod.GET, req, StoresPostResponseDto.class);
 
         System.out.println(resp.getBody());
         assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(resp.getBody().getId()).isEqualTo(Long.parseLong(postId));
         assertThat(resp.getBody().getImages().size()).isEqualTo(3);
+        assertThat(resp.getBody().getTitle()).isEqualTo("크롭 탑 판매합니다~");
+        assertThat(resp.getBody().getContent()).isEqualTo("ㅈㄱㄴ");
+        assertThat(resp.getBody().getClothes_brand()).isEqualTo("브랜드");
+        assertThat(resp.getBody().getUser_size()).isEqualTo("2XL");
+        assertThat(resp.getBody().getStatus_score()).isEqualTo("4");
+        assertThat(resp.getBody().getClothes_length()).isEqualTo(36L);
     }
 
     @Test
@@ -366,10 +459,28 @@ public class StoresApiControllerTest {
         StoresPostRequestDto reqDto = StoresPostRequestDto.builder().style("레트로")
                 .large_category("원피스").small_category("점프수트").length("맥시").fit("루즈")
                 .color("레드").material("니트").build();
+        StoresPostSalesRequestDto reqDto2 = StoresPostSalesRequestDto.builder()
+                .clothes_brand("보세")
+                .clothes_color("화면과 같아요")
+                .clothes_size("M")
+                .clothes_gender("여")
+                .status_score("2")
+                .status_tag("없음")
+                .status_times("")
+                .status_when2buy("3~6개월 전")
+                .user_size("M")
+                .user_height("160~165")
+                .user_weight("55~60")
+                .transport("직거래")
+                .status("F")
+                .build();
         ObjectMapper mapper = new ObjectMapper();
         String dto2Json = mapper.writeValueAsString(reqDto);
+        String dto22Json = mapper.writeValueAsString(reqDto2);
         MockPart id = new MockPart("id", postId.getBytes(StandardCharsets.UTF_8));
-        MockMultipartFile dtofile = new MockMultipartFile("data", "", "application/json", dto2Json.getBytes(StandardCharsets.UTF_8));
+        MockMultipartFile dtofile = new MockMultipartFile("clothes_data", "", "application/json", dto2Json.getBytes(StandardCharsets.UTF_8));
+        MockMultipartFile dtofile2 = new MockMultipartFile("sales_data", "", "application/json", dto22Json.getBytes(StandardCharsets.UTF_8));
+
 
         // 사진
         MockMultipartFile file1 = new MockMultipartFile("image", "test4.png",
@@ -379,7 +490,7 @@ public class StoresApiControllerTest {
 
 
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
-        mockMvc.perform(multipart(url_patch).part(id).file(dtofile).file(file1).file(file2).accept(MediaType.APPLICATION_JSON)
+        mockMvc.perform(multipart(url_patch).part(id).file(dtofile).file(dtofile2).file(file1).file(file2).accept(MediaType.APPLICATION_JSON)
                         .header("Authorization", token)
                         .with(r -> { r.setMethod("PATCH"); return r; }))
                 .andDo(print()).andExpect(status().isOk());
@@ -395,6 +506,11 @@ public class StoresApiControllerTest {
         assertThat(last.getClothesInfo().getFit()).isEqualTo("루즈");
         assertThat(last.getColors().getName()).isEqualTo("레드");
         assertThat(last.getMaterials().getName()).isEqualTo("니트");
+        assertThat(last.getSalesInfo_clothes().getClothes_brand()).isEqualTo("보세");
+        assertThat(last.getSalesInfo_user().getUser_size()).isEqualTo("M");
+        assertThat(last.getSalesInfo_status().getStatus_score()).isEqualTo("2");
+        assertThat(last.getStatus()).isEqualTo(SalesStatus.SOLD);
+
     }
 
     @Test
@@ -411,9 +527,27 @@ public class StoresApiControllerTest {
         StoresPostRequestDto reqDto = StoresPostRequestDto.builder().style("스포티")
                 .large_category("상의").small_category("탑").length("크롭").fit("타이트")
                 .color("블랙").material("퍼").title("크롭 탑 판매합니다~").content("ㅈㄱㄴ").build();
+        StoresPostSalesRequestDto reqDto2 = StoresPostSalesRequestDto.builder()
+                .clothes_brand("브랜드")
+                .clothes_color("화면보다 밝아요")
+                .clothes_size("32")
+                .clothes_gender("남")
+                .status_score("4")
+                .status_tag("있음")
+                .status_times("3번 이하")
+                .status_when2buy("1년 전")
+                .user_size("2XL")
+                .user_height("~155")
+                .user_weight("45~50")
+                .transport("택배")
+                .status("T")
+                .clothes_length(36L)
+                .build();
         ObjectMapper mapper = new ObjectMapper();
         String dto2Json = mapper.writeValueAsString(reqDto);
-        MockMultipartFile dtofile = new MockMultipartFile("data", "", "application/json", dto2Json.getBytes(StandardCharsets.UTF_8));
+        String dto22Json = mapper.writeValueAsString(reqDto2);
+        MockMultipartFile dtofile = new MockMultipartFile("clothes_data", "", "application/json", dto2Json.getBytes(StandardCharsets.UTF_8));
+        MockMultipartFile dtofile2 = new MockMultipartFile("sales_data", "", "application/json", dto22Json.getBytes(StandardCharsets.UTF_8));
 
         // 사진
         MockMultipartFile file1 = new MockMultipartFile("image", "test.png",
@@ -424,8 +558,7 @@ public class StoresApiControllerTest {
                 "multipart/form-data", new FileInputStream("src/test/resources/static/images/test3.png"));
 
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
-        mockMvc.perform(multipart(url_post).file(dtofile).file(file1).file(file2).file(file3).accept(MediaType.APPLICATION_JSON).header("Authorization", token)).andDo(print()).andExpect(status().isOk());
-
+        mockMvc.perform(multipart(url_post).file(dtofile).file(dtofile2).file(file1).file(file2).file(file3).accept(MediaType.APPLICATION_JSON).header("Authorization", token)).andDo(print()).andExpect(status().isOk());
 
         List<Stores> stores = storesRepository.findAll();
         postId =  stores.get(0).getId().toString();
@@ -439,7 +572,10 @@ public class StoresApiControllerTest {
         assertThat( stores.get(0).getMaterials().getName()).isEqualTo("퍼");
         assertThat( stores.get(0).getTitle()).isEqualTo("크롭 탑 판매합니다~");
         assertThat( stores.get(0).getContent()).isEqualTo("ㅈㄱㄴ");
-
+        assertThat( stores.get(0).getSalesInfo_clothes().getClothes_brand()).isEqualTo("브랜드");
+        assertThat( stores.get(0).getSalesInfo_user().getUser_size()).isEqualTo("2XL");
+        assertThat( stores.get(0).getSalesInfo_status().getStatus_score()).isEqualTo("4");
+        assertThat( stores.get(0).getClothes_length()).isEqualTo(36L);
     }
 
 
