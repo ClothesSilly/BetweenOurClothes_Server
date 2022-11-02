@@ -42,7 +42,7 @@ public class Members implements UserDetails {
     @Column(length=11, nullable=false)
     private String phone;
 
-    @Column(columnDefinition = "varchar(300) default 'C:/Users/user1/Desktop/송아/캡스톤/repo/between-our-clothes-server/src/main/resources/static/images/profile/default.png'")
+    @Column(columnDefinition = "varchar(300) default './src/main/resources/static/images/profile/default.png'")
     private String image;
 
     @Enumerated(EnumType.STRING)

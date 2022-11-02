@@ -7,7 +7,6 @@ import com.betweenourclothes.domain.members.repository.MembersRepository;
 import com.betweenourclothes.domain.stores.*;
 import com.betweenourclothes.domain.stores.repository.*;
 import com.betweenourclothes.exception.ErrorCode;
-import com.betweenourclothes.exception.customException.ClosetsPostException;
 import com.betweenourclothes.exception.customException.StoresPostException;
 import com.betweenourclothes.jwt.SecurityUtil;
 import com.betweenourclothes.web.dto.request.StoresPostRequestDto;
@@ -84,7 +83,7 @@ public class StoresServiceImpl implements StoresService{
         // 3. 이미지 테이블에 추가
         List<ClothesImage> imgArr = new ArrayList<>();
         for(MultipartFile img: imgs){
-            ClothesImage imgEntity = ClothesImage.builder().type("closets").build();
+            ClothesImage imgEntity = ClothesImage.builder().type("stores").build();
             imgEntity.updateImage(img);
             clothesImageRepository.save(imgEntity);
             imgArr.add(imgEntity);
@@ -107,7 +106,7 @@ public class StoresServiceImpl implements StoresService{
     @Override
     public void update(Long id, StoresPostRequestDto clothesinfo, StoresPostSalesRequestDto salesinfo, List<MultipartFile> imgs) {
         membersRepository.findByEmail(SecurityUtil.getMemberEmail())
-                .orElseThrow(()->new ClosetsPostException(ErrorCode.USER_NOT_FOUND));
+                .orElseThrow(()->new StoresPostException(ErrorCode.USER_NOT_FOUND));
 
         //옷 & 스타일 체크
         Style style = styleRepository.findByName(clothesinfo.getStyle())
@@ -158,7 +157,7 @@ public class StoresServiceImpl implements StoresService{
         // 이미지 테이블에 사진 새로 추가 후 업데이트
         List<ClothesImage> imgArr = new ArrayList<>();
         for(MultipartFile img: imgs){
-            ClothesImage imgEntity = ClothesImage.builder().type("closets").build();
+            ClothesImage imgEntity = ClothesImage.builder().type("stores").build();
             imgEntity.updateImage(img);
             imgArr.add(imgEntity);
         }
@@ -170,11 +169,11 @@ public class StoresServiceImpl implements StoresService{
     public void delete(Long id) {
         // 회원 체크
         membersRepository.findByEmail(SecurityUtil.getMemberEmail())
-                .orElseThrow(()->new ClosetsPostException(ErrorCode.USER_NOT_FOUND));
+                .orElseThrow(()->new StoresPostException(ErrorCode.USER_NOT_FOUND));
 
 
         // 게시글 조회
-        Stores post = storesRepository.findById(id).orElseThrow(()->new ClosetsPostException(ErrorCode.ITEM_NOT_FOUND));
+        Stores post = storesRepository.findById(id).orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
 
         // 경로에 저장되어 있는 실제 이미지 삭제
         for(ClothesImage img : post.getImages()){
@@ -193,9 +192,9 @@ public class StoresServiceImpl implements StoresService{
     @Override
     public StoresPostResponseDto findPostById(Long id) {
         membersRepository.findByEmail(SecurityUtil.getMemberEmail())
-                .orElseThrow(()->new ClosetsPostException(ErrorCode.USER_NOT_FOUND));
+                .orElseThrow(()->new StoresPostException(ErrorCode.USER_NOT_FOUND));
 
-        Stores post = storesRepository.findById(id).orElseThrow(()->new ClosetsPostException(ErrorCode.ITEM_NOT_FOUND));
+        Stores post = storesRepository.findById(id).orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
 
         List<byte[]> returnArr = new ArrayList<>();
         for(ClothesImage image : post.getImages()){
@@ -227,7 +226,7 @@ public class StoresServiceImpl implements StoresService{
     @Override
     public StoresThumbnailsResponseDto findImagesByAllCategory(Pageable pageable, StoresSearchCategoryAllRequestDto req) {
         Members member = membersRepository.findByEmail(SecurityUtil.getMemberEmail())
-                .orElseThrow(()->new ClosetsPostException(ErrorCode.USER_NOT_FOUND));
+                .orElseThrow(()->new StoresPostException(ErrorCode.USER_NOT_FOUND));
 
         Page<ClothesImage> images = storesQueryDslRepository.findClothesImagesByAllOptions(pageable, member.getId(),
                 req.getNameL(), req.getNameS(),
