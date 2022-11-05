@@ -11,6 +11,7 @@ import com.betweenourclothes.domain.auth.EmailRepository;
 import com.betweenourclothes.web.dto.response.AuthTokenResponseDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,8 +62,8 @@ public class AuthApiControllerTest {
 
 
     @Test
+    @Ignore
     public void 로그인_토큰재발급() throws Exception {
-        //회원가입();
 
         String url_login = "http://localhost:" + port + "api/v1/auth/login";
         String email = "gunsong2@naver.com";
@@ -92,6 +93,7 @@ public class AuthApiControllerTest {
     }
 
     @Test
+    @Ignore
     public void 로그인_토큰전송() throws Exception{
         //회원가입();
 
@@ -112,8 +114,9 @@ public class AuthApiControllerTest {
         List<Members> all = membersRepository.findAll();
         assertThat(all.get(all.size()-1).getRefreshToken()).isEqualTo(respDto.getBody().getRefreshToken());
     }
+
     @Test
-    public void 회원가입() throws Exception{
+    public void 회원가입_로그인() throws Exception{
 
         String url_email = "http://localhost:" + port + "api/v1/auth/sign-up/email";
         String url_code = "http://localhost:" + port + "api/v1/auth/sign-up/code";
@@ -170,13 +173,26 @@ public class AuthApiControllerTest {
 
         all = emailRepository.findAll();
         assertThat(all.size()).isEqualTo(0);
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        String url_login = "http://localhost:" + port + "api/v1/auth/login";
+        AuthSignInRequestDto reqDto = AuthSignInRequestDto.builder().email(email).password(password).build();
+
+        ResponseEntity<AuthTokenResponseDto> respDto = restTemplate.postForEntity(url_login, reqDto, AuthTokenResponseDto.class);
+
+        assertThat(respDto.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(respDto.getBody()).isNotNull();
+
+        List<Members> mem = membersRepository.findAll();
+        assertThat(mem.get(mem.size()-1).getRefreshToken()).isEqualTo(respDto.getBody().getRefreshToken());
+
     }
 
 
     @Test
+    @Ignore
     public void 이메일_중복체크() throws Exception{
-
-        회원가입();
 
         String url_email = "http://localhost:" + port + "api/v1/auth/sign-up/email";
         String email = "gunsong2@naver.com";
@@ -187,45 +203,4 @@ public class AuthApiControllerTest {
 
     }
 
-
-    @Test
-    public void 이메일_전송() throws Exception{
-        String url = "http://localhost:" + port + "api/v1/auth/sign-up/email";
-        String email = "gunsong2@naver.com";
-        //AuthEmailRequestDto requestDto = AuthEmailRequestDto.builder().email(email).build();
-
-        ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, email, String.class);
-        System.out.println(responseEntity.getBody().toString());
-        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-
-        List<Email> all = emailRepository.findAll();
-        assertThat(all.get(all.size()-1).getEmail()).isEqualTo(email);
-        System.out.println(all.get(all.size()-1).getCode());
-        System.out.println(all.get(all.size()-1).getStatus());
-    }
-
-    @Test
-    public void 이메일_전송후_인증() throws Exception{
-
-        String url = "http://localhost:" + port + "api/v1/auth/sign-up/email";
-        String email = "gunsong2@naver.com";
-
-        ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, email, String.class);
-        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-
-        List<Email> all = emailRepository.findAll();
-        assertThat(all.get(all.size()-1).getEmail()).isEqualTo(email);
-        assertThat(all.get(all.size()-1).getStatus()).isEqualTo("N");
-
-        url = "http://localhost:" + port + "api/v1/auth/sign-up/code";
-        String authcode = all.get(all.size()-1).getCode();
-        AuthEmailRequestDto requestDto = AuthEmailRequestDto.builder().email(email).code(authcode).build();
-        responseEntity = restTemplate.postForEntity(url, requestDto, String.class);
-        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-
-        all = emailRepository.findAll();
-        assertThat(all.get(all.size()-1).getEmail()).isEqualTo(email);
-        assertThat(all.get(all.size()-1).getCode()).isEqualTo(authcode);
-        assertThat(all.get(all.size()-1).getStatus()).isEqualTo("Y");
-    }
 }

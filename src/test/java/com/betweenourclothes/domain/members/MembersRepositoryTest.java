@@ -1,6 +1,7 @@
 package com.betweenourclothes.domain.members;
 
 import com.betweenourclothes.domain.members.repository.MembersRepository;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ public class MembersRepositoryTest {
     }*/
 
     @Test
+    @Ignore
     public void 멤버_등록_불러오기(){
         //given
         String email = "ddd@naver.com";
