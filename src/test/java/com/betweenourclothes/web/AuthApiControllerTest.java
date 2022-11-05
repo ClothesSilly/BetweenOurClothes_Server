@@ -2,10 +2,7 @@ package com.betweenourclothes.web;
 
 import com.betweenourclothes.domain.members.Members;
 import com.betweenourclothes.domain.members.repository.MembersRepository;
-import com.betweenourclothes.web.dto.request.AuthEmailRequestDto;
-import com.betweenourclothes.web.dto.request.AuthSignInRequestDto;
-import com.betweenourclothes.web.dto.request.AuthSignUpRequestDto;
-import com.betweenourclothes.web.dto.request.ClosetsPostRequestDto;
+import com.betweenourclothes.web.dto.request.*;
 import com.betweenourclothes.domain.auth.Email;
 import com.betweenourclothes.domain.auth.EmailRepository;
 import com.betweenourclothes.web.dto.response.AuthTokenResponseDto;
@@ -122,9 +119,10 @@ public class AuthApiControllerTest {
         String url_code = "http://localhost:" + port + "api/v1/auth/sign-up/code";
         String url_signup = "http://localhost:" + port + "api/v1/auth/sign-up";
 
-        String email = "gunsong2@naver.com";
 
-        ResponseEntity<String> responseEntity = restTemplate.postForEntity(url_email, email, String.class);
+        String email = "gunsong2@naver.com";
+        AuthOnlyEmailRequestDto r = AuthOnlyEmailRequestDto.builder().email(email).build();
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(url_email, r, String.class);
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
 
         List<Email> all = emailRepository.findAll();
@@ -171,8 +169,8 @@ public class AuthApiControllerTest {
         assertThat(mems.get(mems.size()-1).getEmail()).isEqualTo(email);
         System.out.println(mems.get(mems.size()-1).getImage());
 
-        all = emailRepository.findAll();
-        assertThat(all.size()).isEqualTo(0);
+        //all = emailRepository.findAll();
+        //assertThat(all.size()).isEqualTo(0);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

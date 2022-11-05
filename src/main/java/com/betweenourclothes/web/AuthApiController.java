@@ -1,5 +1,6 @@
 package com.betweenourclothes.web;
 
+import com.betweenourclothes.web.dto.request.AuthOnlyEmailRequestDto;
 import com.betweenourclothes.web.dto.request.AuthSignInRequestDto;
 import com.betweenourclothes.web.dto.request.AuthSignUpRequestDto;
 import com.betweenourclothes.exception.ErrorCode;
@@ -70,8 +71,8 @@ public class AuthApiController {
 
     @ApiOperation(value="이메일 인증코드 발송")
     @PostMapping("/sign-up/email")
-    public ResponseEntity<String> sendEmail(@RequestBody @Valid String email) throws Exception{
-        authService.sendMail(email);
+    public ResponseEntity<String> sendEmail(@RequestBody @Valid AuthOnlyEmailRequestDto email) throws Exception{
+        authService.sendMail(email.getEmail());
         return new ResponseEntity<>("이메일 전송 성공", HttpStatus.OK);
     }
 

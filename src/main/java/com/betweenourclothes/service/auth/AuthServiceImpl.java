@@ -76,8 +76,9 @@ public class AuthServiceImpl implements AuthService{
 
     @Transactional
     @Override
-    public void sendMail(String email){
+    public void sendMail(String email)  {
         // 이메일 중복 체크
+
         if(membersRepository.findByEmail(email).isPresent()){
             throw new AuthSignUpException(ErrorCode.DUPLICATE_EMAIL);
         }
@@ -111,6 +112,7 @@ public class AuthServiceImpl implements AuthService{
     @Override
     public void checkAuthCode(AuthEmailRequestDto receiver) {
         // 임시 테이블 조회
+
         Email user = emailRepository.findByEmail(receiver.getEmail()).orElseThrow(()->new AuthSignUpException(ErrorCode.USER_NOT_FOUND));
         //System.out.println("existed code: " + user.getCode());
         //System.out.println("requested code: " + receiver.getCode());
@@ -153,6 +155,8 @@ public class AuthServiceImpl implements AuthService{
     @Transactional
     @Override
     public AuthTokenResponseDto login(AuthSignInRequestDto requestDto) {
+
+
         // 로그인 하려는 member 찾기
         Members member = membersRepository.findByEmail(requestDto.getEmail()).orElseThrow(() -> new AuthSignInException(ErrorCode.USER_NOT_FOUND));
 

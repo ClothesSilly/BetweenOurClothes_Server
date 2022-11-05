@@ -47,6 +47,8 @@ public class AuthEmailRequestDto {
         }
     }
 
+
+
     @Builder
     public AuthEmailRequestDto(String email, String code){
         this.email = email;

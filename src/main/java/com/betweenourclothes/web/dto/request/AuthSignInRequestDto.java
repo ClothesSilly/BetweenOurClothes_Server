@@ -15,4 +15,5 @@ public class AuthSignInRequestDto {
     private String email;
     @ApiParam(value="비밀번호", required = true)
     private String password;
+
 }

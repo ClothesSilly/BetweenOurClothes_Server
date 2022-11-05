@@ -7,10 +7,11 @@ import com.betweenourclothes.web.dto.response.AuthTokenResponseDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
 
 public interface AuthService {
     void signUp(AuthSignUpRequestDto requestDto, String imgPath);
-    void sendMail(String email);
+    void sendMail(String email) throws UnsupportedEncodingException;
 
     AuthTokenResponseDto login(AuthSignInRequestDto requestDto);
 

@@ -29,7 +29,8 @@ public enum ErrorCode {
     /* 500 */
     MAIL_MSG_CREATION_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "이메일 메시지 생성 에러"),
     MAIL_REQUEST_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "메일 전송 에러"),
-    IMAGE_OPEN_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "이미지 오픈 에러")
+    IMAGE_OPEN_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "이미지 오픈 에러"),
+    EMAIL_DECODE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "이메일 디코딩 에러")
     ;
     private HttpStatus code;
     private final String message;
