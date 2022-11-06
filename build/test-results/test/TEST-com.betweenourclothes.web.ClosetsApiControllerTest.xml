@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.betweenourclothes.web.ClosetsApiControllerTest" tests="12" skipped="12" failures="0" errors="0" timestamp="2022-11-06T13:53:33" hostname="user" time="0.001">
+  <properties/>
+  <testcase name="내옷장_카테고리전부" classname="com.betweenourclothes.web.ClosetsApiControllerTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="내옷장_테스트데이터등록" classname="com.betweenourclothes.web.ClosetsApiControllerTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="내옷장_테스트데이터추가" classname="com.betweenourclothes.web.ClosetsApiControllerTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="내옷장_큰카테고리조회" classname="com.betweenourclothes.web.ClosetsApiControllerTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="로그인" classname="com.betweenourclothes.web.ClosetsApiControllerTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="내옷장_작은카테고리조회" classname="com.betweenourclothes.web.ClosetsApiControllerTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="내옷장_썸네일불러오기" classname="com.betweenourclothes.web.ClosetsApiControllerTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="내옷장_게시글등록" classname="com.betweenourclothes.web.ClosetsApiControllerTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="내옷장_게시글삭제" classname="com.betweenourclothes.web.ClosetsApiControllerTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="내옷장_게시글수정" classname="com.betweenourclothes.web.ClosetsApiControllerTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <testcase name="내옷장_썸네일페이징" classname="com.betweenourclothes.web.ClosetsApiControllerTest" time="0.001">
+    <skipped/>
+  </testcase>
+  <testcase name="내옷장_게시글ID로불러오기" classname="com.betweenourclothes.web.ClosetsApiControllerTest" time="0.0">
+    <skipped/>
+  </testcase>
+  <system-out><![CDATA[2022-11-06 22:53:33.947  INFO 1700 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.betweenourclothes.web.ClosetsApiControllerTest], using SpringBootContextLoader
+2022-11-06 22:53:33.948  INFO 1700 --- [    Test worker] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [com.betweenourclothes.web.ClosetsApiControllerTest]: no resource found for suffixes {-context.xml, Context.groovy}.
+2022-11-06 22:53:33.948  INFO 1700 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.betweenourclothes.web.ClosetsApiControllerTest]: ClosetsApiControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2022-11-06 22:53:33.949  INFO 1700 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.betweenourclothes.Application for test class com.betweenourclothes.web.ClosetsApiControllerTest
+2022-11-06 22:53:33.949  INFO 1700 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener, org.springframework.security.test.context.support.ReactorContextTestExecutionListener, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+2022-11-06 22:53:33.950  INFO 1700 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@554f2a47, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@46e1df0f, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@41895c58, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@60d66bd, org.springframework.test.context.support.DirtiesContextTestExecutionListener@2a3c6929, org.springframework.test.context.transaction.TransactionalTestExecutionListener@62edd2c6, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@690d395f, org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener@458824d, org.springframework.security.test.context.support.ReactorContextTestExecutionListener@4de4d6ce, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@41135656, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@41d458ea, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@15ef077, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@6ae71434, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@319d5ed8]
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

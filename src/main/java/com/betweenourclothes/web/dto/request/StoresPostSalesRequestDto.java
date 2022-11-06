@@ -27,7 +27,7 @@ public class StoresPostSalesRequestDto {
     private String status;
 
     public static SalesStatus string2enum(String status){
-        if(status.equals("F")){
+        if(status.equals("SOLD")){
             return SalesStatus.SOLD;
         } else{
             return SalesStatus.SALES;

@@ -18,5 +18,9 @@ public class StoresThumbnailsResponseDto {
     private List<String> title;
     private List<Long> id;
     private List<String> modified_date;
+    private List<String> price;
+    private List<String> content;
+    private List<String> transport;
+
     private int length;
 }

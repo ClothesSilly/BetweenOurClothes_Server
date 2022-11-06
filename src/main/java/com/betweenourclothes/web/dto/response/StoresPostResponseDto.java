@@ -17,6 +17,7 @@ public class StoresPostResponseDto {
     private List<byte[]> images;
     private String title;
     private String content;
+    private String price;
     private String clothes_brand;
     private String clothes_gender;
     private String clothes_size;
@@ -33,11 +34,12 @@ public class StoresPostResponseDto {
     private Long id;
     private String sales_status;
 
+
     public static String enum2String(SalesStatus status){
         if(status == SalesStatus.SALES){
-            return "T";
+            return "SALES";
         } else{
-            return "F";
+            return "SOLD";
         }
     }
 }

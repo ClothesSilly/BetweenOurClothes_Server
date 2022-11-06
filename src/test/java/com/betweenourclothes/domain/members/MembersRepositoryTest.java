@@ -26,12 +26,12 @@ public class MembersRepositoryTest {
 
     @Test
     @Ignore
-    public void 멤버_등록_불러오기(){
+    public void 멤버등록_불러오기(){
         //given
-        String email = "ddd@naver.com";
-        String password = "1234";
-        String name = "권송아";
-        String nickname = "닉넴";
+        String email = "test@naver.com";
+        String password = "test_password";
+        String name = "테스트_이름";
+        String nickname = "테스트_닉네임";
         String phone = "01012345678";
 
         membersRepository.save(Members.builder()

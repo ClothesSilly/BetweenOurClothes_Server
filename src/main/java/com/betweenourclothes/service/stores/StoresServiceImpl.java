@@ -9,6 +9,7 @@ import com.betweenourclothes.domain.stores.repository.*;
 import com.betweenourclothes.exception.ErrorCode;
 import com.betweenourclothes.exception.customException.StoresPostException;
 import com.betweenourclothes.jwt.SecurityUtil;
+import com.betweenourclothes.web.dto.request.StoresPostClothesRequestDto;
 import com.betweenourclothes.web.dto.request.StoresPostRequestDto;
 import com.betweenourclothes.web.dto.request.StoresPostSalesRequestDto;
 import com.betweenourclothes.web.dto.request.StoresSearchCategoryAllRequestDto;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -44,7 +46,7 @@ public class StoresServiceImpl implements StoresService{
 
     @Transactional
     @Override
-    public Long post(StoresPostRequestDto clothesinfo, StoresPostSalesRequestDto salesinfo, List<MultipartFile> imgs) {
+    public Long post(StoresPostRequestDto postinfo, StoresPostClothesRequestDto clothesinfo, StoresPostSalesRequestDto salesinfo, List<MultipartFile> imgs) {
 
         // 1. 회원 체크
         Members member = membersRepository.findByEmail(SecurityUtil.getMemberEmail())
@@ -79,7 +81,6 @@ public class StoresServiceImpl implements StoresService{
                 .orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
 
 
-
         // 3. 이미지 테이블에 추가
         List<ClothesImage> imgArr = new ArrayList<>();
         for(MultipartFile img: imgs){
@@ -90,9 +91,11 @@ public class StoresServiceImpl implements StoresService{
         }
 
         // 4. 게시글 게시
-        Stores post = clothesinfo.toEntity(member, style, material, color, clothesInfo, imgArr,
-            salesInfoClothes, salesInfoUser, salesInfoStatus, salesinfo.getClothes_length(),
-                StoresPostSalesRequestDto.string2enum(salesinfo.getStatus()));
+        Stores post = Stores.builder().author(member).style(style).imgs(imgArr)
+                .title(postinfo.getTitle()).content(postinfo.getContent()).materials(material).
+                colors(color).clothesInfo(clothesInfo).salesInfo_clothes(salesInfoClothes).salesInfo_status(salesInfoStatus)
+                .salesInfo_user(salesInfoUser).clothes_length(salesinfo.getClothes_length())
+                .status(StoresPostSalesRequestDto.string2enum(salesinfo.getStatus())).price(postinfo.getPrice()).build();
 
         storesRepository.save(post);
         member.updateStoresPosts(post);
@@ -104,7 +107,7 @@ public class StoresServiceImpl implements StoresService{
 
     @Transactional
     @Override
-    public void update(Long id, StoresPostRequestDto clothesinfo, StoresPostSalesRequestDto salesinfo, List<MultipartFile> imgs) {
+    public void update(Long id, StoresPostRequestDto postinfo, StoresPostClothesRequestDto clothesinfo, StoresPostSalesRequestDto salesinfo, List<MultipartFile> imgs) {
         membersRepository.findByEmail(SecurityUtil.getMemberEmail())
                 .orElseThrow(()->new StoresPostException(ErrorCode.USER_NOT_FOUND));
 
@@ -140,8 +143,8 @@ public class StoresServiceImpl implements StoresService{
         // 게시글 찾고 업데이트
         Stores post = storesRepository.findById(id).orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
         post.update(style, material, color, clothesInfo, salesInfoClothes, salesInfoStatus, salesInfoUser,
-                salesinfo.getClothes_length(), clothesinfo.getTitle(), clothesinfo.getContent(),
-                StoresPostSalesRequestDto.string2enum(salesinfo.getStatus()));
+                salesinfo.getClothes_length(), postinfo.getTitle(), postinfo.getContent(),
+                StoresPostSalesRequestDto.string2enum(salesinfo.getStatus()), postinfo.getPrice());
 
         // 경로에 저장되어 있는 실제 이미지 삭제
         for(ClothesImage img : post.getImages()){
@@ -204,6 +207,7 @@ public class StoresServiceImpl implements StoresService{
         StoresPostResponseDto responseDto = StoresPostResponseDto.builder()
                 .title(post.getTitle())
                 .content(post.getContent())
+                .price(post.getPrice())
                 .clothes_brand(post.getSalesInfo_clothes().getClothes_brand())
                 .clothes_gender(post.getSalesInfo_clothes().getClothes_gender())
                 .clothes_size(post.getSalesInfo_clothes().getClothes_size())
@@ -237,6 +241,9 @@ public class StoresServiceImpl implements StoresService{
         List<String> titles = new ArrayList<>();
         List<String> modifiedDates = new ArrayList<>();
         List<Long> postId = new ArrayList<>();
+        List<String> prices = new ArrayList<>();
+        List<String> transports = new ArrayList<>();
+        List<String> contents = new ArrayList<>();
         List<byte[]> returnArr = new ArrayList<>();
 
 
@@ -246,13 +253,16 @@ public class StoresServiceImpl implements StoresService{
                 returnArr.add(image.toByte(300, 300));
                 postId.add(image.getStores_post_id().getId());
                 titles.add(image.getStores_post_id().getTitle());
+                prices.add(image.getStores_post_id().getPrice());
+                contents.add(image.getStores_post_id().getContent().substring(0, Math.min(image.getStores_post_id().getContent().length(), 30)));
+                transports.add(image.getStores_post_id().getSalesInfo_status().getTransport());
                 modifiedDates.add(image.getStores_post_id().getModifiedDate().toString());
             }
         }
 
         StoresThumbnailsResponseDto responseDto = StoresThumbnailsResponseDto.builder()
-                .title(titles).modified_date(modifiedDates)
-                .id(postId).images(returnArr).length(returnArr.size()).build();
+                .title(titles).modified_date(modifiedDates).content(contents)
+                .id(postId).images(returnArr).price(prices).transport(transports).length(returnArr.size()).build();
         return responseDto;
     }
 }

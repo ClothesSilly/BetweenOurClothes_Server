@@ -11,10 +11,10 @@ import java.util.List;
 public interface StoresService {
 
     /*** 게시글 등록 ***/
-    Long post(StoresPostRequestDto clothesinfo, StoresPostSalesRequestDto salesinfo, List<MultipartFile> imgs);
+    Long post(StoresPostRequestDto postinfo, StoresPostClothesRequestDto clothesinfo, StoresPostSalesRequestDto salesinfo, List<MultipartFile> imgs);
 
     /*** 게시글 수정 ***/
-    void update(Long id, StoresPostRequestDto clothesinfo, StoresPostSalesRequestDto salesinfo, List<MultipartFile> imgs);
+    void update(Long id, StoresPostRequestDto postinfo, StoresPostClothesRequestDto clothesinfo, StoresPostSalesRequestDto salesinfo, List<MultipartFile> imgs);
 
     /*** 게시글 삭제 ***/
     void delete(Long id);

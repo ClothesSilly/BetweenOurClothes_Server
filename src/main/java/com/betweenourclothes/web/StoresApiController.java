@@ -23,20 +23,22 @@ public class StoresApiController {
 
     /*** 게시글 등록 ***/
     @PostMapping("/post")
-    public ResponseEntity<String> post(@RequestPart(name="clothes_data") StoresPostRequestDto clothesinfo,
+    public ResponseEntity<String> post(@RequestPart(name="post_data") StoresPostRequestDto postinfo,
+                                       @RequestPart(name="clothes_data") StoresPostClothesRequestDto clothesinfo,
                                        @RequestPart(name="sales_data") StoresPostSalesRequestDto salesinfo,
                                        @RequestPart(name="image") List<MultipartFile> imgs){
-        Long id = storesService.post(clothesinfo, salesinfo, imgs);
+        Long id = storesService.post(postinfo, clothesinfo, salesinfo, imgs);
         return new ResponseEntity<>(id.toString(), HttpStatus.OK);
     }
 
     /*** 게시글 수정 ***/
     @PatchMapping("/post/{id}")
     public ResponseEntity<String> update(@PathVariable("id") Long id,
-                                         @RequestPart(name="clothes_data") StoresPostRequestDto clothesinfo,
+                                         @RequestPart(name="post_data") StoresPostRequestDto postinfo,
+                                         @RequestPart(name="clothes_data") StoresPostClothesRequestDto clothesinfo,
                                          @RequestPart(name="sales_data") StoresPostSalesRequestDto salesinfo,
                                          @RequestPart(name="image") List<MultipartFile> imgs){
-        storesService.update(id, clothesinfo, salesinfo, imgs);
+        storesService.update(id, postinfo, clothesinfo, salesinfo, imgs);
         return new ResponseEntity<>("수정 완료", HttpStatus.OK);
     }
 

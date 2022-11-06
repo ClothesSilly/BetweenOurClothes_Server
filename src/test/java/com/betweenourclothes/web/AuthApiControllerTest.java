@@ -7,6 +7,7 @@ import com.betweenourclothes.domain.auth.Email;
 import com.betweenourclothes.domain.auth.EmailRepository;
 import com.betweenourclothes.web.dto.response.AuthTokenResponseDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -51,7 +52,7 @@ public class AuthApiControllerTest {
     private WebApplicationContext webApplicationContext;
 
 
-    @Before
+    @After
     public void cleanup(){
         //membersRepository.deleteAll();
         //emailRepository.deleteAll();
@@ -118,7 +119,6 @@ public class AuthApiControllerTest {
         String url_email = "http://localhost:" + port + "api/v1/auth/sign-up/email";
         String url_code = "http://localhost:" + port + "api/v1/auth/sign-up/code";
         String url_signup = "http://localhost:" + port + "api/v1/auth/sign-up";
-
 
         String email = "gunsong2@naver.com";
         AuthOnlyEmailRequestDto r = AuthOnlyEmailRequestDto.builder().email(email).build();

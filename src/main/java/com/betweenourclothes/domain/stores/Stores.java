@@ -4,6 +4,7 @@ import com.betweenourclothes.domain.BaseTimeEntity;
 import com.betweenourclothes.domain.Posts;
 import com.betweenourclothes.domain.clothes.*;
 import com.betweenourclothes.domain.members.Members;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,18 +37,19 @@ public class Stores extends Posts {
     @ManyToOne(fetch = FetchType.EAGER)
     private SalesInfoUser salesInfo_user;
 
-
     @Enumerated(EnumType.STRING)
     private SalesStatus status;
 
+    private String price;
 
     private Long clothes_length;
+
 
     @Builder
     public Stores(Members author, Style style, List<ClothesImage> imgs, String title, String content,
                    Materials materials, Colors colors, ClothesInfo clothesInfo,
                   SalesInfoClothes salesInfo_clothes, SalesInfoStatus salesInfo_status, SalesInfoUser salesInfo_user,
-                  Long clothes_length, SalesStatus status
+                  Long clothes_length, SalesStatus status, String price
     ){
         this.author = author;
         this.style = style;
@@ -62,11 +64,12 @@ public class Stores extends Posts {
         this.salesInfo_user = salesInfo_user;
         this.clothes_length = clothes_length;
         this.status = status;
+        this.price = price;
     }
 
     public void update(Style style, Materials materials, Colors colors, ClothesInfo clothesInfo
         ,SalesInfoClothes salesInfo_clothes, SalesInfoStatus salesInfo_status, SalesInfoUser salesInfo_user,
-                       Long clothes_length, String title, String content, SalesStatus status
+                       Long clothes_length, String title, String content, SalesStatus status, String price
     ){
         this.style = style;
         this.materials = materials;
@@ -79,6 +82,7 @@ public class Stores extends Posts {
         this.title = title;
         this.content = content;
         this.status = status;
+        this.price = price;
     }
 
     public void updateImage(List<ClothesImage> clothesImages){
