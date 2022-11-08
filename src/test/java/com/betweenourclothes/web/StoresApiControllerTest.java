@@ -4,9 +4,12 @@ import com.betweenourclothes.domain.clothes.ClothesImage;
 import com.betweenourclothes.domain.clothes.repository.ClothesImageRepository;
 import com.betweenourclothes.domain.stores.SalesStatus;
 import com.betweenourclothes.domain.stores.Stores;
+import com.betweenourclothes.domain.stores.StoresComments;
+import com.betweenourclothes.domain.stores.repository.StoresCommentsRepository;
 import com.betweenourclothes.domain.stores.repository.StoresRepository;
 import com.betweenourclothes.jwt.JwtTokenProvider;
-import com.betweenourclothes.web.dto.request.*;
+import com.betweenourclothes.web.dto.request.auth.AuthSignInRequestDto;
+import com.betweenourclothes.web.dto.request.stores.*;
 import com.betweenourclothes.web.dto.response.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.*;
@@ -22,6 +25,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.io.File;
@@ -60,6 +64,9 @@ public class StoresApiControllerTest {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
+    @Autowired
+    private StoresCommentsRepository storesCommentsRepository;
+
 
     private String AT;
     private String postId;
@@ -86,6 +93,7 @@ public class StoresApiControllerTest {
         }
 
         clothesImageRepository.deleteAllInBatch();
+        storesCommentsRepository.deleteAllInBatch();
         storesRepository.deleteAllInBatch();
     }
 
@@ -98,6 +106,31 @@ public class StoresApiControllerTest {
         ResponseEntity<AuthTokenResponseDto> respDto = restTemplate.postForEntity(url_login, reqDto, AuthTokenResponseDto.class);
         assertThat(respDto.getStatusCode()).isEqualTo(HttpStatus.OK);
         AT = respDto.getBody().getAccessToken();
+    }
+
+    @Test
+    public void 중고거래_댓글추가_확인() throws Exception{
+        String token = "Bearer" + AT;
+        String url = "http://localhost:" + port + "/api/v1/stores/post/" + postId + "/comment";
+
+        HttpHeaders header = new HttpHeaders();
+        header.set("Authorization", token);
+
+        for(int i=0; i<3; i++){
+            StoresPostCommentRequestDto dto = StoresPostCommentRequestDto.builder().post_id(Long.parseLong(postId)).content("댓글 " + Integer.toString(i)).build();
+            HttpEntity<StoresPostCommentRequestDto> req = new HttpEntity<>(dto, header);
+
+            ResponseEntity<String> resp
+                    = restTemplate.exchange(url, HttpMethod.POST, req, String.class);
+            System.out.println(resp.getBody());
+            assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
+        }
+
+        HttpEntity<Long> get_req = new HttpEntity<>(Long.parseLong(postId), header);
+        ResponseEntity<StoresPostCommentsResponseDto> resp = restTemplate.exchange(url, HttpMethod.GET, get_req, StoresPostCommentsResponseDto.class);
+        assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(resp.getBody().getLength()).isEqualTo(3);
+        assertThat(resp.getBody().getComments().get(1)).isEqualTo("댓글 1");
     }
 
     @Test

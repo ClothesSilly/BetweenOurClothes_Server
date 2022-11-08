@@ -10,8 +10,8 @@ import com.betweenourclothes.domain.members.repository.MembersRepository;
 import com.betweenourclothes.exception.ErrorCode;
 import com.betweenourclothes.exception.customException.ClosetsPostException;
 import com.betweenourclothes.jwt.SecurityUtil;
-import com.betweenourclothes.web.dto.request.ClosetsPostRequestDto;
-import com.betweenourclothes.web.dto.request.ClosetsSearchCategoryAllRequestDto;
+import com.betweenourclothes.web.dto.request.closets.ClosetsPostRequestDto;
+import com.betweenourclothes.web.dto.request.closets.ClosetsSearchCategoryAllRequestDto;
 import com.betweenourclothes.web.dto.response.ClosetsImagesResponseDto;
 import com.betweenourclothes.web.dto.response.ClosetsThumbnailsResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -187,7 +187,7 @@ public class ClosetsServiceImpl implements ClosetsService{
         List<byte[]> returnArr = new ArrayList<>();
         for(ClothesImage image : images.getContent()){
             returnArr.add(image.toByte(300, 300));
-            postId.add(image.getClosets_post_id().getId());
+            postId.add(image.getClosets_post().getId());
         }
 
         ClosetsThumbnailsResponseDto responseDto = ClosetsThumbnailsResponseDto.builder().id(postId).images(returnArr).length(returnArr.size()).build();

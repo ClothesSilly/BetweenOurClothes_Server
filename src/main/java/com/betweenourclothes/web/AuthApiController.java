@@ -1,14 +1,13 @@
 package com.betweenourclothes.web;
 
-import com.betweenourclothes.web.dto.request.AuthOnlyEmailRequestDto;
-import com.betweenourclothes.web.dto.request.AuthSignInRequestDto;
-import com.betweenourclothes.web.dto.request.AuthSignUpRequestDto;
+import com.betweenourclothes.web.dto.request.auth.AuthOnlyEmailRequestDto;
+import com.betweenourclothes.web.dto.request.auth.AuthSignInRequestDto;
+import com.betweenourclothes.web.dto.request.auth.AuthSignUpRequestDto;
 import com.betweenourclothes.exception.ErrorCode;
 import com.betweenourclothes.exception.customException.AuthSignInException;
 import com.betweenourclothes.service.auth.AuthServiceImpl;
-import com.betweenourclothes.web.dto.request.AuthEmailRequestDto;
+import com.betweenourclothes.web.dto.request.auth.AuthEmailRequestDto;
 import com.betweenourclothes.web.dto.response.AuthTokenResponseDto;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

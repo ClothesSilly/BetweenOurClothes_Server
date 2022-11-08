@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -22,11 +23,6 @@ public class Stores extends Posts {
 
     @Column(columnDefinition = "TEXT")
     private String content;
-
-    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
-    @OrderColumn()
-    @JoinColumn(name="stores_post_id")
-    private List<ClothesImage> images;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private SalesInfoClothes salesInfo_clothes;
@@ -44,6 +40,12 @@ public class Stores extends Posts {
 
     private Long clothes_length;
 
+    @OneToMany(mappedBy = "stores_post", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    @OrderColumn()
+    private List<ClothesImage> images;
+
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<StoresComments> comments;
 
     @Builder
     public Stores(Members author, Style style, List<ClothesImage> imgs, String title, String content,
@@ -65,6 +67,7 @@ public class Stores extends Posts {
         this.clothes_length = clothes_length;
         this.status = status;
         this.price = price;
+        this.comments = new ArrayList<>();
     }
 
     public void update(Style style, Materials materials, Colors colors, ClothesInfo clothesInfo
@@ -87,5 +90,9 @@ public class Stores extends Posts {
 
     public void updateImage(List<ClothesImage> clothesImages){
         this.images = clothesImages;
+    }
+
+    public void updateComments(StoresComments comments){
+        this.comments.add(comments);
     }
 }

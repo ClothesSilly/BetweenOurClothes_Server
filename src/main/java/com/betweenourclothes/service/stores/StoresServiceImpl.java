@@ -9,10 +9,8 @@ import com.betweenourclothes.domain.stores.repository.*;
 import com.betweenourclothes.exception.ErrorCode;
 import com.betweenourclothes.exception.customException.StoresPostException;
 import com.betweenourclothes.jwt.SecurityUtil;
-import com.betweenourclothes.web.dto.request.StoresPostClothesRequestDto;
-import com.betweenourclothes.web.dto.request.StoresPostRequestDto;
-import com.betweenourclothes.web.dto.request.StoresPostSalesRequestDto;
-import com.betweenourclothes.web.dto.request.StoresSearchCategoryAllRequestDto;
+import com.betweenourclothes.web.dto.request.stores.*;
+import com.betweenourclothes.web.dto.response.StoresPostCommentsResponseDto;
 import com.betweenourclothes.web.dto.response.StoresPostResponseDto;
 import com.betweenourclothes.web.dto.response.StoresThumbnailsResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +18,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -43,6 +40,7 @@ public class StoresServiceImpl implements StoresService{
     private final SalesInfoUserRepository salesInfoUserRepository;
     private final SalesInfoClothesRepository salesInfoClothesRepository;
     private final SalesInfoStatusRepository salesInfoStatusRepository;
+    private final StoresCommentsRepository storesCommentsRepository;
 
     @Transactional
     @Override
@@ -103,6 +101,22 @@ public class StoresServiceImpl implements StoresService{
             img.updatePostId(post);
         }
         return post.getId();
+    }
+
+    @Transactional
+    @Override
+    public void comment(Long id, StoresPostCommentRequestDto requestDto) {
+
+        Members member = membersRepository.findByEmail(SecurityUtil.getMemberEmail())
+                .orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
+
+        Stores post = storesRepository.findById(id).orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
+
+        StoresComments comments = requestDto.toEntity(member, post);
+
+        storesCommentsRepository.save(comments);
+        member.updateStoresComments(comments);
+        post.updateComments(comments);
     }
 
     @Transactional
@@ -205,6 +219,9 @@ public class StoresServiceImpl implements StoresService{
         }
 
         StoresPostResponseDto responseDto = StoresPostResponseDto.builder()
+                .profile_images(post.getAuthor().toByte(200, 200))
+                .nickname(post.getAuthor().getNickname())
+                .createdTime(post.getCreatedDate().toString())
                 .title(post.getTitle())
                 .content(post.getContent())
                 .price(post.getPrice())
@@ -223,6 +240,37 @@ public class StoresServiceImpl implements StoresService{
                 .user_weight(post.getSalesInfo_user().getUser_weight())
                 .sales_status(StoresPostResponseDto.enum2String(post.getStatus()))
                 .images(returnArr).id(id).build();
+        return responseDto;
+    }
+
+    @Transactional
+    @Override
+    public StoresPostCommentsResponseDto findStoresCommentsByPostId(Long id) {
+
+        membersRepository.findByEmail(SecurityUtil.getMemberEmail())
+                .orElseThrow(()->new StoresPostException(ErrorCode.USER_NOT_FOUND));
+
+        Stores post = storesRepository.findById(id).orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
+
+        List<String> comments = new ArrayList<>();
+        List<String> nicknames = new ArrayList<>();
+        List<String> createdTimes = new ArrayList<>();
+        int length = 0;
+
+        for(StoresComments comment : post.getComments()){
+            comments.add(comment.getContent());
+            nicknames.add(comment.getUser().getNickname());
+            createdTimes.add(comment.getCreatedDate().toString());
+        }
+        length = comments.size();
+
+        StoresPostCommentsResponseDto responseDto = StoresPostCommentsResponseDto.builder()
+                .comments(comments)
+                .nickname(nicknames)
+                .createdTime(createdTimes)
+                .length(length)
+                .build();
+
         return responseDto;
     }
 
@@ -249,14 +297,14 @@ public class StoresServiceImpl implements StoresService{
 
         Stores post = null;
         for(ClothesImage image : images.getContent()){
-            if(image.getStores_post_id().getStatus() == SalesStatus.SALES){
+            if(image.getStores_post().getStatus() == SalesStatus.SALES){
                 returnArr.add(image.toByte(300, 300));
-                postId.add(image.getStores_post_id().getId());
-                titles.add(image.getStores_post_id().getTitle());
-                prices.add(image.getStores_post_id().getPrice());
-                contents.add(image.getStores_post_id().getContent().substring(0, Math.min(image.getStores_post_id().getContent().length(), 30)));
-                transports.add(image.getStores_post_id().getSalesInfo_status().getTransport());
-                modifiedDates.add(image.getStores_post_id().getModifiedDate().toString());
+                postId.add(image.getStores_post().getId());
+                titles.add(image.getStores_post().getTitle());
+                prices.add(image.getStores_post().getPrice());
+                contents.add(image.getStores_post().getContent().substring(0, Math.min(image.getStores_post().getContent().length(), 30)));
+                transports.add(image.getStores_post().getSalesInfo_status().getTransport());
+                modifiedDates.add(image.getStores_post().getModifiedDate().toString());
             }
         }
 

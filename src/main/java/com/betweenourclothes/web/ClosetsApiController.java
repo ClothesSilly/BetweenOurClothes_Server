@@ -1,7 +1,7 @@
 package com.betweenourclothes.web;
 
-import com.betweenourclothes.web.dto.request.ClosetsPostRequestDto;
-import com.betweenourclothes.web.dto.request.ClosetsSearchCategoryAllRequestDto;
+import com.betweenourclothes.web.dto.request.closets.ClosetsPostRequestDto;
+import com.betweenourclothes.web.dto.request.closets.ClosetsSearchCategoryAllRequestDto;
 import com.betweenourclothes.web.dto.response.ClosetsImagesResponseDto;
 import com.betweenourclothes.web.dto.response.ClosetsThumbnailsResponseDto;
 import io.swagger.annotations.ApiOperation;

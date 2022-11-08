@@ -15,6 +15,7 @@ import java.util.List;
 public class StoresPostResponseDto {
 
     private List<byte[]> images;
+    private byte[] profile_images;
     private String title;
     private String content;
     private String price;
@@ -33,6 +34,8 @@ public class StoresPostResponseDto {
     private Long clothes_length;
     private Long id;
     private String sales_status;
+    private String nickname;
+    private String createdTime;
 
 
     public static String enum2String(SalesStatus status){

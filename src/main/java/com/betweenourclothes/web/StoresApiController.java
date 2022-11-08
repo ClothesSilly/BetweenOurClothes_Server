@@ -1,7 +1,8 @@
 package com.betweenourclothes.web;
 
 import com.betweenourclothes.service.stores.StoresService;
-import com.betweenourclothes.web.dto.request.*;
+import com.betweenourclothes.web.dto.request.stores.*;
+import com.betweenourclothes.web.dto.response.StoresPostCommentsResponseDto;
 import com.betweenourclothes.web.dto.response.StoresPostResponseDto;
 import com.betweenourclothes.web.dto.response.StoresThumbnailsResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,16 @@ public class StoresApiController {
         return new ResponseEntity<>(id.toString(), HttpStatus.OK);
     }
 
+    // 댓글 등록
+    @PostMapping("/post/{id}/comment")
+    public ResponseEntity<String> comment(@PathVariable("id") Long id, @RequestBody StoresPostCommentRequestDto comments){
+        storesService.comment(id, comments);
+        return new ResponseEntity<>("댓글 등록 완료", HttpStatus.OK);
+    }
+
+    // 메인 배너
+
+
     /*** 게시글 수정 ***/
     @PatchMapping("/post/{id}")
     public ResponseEntity<String> update(@PathVariable("id") Long id,
@@ -41,6 +52,10 @@ public class StoresApiController {
         storesService.update(id, postinfo, clothesinfo, salesinfo, imgs);
         return new ResponseEntity<>("수정 완료", HttpStatus.OK);
     }
+
+    // 찜
+    // 판매상태 변화
+
 
     /*** 게시글 삭제 ***/
     @DeleteMapping("/post/{id}")
@@ -56,6 +71,14 @@ public class StoresApiController {
         return new ResponseEntity<StoresPostResponseDto>(responseDto, HttpStatus.OK);
     }
 
+    // 댓글 가져오기
+    @GetMapping("/post/{id}/comment")
+    public ResponseEntity<StoresPostCommentsResponseDto> findStoresCommentsByPostId(@PathVariable("id") Long id){
+        StoresPostCommentsResponseDto responseDto = storesService.findStoresCommentsByPostId(id);
+        return new ResponseEntity<StoresPostCommentsResponseDto>(responseDto, HttpStatus.OK);
+    }
+
+
     /*** 옷 필터 ***/
     @GetMapping("/post/category")
     public ResponseEntity<StoresThumbnailsResponseDto> findImagesByAllCategory(@PageableDefault(size=15) Pageable pageable,
@@ -63,5 +86,7 @@ public class StoresApiController {
         StoresThumbnailsResponseDto responseDto = storesService.findImagesByAllCategory(pageable, req);
         return new ResponseEntity<StoresThumbnailsResponseDto>(responseDto, HttpStatus.OK);
     }
+
+
 
 }

@@ -35,4 +35,5 @@ public abstract class Posts extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.EAGER)
     protected ClothesInfo clothesInfo;
+    
 }

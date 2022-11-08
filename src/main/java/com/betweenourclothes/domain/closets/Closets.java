@@ -16,9 +16,8 @@ import java.util.List;
 @NoArgsConstructor
 public class Closets extends Posts {
 
-    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "closets_post", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     @OrderColumn()
-    @JoinColumn(name="closets_post_id")
     private List<ClothesImage> images;
 
     @Builder

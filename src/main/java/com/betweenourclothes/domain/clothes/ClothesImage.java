@@ -22,7 +22,6 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name="clothes_image")
 @AllArgsConstructor
 public class ClothesImage {
 
@@ -35,10 +34,10 @@ public class ClothesImage {
     private String type;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    private Closets closets_post_id;
+    private Closets closets_post;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    private Stores stores_post_id;
+    private Stores stores_post;
 
     @Builder
     public ClothesImage(String type){
@@ -76,11 +75,11 @@ public class ClothesImage {
     }
 
     public void updatePostId(Closets closets){
-        this.closets_post_id = closets;
+        this.closets_post = closets;
     }
 
     public void updatePostId(Stores stores){
-        this.stores_post_id = stores;
+        this.stores_post = stores;
     }
 
     public byte[] toByte(int width, int height){

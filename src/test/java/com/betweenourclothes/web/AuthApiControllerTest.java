@@ -2,13 +2,16 @@ package com.betweenourclothes.web;
 
 import com.betweenourclothes.domain.members.Members;
 import com.betweenourclothes.domain.members.repository.MembersRepository;
-import com.betweenourclothes.web.dto.request.*;
 import com.betweenourclothes.domain.auth.Email;
 import com.betweenourclothes.domain.auth.EmailRepository;
+import com.betweenourclothes.web.dto.request.auth.AuthEmailRequestDto;
+import com.betweenourclothes.web.dto.request.auth.AuthOnlyEmailRequestDto;
+import com.betweenourclothes.web.dto.request.auth.AuthSignInRequestDto;
+import com.betweenourclothes.web.dto.request.auth.AuthSignUpRequestDto;
+import com.betweenourclothes.web.dto.request.closets.ClosetsPostRequestDto;
 import com.betweenourclothes.web.dto.response.AuthTokenResponseDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
