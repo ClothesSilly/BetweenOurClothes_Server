@@ -2,6 +2,8 @@ package com.betweenourclothes.web;
 
 import com.betweenourclothes.domain.clothes.ClothesImage;
 import com.betweenourclothes.domain.clothes.repository.ClothesImageRepository;
+import com.betweenourclothes.domain.members.MembersLikeStoresPost;
+import com.betweenourclothes.domain.members.repository.MembersLikeStoresPostRepository;
 import com.betweenourclothes.domain.stores.SalesStatus;
 import com.betweenourclothes.domain.stores.Stores;
 import com.betweenourclothes.domain.stores.StoresComments;
@@ -37,8 +39,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -67,6 +68,9 @@ public class StoresApiControllerTest {
     @Autowired
     private StoresCommentsRepository storesCommentsRepository;
 
+    @Autowired
+    private MembersLikeStoresPostRepository membersLikeStoresPostRepository;
+
 
     private String AT;
     private String postId;
@@ -92,9 +96,10 @@ public class StoresApiControllerTest {
             }
         }
 
-        clothesImageRepository.deleteAllInBatch();
-        storesCommentsRepository.deleteAllInBatch();
-        storesRepository.deleteAllInBatch();
+        //clothesImageRepository.deleteAllInBatch();
+        //storesCommentsRepository.deleteAllInBatch();
+        //membersLikeStoresPostRepository.deleteAllInBatch();
+        //storesRepository.deleteAllInBatch();
     }
 
     @Test
@@ -106,6 +111,58 @@ public class StoresApiControllerTest {
         ResponseEntity<AuthTokenResponseDto> respDto = restTemplate.postForEntity(url_login, reqDto, AuthTokenResponseDto.class);
         assertThat(respDto.getStatusCode()).isEqualTo(HttpStatus.OK);
         AT = respDto.getBody().getAccessToken();
+    }
+
+
+    @Test
+    public void 중고거래_찜_등록과확인과취소() throws Exception{
+        String token = "Bearer" + AT;
+        String url = "http://localhost:" + port + "/api/v1/stores/post/" + postId + "/like";
+
+        HttpHeaders header = new HttpHeaders();
+        header.set("Authorization", token);
+
+        // 좋아요 등록
+        HttpEntity<Long> req = new HttpEntity<>(Long.parseLong(postId), header);
+        ResponseEntity<String> resp = restTemplate.exchange(url, HttpMethod.POST, req, String.class);
+        assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        // 좋아요 가져오기
+        String url_get = "http://localhost:" + port + "/api/v1/stores/post/like?page=0";
+        req = new HttpEntity<>(header);
+        ResponseEntity<StoresThumbnailsResponseDto> dto = restTemplate.exchange(url_get, HttpMethod.GET, req, StoresThumbnailsResponseDto.class);
+        assertThat(dto.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(dto.getBody().getLength()).isEqualTo(1);
+        assertThat(dto.getBody().getId().get(0)).isEqualTo(Long.parseLong(postId));
+
+
+        url = "http://localhost:" + port + "/api/v1/stores/post/" + Long.toString(Long.parseLong(postId)-1) + "/like";
+        req = new HttpEntity<>(Long.parseLong(postId)-1, header);
+        resp = restTemplate.exchange(url, HttpMethod.POST, req, String.class);
+        assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+
+        req = new HttpEntity<>(header);
+        url_get = "http://localhost:" + port + "/api/v1/stores/post/like?page=0";
+        dto = restTemplate.exchange(url_get, HttpMethod.GET, req, StoresThumbnailsResponseDto.class);
+        assertThat(dto.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(dto.getBody().getLength()).isEqualTo(1);
+        assertThat(dto.getBody().getId().get(0)).isEqualTo(Long.parseLong(postId)-1);
+
+        // 좋아요 삭제
+        url = "http://localhost:" + port + "/api/v1/stores/post/" + Long.toString(Long.parseLong(postId)-1) + "/like";
+        req = new HttpEntity<>(Long.parseLong(postId)-1, header);
+        resp = restTemplate.exchange(url, HttpMethod.DELETE, req, String.class);
+        assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        url = "http://localhost:" + port + "/api/v1/stores/post/" + postId + "/like";
+        req = new HttpEntity<>(Long.parseLong(postId), header);
+        resp = restTemplate.exchange(url, HttpMethod.DELETE, req, String.class);
+        assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        List<MembersLikeStoresPost> likes = membersLikeStoresPostRepository.findAll();
+        assertThat(likes.size()).isEqualTo(0);
+        //assertThat(likes.get(likes.size()-1).getStore().getId()).isEqualTo(Long.parseLong(postId));
     }
 
     @Test
@@ -294,7 +351,6 @@ public class StoresApiControllerTest {
                 .user_height("160~165")
                 .user_weight("55~60")
                 .transport("직거래")
-                .status("SOLD")
                 .build();
         ObjectMapper mapper = new ObjectMapper();
         String dto2Json3 = mapper.writeValueAsString(reqDto3);
@@ -403,7 +459,6 @@ public class StoresApiControllerTest {
                 .user_weight("45~50")
                 .transport("택배")
                 .clothes_length(36L)
-                .status("T")
                 .build();
         testData_sales.add(salesdto);
         img =  new MockMultipartFile("image", "test.jpg",
@@ -436,7 +491,6 @@ public class StoresApiControllerTest {
                 .user_height("160~165")
                 .user_weight("55~60")
                 .transport("직거래")
-                .status("T")
                 .build();
         testData_sales.add(salesdto);
         img =  new MockMultipartFile("image", "test.jpg",
@@ -469,7 +523,6 @@ public class StoresApiControllerTest {
                 .user_weight("75~80")
                 .transport("택배")
                 .clothes_length(72L)
-                .status("T")
                 .build();
         testData_sales.add(salesdto);
         img =  new MockMultipartFile("image", "test.jpg",
@@ -501,7 +554,6 @@ public class StoresApiControllerTest {
                 .user_height("175~180")
                 .user_weight("65~70")
                 .transport("직거래")
-                .status("T")
                 .build();
         testData_sales.add(salesdto);
         img =  new MockMultipartFile("image", "test.jpg",
@@ -533,7 +585,6 @@ public class StoresApiControllerTest {
                 .user_height("175~180")
                 .user_weight("80~85")
                 .transport("택배")
-                .status("T")
                 .build();
         testData_sales.add(salesdto);
         img =  new MockMultipartFile("image", "test.jpg",

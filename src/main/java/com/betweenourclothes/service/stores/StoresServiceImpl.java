@@ -3,6 +3,8 @@ package com.betweenourclothes.service.stores;
 import com.betweenourclothes.domain.clothes.*;
 import com.betweenourclothes.domain.clothes.repository.*;
 import com.betweenourclothes.domain.members.Members;
+import com.betweenourclothes.domain.members.MembersLikeStoresPost;
+import com.betweenourclothes.domain.members.repository.MembersLikeStoresPostRepository;
 import com.betweenourclothes.domain.members.repository.MembersRepository;
 import com.betweenourclothes.domain.stores.*;
 import com.betweenourclothes.domain.stores.repository.*;
@@ -15,13 +17,16 @@ import com.betweenourclothes.web.dto.response.StoresPostResponseDto;
 import com.betweenourclothes.web.dto.response.StoresThumbnailsResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -41,6 +46,17 @@ public class StoresServiceImpl implements StoresService{
     private final SalesInfoClothesRepository salesInfoClothesRepository;
     private final SalesInfoStatusRepository salesInfoStatusRepository;
     private final StoresCommentsRepository storesCommentsRepository;
+
+    private final MembersLikeStoresPostRepository membersLikeStoresPostRepository;
+
+
+    /*** 게시글
+     * 1. post: 등록
+     * 2. update: 수정
+     * 3. delete: 삭제
+     * 4. findPostById: 게시글 ID로 게시글 가져오기
+     * 5. findImagesByAllCategory: 게시글 미리보기 가져오기
+     * ***/
 
     @Transactional
     @Override
@@ -93,7 +109,7 @@ public class StoresServiceImpl implements StoresService{
                 .title(postinfo.getTitle()).content(postinfo.getContent()).materials(material).
                 colors(color).clothesInfo(clothesInfo).salesInfo_clothes(salesInfoClothes).salesInfo_status(salesInfoStatus)
                 .salesInfo_user(salesInfoUser).clothes_length(salesinfo.getClothes_length())
-                .status(StoresPostSalesRequestDto.string2enum(salesinfo.getStatus())).price(postinfo.getPrice()).build();
+                .status(StoresPostSalesRequestDto.string2enum("SALE")).price(postinfo.getPrice()).build();
 
         storesRepository.save(post);
         member.updateStoresPosts(post);
@@ -101,22 +117,6 @@ public class StoresServiceImpl implements StoresService{
             img.updatePostId(post);
         }
         return post.getId();
-    }
-
-    @Transactional
-    @Override
-    public void comment(Long id, StoresPostCommentRequestDto requestDto) {
-
-        Members member = membersRepository.findByEmail(SecurityUtil.getMemberEmail())
-                .orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
-
-        Stores post = storesRepository.findById(id).orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
-
-        StoresComments comments = requestDto.toEntity(member, post);
-
-        storesCommentsRepository.save(comments);
-        member.updateStoresComments(comments);
-        post.updateComments(comments);
     }
 
     @Transactional
@@ -157,8 +157,7 @@ public class StoresServiceImpl implements StoresService{
         // 게시글 찾고 업데이트
         Stores post = storesRepository.findById(id).orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
         post.update(style, material, color, clothesInfo, salesInfoClothes, salesInfoStatus, salesInfoUser,
-                salesinfo.getClothes_length(), postinfo.getTitle(), postinfo.getContent(),
-                StoresPostSalesRequestDto.string2enum(salesinfo.getStatus()), postinfo.getPrice());
+                salesinfo.getClothes_length(), postinfo.getTitle(), postinfo.getContent(), postinfo.getPrice());
 
         // 경로에 저장되어 있는 실제 이미지 삭제
         for(ClothesImage img : post.getImages()){
@@ -245,6 +244,68 @@ public class StoresServiceImpl implements StoresService{
 
     @Transactional
     @Override
+    public StoresThumbnailsResponseDto findImagesByAllCategory(Pageable pageable, StoresSearchCategoryAllRequestDto req) {
+        Members member = membersRepository.findByEmail(SecurityUtil.getMemberEmail())
+                .orElseThrow(()->new StoresPostException(ErrorCode.USER_NOT_FOUND));
+
+        Page<ClothesImage> images = storesQueryDslRepository.findClothesImagesByAllOptions(pageable, member.getId(),
+                req.getNameL(), req.getNameS(),
+                req.getFit(), req.getLength(),
+                req.getMaterial(), req.getColor());
+
+
+        List<String> titles = new ArrayList<>();
+        List<String> modifiedDates = new ArrayList<>();
+        List<Long> postId = new ArrayList<>();
+        List<String> prices = new ArrayList<>();
+        List<String> transports = new ArrayList<>();
+        List<String> contents = new ArrayList<>();
+        List<byte[]> thumbnails = new ArrayList<>();
+
+
+        Stores post = null;
+        for(ClothesImage image : images.getContent()){
+            if(image.getStores_post().getStatus() == SalesStatus.SALES){
+                thumbnails.add(image.toByte(300, 300));
+                postId.add(image.getStores_post().getId());
+                titles.add(image.getStores_post().getTitle());
+                prices.add(image.getStores_post().getPrice());
+                contents.add(image.getStores_post().getContent().substring(0, Math.min(image.getStores_post().getContent().length(), 30)));
+                transports.add(image.getStores_post().getSalesInfo_status().getTransport());
+                modifiedDates.add(image.getStores_post().getModifiedDate().toString());
+            }
+        }
+
+        StoresThumbnailsResponseDto responseDto = StoresThumbnailsResponseDto.builder()
+                .title(titles).modified_date(modifiedDates).content(contents)
+                .id(postId).images(thumbnails).price(prices).transport(transports).length(thumbnails.size()).build();
+        return responseDto;
+    }
+
+
+    /*** 댓글
+     * 1. comment: 등록
+     * 2. findStoresCommentsByPostId: 게시글 ID로 댓글 가져오기
+     * ***/
+
+    @Transactional
+    @Override
+    public void comment(Long id, StoresPostCommentRequestDto requestDto) {
+
+        Members member = membersRepository.findByEmail(SecurityUtil.getMemberEmail())
+                .orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
+
+        Stores post = storesRepository.findById(id).orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
+
+        StoresComments comments = requestDto.toEntity(member, post);
+
+        storesCommentsRepository.save(comments);
+        member.updateStoresComments(comments);
+        post.updateComments(comments);
+    }
+
+    @Transactional
+    @Override
     public StoresPostCommentsResponseDto findStoresCommentsByPostId(Long id) {
 
         membersRepository.findByEmail(SecurityUtil.getMemberEmail())
@@ -274,17 +335,45 @@ public class StoresServiceImpl implements StoresService{
         return responseDto;
     }
 
+
+    /*** 찜
+     * 1. 찜 등록
+     * 2. 찜 삭제
+     * 3. 찜 가져오기
+     * ***/
+
     @Transactional
     @Override
-    public StoresThumbnailsResponseDto findImagesByAllCategory(Pageable pageable, StoresSearchCategoryAllRequestDto req) {
+    public void likes(Long id) {
         Members member = membersRepository.findByEmail(SecurityUtil.getMemberEmail())
                 .orElseThrow(()->new StoresPostException(ErrorCode.USER_NOT_FOUND));
 
-        Page<ClothesImage> images = storesQueryDslRepository.findClothesImagesByAllOptions(pageable, member.getId(),
-                req.getNameL(), req.getNameS(),
-                req.getFit(), req.getLength(),
-                req.getMaterial(), req.getColor());
+        Stores post = storesRepository.findById(id).orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
 
+        MembersLikeStoresPost entity = MembersLikeStoresPost.builder().user(member).store(post).build();
+
+        membersLikeStoresPostRepository.save(entity);
+        member.updateStoresLikes(entity);
+    }
+
+    @Transactional
+    @Override
+    public void undo_likes(Long id) {
+        Members member = membersRepository.findByEmail(SecurityUtil.getMemberEmail())
+                .orElseThrow(()->new StoresPostException(ErrorCode.USER_NOT_FOUND));
+
+        Stores post = storesRepository.findById(id).orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
+
+        MembersLikeStoresPost entity = membersLikeStoresPostRepository.findByUserAndStore(member, post).orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
+        member.deleteStoresLikes(entity);
+        membersLikeStoresPostRepository.delete(entity);
+    }
+
+    @Transactional
+    @Override
+    public StoresThumbnailsResponseDto findStoresLikesByMember(Pageable pageable) {
+        Members member = membersRepository.findByEmail(SecurityUtil.getMemberEmail())
+                .orElseThrow(()->new StoresPostException(ErrorCode.USER_NOT_FOUND));
 
         List<String> titles = new ArrayList<>();
         List<String> modifiedDates = new ArrayList<>();
@@ -292,25 +381,32 @@ public class StoresServiceImpl implements StoresService{
         List<String> prices = new ArrayList<>();
         List<String> transports = new ArrayList<>();
         List<String> contents = new ArrayList<>();
-        List<byte[]> returnArr = new ArrayList<>();
+        List<byte[]> thumbnails = new ArrayList<>();
 
 
-        Stores post = null;
-        for(ClothesImage image : images.getContent()){
-            if(image.getStores_post().getStatus() == SalesStatus.SALES){
-                returnArr.add(image.toByte(300, 300));
-                postId.add(image.getStores_post().getId());
-                titles.add(image.getStores_post().getTitle());
-                prices.add(image.getStores_post().getPrice());
-                contents.add(image.getStores_post().getContent().substring(0, Math.min(image.getStores_post().getContent().length(), 30)));
-                transports.add(image.getStores_post().getSalesInfo_status().getTransport());
-                modifiedDates.add(image.getStores_post().getModifiedDate().toString());
-            }
+        int start = (int) pageable.getOffset();
+        int end = (int) Math.min(pageable.getOffset() + pageable.getPageSize(), member.getStoresLikes().size());
+        List copy = new ArrayList<>(member.getStoresLikes());
+        Collections.reverse(copy);
+        Page<MembersLikeStoresPost> page =  new PageImpl<>(copy.subList(start, end), pageable, member.getStoresLikes().size());
+
+        for(MembersLikeStoresPost likeinfo : page.getContent()){
+            Stores post = likeinfo.getStore();
+            titles.add(post.getTitle());
+            thumbnails.add(post.getImages().get(0).toByte(300, 300));
+            postId.add(post.getId());
+            prices.add(post.getPrice());
+            contents.add(post.getContent().substring(0, Math.min(post.getContent().length(), 30)));
+            transports.add(post.getSalesInfo_status().getTransport());
+            modifiedDates.add(post.getModifiedDate().toString());
         }
 
         StoresThumbnailsResponseDto responseDto = StoresThumbnailsResponseDto.builder()
                 .title(titles).modified_date(modifiedDates).content(contents)
-                .id(postId).images(returnArr).price(prices).transport(transports).length(returnArr.size()).build();
+                .id(postId).images(thumbnails).price(prices).transport(transports).length(page.getContent().size()).build();
+
         return responseDto;
     }
+
+
 }

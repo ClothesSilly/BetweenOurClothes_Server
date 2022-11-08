@@ -11,27 +11,41 @@ import java.util.List;
 
 public interface StoresService {
 
-    /*** 등록 ***/
+    /*** 게시글
+     * 1. post: 등록
+     * 2. update: 수정
+     * 3. delete: 삭제
+     * 4. findPostById: 게시글 ID로 게시글 가져오기
+     * 5. findImagesByAllCategory: 게시글 미리보기 가져오기
+     * ***/
 
-    // 게시글
     Long post(StoresPostRequestDto postinfo, StoresPostClothesRequestDto clothesinfo, StoresPostSalesRequestDto salesinfo, List<MultipartFile> imgs);
-
-    // 댓글 등록
-    void comment(Long id, StoresPostCommentRequestDto requestDto);
-
-    /*** 게시글 수정 ***/
     void update(Long id, StoresPostRequestDto postinfo, StoresPostClothesRequestDto clothesinfo, StoresPostSalesRequestDto salesinfo, List<MultipartFile> imgs);
-
-    /*** 게시글 삭제 ***/
     void delete(Long id);
-
-    /*** 조회 ***/
-    // 게시글 by post id
     StoresPostResponseDto findPostById(Long id);
+    StoresThumbnailsResponseDto findImagesByAllCategory(Pageable pageable, StoresSearchCategoryAllRequestDto req);
 
-    // 댓글 by post id
+
+    /*** 댓글
+     * 1. comment: 등록
+     * 2. findStoresCommentsByPostId: 게시글 ID로 댓글 가져오기
+     * ***/
+
+    void comment(Long id, StoresPostCommentRequestDto requestDto);
     StoresPostCommentsResponseDto findStoresCommentsByPostId(Long id);
 
-    /*** 게시글 필터링 ***/
-    StoresThumbnailsResponseDto findImagesByAllCategory(Pageable pageable, StoresSearchCategoryAllRequestDto req);
+
+    /*** 찜
+     * 1. 찜 등록
+     * 2. 찜 가져오기
+     * ***/
+
+    void likes(Long id);
+    void undo_likes(Long id);
+    StoresThumbnailsResponseDto findStoresLikesByMember(Pageable pageable);
+
+
+    /*** 게시글 검색
+     * 1. 검색
+     * ***/
 }

@@ -72,7 +72,7 @@ public class Stores extends Posts {
 
     public void update(Style style, Materials materials, Colors colors, ClothesInfo clothesInfo
         ,SalesInfoClothes salesInfo_clothes, SalesInfoStatus salesInfo_status, SalesInfoUser salesInfo_user,
-                       Long clothes_length, String title, String content, SalesStatus status, String price
+                       Long clothes_length, String title, String content, String price
     ){
         this.style = style;
         this.materials = materials;
@@ -84,7 +84,6 @@ public class Stores extends Posts {
         this.clothes_length = clothes_length;
         this.title = title;
         this.content = content;
-        this.status = status;
         this.price = price;
     }
 

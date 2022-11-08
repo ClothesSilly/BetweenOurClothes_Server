@@ -24,7 +24,6 @@ public class StoresPostSalesRequestDto {
     private String user_weight;
     private String user_height;
     private Long clothes_length;
-    private String status;
 
     public static SalesStatus string2enum(String status){
         if(status.equals("SOLD")){

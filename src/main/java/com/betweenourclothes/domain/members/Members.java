@@ -67,6 +67,9 @@ public class Members implements UserDetails {
     @OneToMany(mappedBy = "user", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     private List<StoresComments> storesComments;
 
+    @OneToMany(mappedBy= "user", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<MembersLikeStoresPost> storesLikes;
+
     @Builder
     public Members(String email, String password, String name, String nickname, String phone, Role role, String image){
         this.email = email;
@@ -79,6 +82,7 @@ public class Members implements UserDetails {
         this.closetsPosts = new ArrayList<>();
         this.storesPosts = new ArrayList<>();
         this.storesComments = new ArrayList<>();
+        this.storesLikes = new ArrayList<>();
     }
 
     public void encodePassword(PasswordEncoder passwordEncoder){
@@ -101,6 +105,10 @@ public class Members implements UserDetails {
 
     public void updateStoresComments(StoresComments comments){
         this.storesComments.add(comments);
+    }
+
+    public void updateStoresLikes(MembersLikeStoresPost post){
+        this.storesLikes.add(post);
     }
 
     public byte[] toByte(int width, int height){
@@ -156,5 +164,9 @@ public class Members implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public void deleteStoresLikes(MembersLikeStoresPost entity) {
+        this.storesLikes.remove(entity);
     }
 }

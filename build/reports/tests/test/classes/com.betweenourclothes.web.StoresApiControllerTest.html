@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.997s</div>
+<div class="counter">1.123s</div>
 <p>duration</p>
 </div>
 </td>
@@ -78,8 +78,8 @@
 </tr>
 </thead>
 <tr>
-<td class="success">중고거래_댓글추가_확인</td>
-<td class="success">0.997s</td>
+<td class="success">중고거래_찜_등록과확인과취소</td>
+<td class="success">1.123s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -87,32 +87,32 @@
 <div id="tab1" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>15:18:12.092 [Test worker] DEBUG org.springframework.test.context.junit4.SpringJUnit4ClassRunner - SpringJUnit4ClassRunner constructor called with [class com.betweenourclothes.web.StoresApiControllerTest]
-15:18:12.097 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating CacheAwareContextLoaderDelegate from class [org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate]
-15:18:12.103 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating BootstrapContext using constructor [public org.springframework.test.context.support.DefaultBootstrapContext(java.lang.Class,org.springframework.test.context.CacheAwareContextLoaderDelegate)]
-15:18:12.120 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating TestContextBootstrapper for test class [com.betweenourclothes.web.StoresApiControllerTest] from class [org.springframework.boot.test.context.SpringBootTestContextBootstrapper]
-15:18:12.128 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.betweenourclothes.web.StoresApiControllerTest], using SpringBootContextLoader
-15:18:12.130 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [com.betweenourclothes.web.StoresApiControllerTest]: class path resource [com/betweenourclothes/web/StoresApiControllerTest-context.xml] does not exist
-15:18:12.130 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [com.betweenourclothes.web.StoresApiControllerTest]: class path resource [com/betweenourclothes/web/StoresApiControllerTestContext.groovy] does not exist
-15:18:12.130 [Test worker] INFO org.springframework.test.context.support.AbstractContextLoader - Could not detect default resource locations for test class [com.betweenourclothes.web.StoresApiControllerTest]: no resource found for suffixes {-context.xml, Context.groovy}.
-15:18:12.131 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.betweenourclothes.web.StoresApiControllerTest]: StoresApiControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-15:18:12.161 [Test worker] DEBUG org.springframework.test.context.support.ActiveProfilesUtils - Could not find an 'annotation declaring class' for annotation type [org.springframework.test.context.ActiveProfiles] and class [com.betweenourclothes.web.StoresApiControllerTest]
-15:18:12.235 [Test worker] DEBUG org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider - Identified candidate component class: file [C:\Users\user1\Desktop\송아\캡스톤\repo\between-our-clothes-server\build\classes\java\main\com\betweenourclothes\Application.class]
-15:18:12.236 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.betweenourclothes.Application for test class com.betweenourclothes.web.StoresApiControllerTest
-15:18:12.310 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - @TestExecutionListeners is not present for class [com.betweenourclothes.web.StoresApiControllerTest]: using defaults.
-15:18:12.310 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener, org.springframework.security.test.context.support.ReactorContextTestExecutionListener, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
-15:18:12.324 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@354b11fb, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@2507e58a, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@7954b8ac, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@4effa4b5, org.springframework.test.context.support.DirtiesContextTestExecutionListener@2356a058, org.springframework.test.context.transaction.TransactionalTestExecutionListener@39673a0d, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@65aa7455, org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener@56c3ae59, org.springframework.security.test.context.support.ReactorContextTestExecutionListener@400180b9, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@40b66de6, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@7688b179, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@3df26897, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@71ba33d8, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@290a954]
-15:18:12.326 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved @ProfileValueSourceConfiguration [null] for test class [com.betweenourclothes.web.StoresApiControllerTest]
-15:18:12.326 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved ProfileValueSource type [class org.springframework.test.annotation.SystemProfileValueSource] for class [com.betweenourclothes.web.StoresApiControllerTest]
-15:18:12.329 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved @ProfileValueSourceConfiguration [null] for test class [com.betweenourclothes.web.StoresApiControllerTest]
-15:18:12.329 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved ProfileValueSource type [class org.springframework.test.annotation.SystemProfileValueSource] for class [com.betweenourclothes.web.StoresApiControllerTest]
-15:18:12.329 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved @ProfileValueSourceConfiguration [null] for test class [com.betweenourclothes.web.StoresApiControllerTest]
-15:18:12.329 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved ProfileValueSource type [class org.springframework.test.annotation.SystemProfileValueSource] for class [com.betweenourclothes.web.StoresApiControllerTest]
-15:18:12.332 [Test worker] DEBUG org.springframework.test.context.support.AbstractDirtiesContextTestExecutionListener - Before test class: context [DefaultTestContext@749cd38e testClass = StoresApiControllerTest, testInstance = [null], testMethod = [null], testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@31dd4d8a testClass = StoresApiControllerTest, locations = '{}', classes = '{class com.betweenourclothes.Application}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true, server.port=0}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@6adae6d0, org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@6e12d78d, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@44664d0b, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@4556338a], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -&gt; false]], class annotated with @DirtiesContext [false] with mode [null].
-15:18:12.333 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved @ProfileValueSourceConfiguration [null] for test class [com.betweenourclothes.web.StoresApiControllerTest]
-15:18:12.333 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved ProfileValueSource type [class org.springframework.test.annotation.SystemProfileValueSource] for class [com.betweenourclothes.web.StoresApiControllerTest]
-15:18:12.336 [Test worker] DEBUG org.springframework.test.context.support.DependencyInjectionTestExecutionListener - Performing dependency injection for test context [[DefaultTestContext@749cd38e testClass = StoresApiControllerTest, testInstance = com.betweenourclothes.web.StoresApiControllerTest@2c9b1d4e, testMethod = [null], testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@31dd4d8a testClass = StoresApiControllerTest, locations = '{}', classes = '{class com.betweenourclothes.Application}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true, server.port=0}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@6adae6d0, org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@6e12d78d, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@44664d0b, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@4556338a], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -&gt; false]]].
-15:18:12.349 [Test worker] DEBUG org.springframework.test.context.support.TestPropertySourceUtils - Adding inlined properties to environment: {spring.jmx.enabled=false, org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true, server.port=0}
+<pre>19:07:32.430 [Test worker] DEBUG org.springframework.test.context.junit4.SpringJUnit4ClassRunner - SpringJUnit4ClassRunner constructor called with [class com.betweenourclothes.web.StoresApiControllerTest]
+19:07:32.434 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating CacheAwareContextLoaderDelegate from class [org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate]
+19:07:32.439 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating BootstrapContext using constructor [public org.springframework.test.context.support.DefaultBootstrapContext(java.lang.Class,org.springframework.test.context.CacheAwareContextLoaderDelegate)]
+19:07:32.451 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating TestContextBootstrapper for test class [com.betweenourclothes.web.StoresApiControllerTest] from class [org.springframework.boot.test.context.SpringBootTestContextBootstrapper]
+19:07:32.457 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.betweenourclothes.web.StoresApiControllerTest], using SpringBootContextLoader
+19:07:32.459 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [com.betweenourclothes.web.StoresApiControllerTest]: class path resource [com/betweenourclothes/web/StoresApiControllerTest-context.xml] does not exist
+19:07:32.459 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [com.betweenourclothes.web.StoresApiControllerTest]: class path resource [com/betweenourclothes/web/StoresApiControllerTestContext.groovy] does not exist
+19:07:32.459 [Test worker] INFO org.springframework.test.context.support.AbstractContextLoader - Could not detect default resource locations for test class [com.betweenourclothes.web.StoresApiControllerTest]: no resource found for suffixes {-context.xml, Context.groovy}.
+19:07:32.460 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.betweenourclothes.web.StoresApiControllerTest]: StoresApiControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+19:07:32.486 [Test worker] DEBUG org.springframework.test.context.support.ActiveProfilesUtils - Could not find an 'annotation declaring class' for annotation type [org.springframework.test.context.ActiveProfiles] and class [com.betweenourclothes.web.StoresApiControllerTest]
+19:07:32.552 [Test worker] DEBUG org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider - Identified candidate component class: file [C:\Users\user1\Desktop\송아\캡스톤\repo\between-our-clothes-server\build\classes\java\main\com\betweenourclothes\Application.class]
+19:07:32.554 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.betweenourclothes.Application for test class com.betweenourclothes.web.StoresApiControllerTest
+19:07:32.618 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - @TestExecutionListeners is not present for class [com.betweenourclothes.web.StoresApiControllerTest]: using defaults.
+19:07:32.619 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener, org.springframework.security.test.context.support.ReactorContextTestExecutionListener, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+19:07:32.632 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@bc3fc8e, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@36fb50db, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@5ea7c81b, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@7fd4ec30, org.springframework.test.context.support.DirtiesContextTestExecutionListener@6be748c8, org.springframework.test.context.transaction.TransactionalTestExecutionListener@7f6b0e7, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@67714712, org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener@3f1c92a0, org.springframework.security.test.context.support.ReactorContextTestExecutionListener@6eec2c83, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@5c2fc831, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@318b5d71, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@6a595072, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@655ef18e, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@4712d354]
+19:07:32.634 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved @ProfileValueSourceConfiguration [null] for test class [com.betweenourclothes.web.StoresApiControllerTest]
+19:07:32.634 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved ProfileValueSource type [class org.springframework.test.annotation.SystemProfileValueSource] for class [com.betweenourclothes.web.StoresApiControllerTest]
+19:07:32.638 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved @ProfileValueSourceConfiguration [null] for test class [com.betweenourclothes.web.StoresApiControllerTest]
+19:07:32.638 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved ProfileValueSource type [class org.springframework.test.annotation.SystemProfileValueSource] for class [com.betweenourclothes.web.StoresApiControllerTest]
+19:07:32.638 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved @ProfileValueSourceConfiguration [null] for test class [com.betweenourclothes.web.StoresApiControllerTest]
+19:07:32.638 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved ProfileValueSource type [class org.springframework.test.annotation.SystemProfileValueSource] for class [com.betweenourclothes.web.StoresApiControllerTest]
+19:07:32.641 [Test worker] DEBUG org.springframework.test.context.support.AbstractDirtiesContextTestExecutionListener - Before test class: context [DefaultTestContext@493420c0 testClass = StoresApiControllerTest, testInstance = [null], testMethod = [null], testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@5d93dc65 testClass = StoresApiControllerTest, locations = '{}', classes = '{class com.betweenourclothes.Application}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true, server.port=0}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@71c41237, org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@1187dbed, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@6b8eebe4, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@5f76290e], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -&gt; false]], class annotated with @DirtiesContext [false] with mode [null].
+19:07:32.642 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved @ProfileValueSourceConfiguration [null] for test class [com.betweenourclothes.web.StoresApiControllerTest]
+19:07:32.642 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved ProfileValueSource type [class org.springframework.test.annotation.SystemProfileValueSource] for class [com.betweenourclothes.web.StoresApiControllerTest]
+19:07:32.645 [Test worker] DEBUG org.springframework.test.context.support.DependencyInjectionTestExecutionListener - Performing dependency injection for test context [[DefaultTestContext@493420c0 testClass = StoresApiControllerTest, testInstance = com.betweenourclothes.web.StoresApiControllerTest@412fd99, testMethod = [null], testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@5d93dc65 testClass = StoresApiControllerTest, locations = '{}', classes = '{class com.betweenourclothes.Application}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true, server.port=0}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@71c41237, org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@1187dbed, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@6b8eebe4, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@5f76290e], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -&gt; false]]].
+19:07:32.657 [Test worker] DEBUG org.springframework.test.context.support.TestPropertySourceUtils - Adding inlined properties to environment: {spring.jmx.enabled=false, org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true, server.port=0}
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -122,68 +122,45 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::        (v2.1.7.RELEASE)
 
-2022-11-08 15:18:12.527  INFO 1076 --- [    Test worker] c.b.web.StoresApiControllerTest          : Starting StoresApiControllerTest on user with PID 1076 (started by user1 in C:\Users\user1\Desktop\송아\캡스톤\repo\between-our-clothes-server)
-2022-11-08 15:18:12.528  INFO 1076 --- [    Test worker] c.b.web.StoresApiControllerTest          : No active profile set, falling back to default profiles: default
-2022-11-08 15:18:13.251  INFO 1076 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data repositories in DEFAULT mode.
-2022-11-08 15:18:13.360  INFO 1076 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 101ms. Found 13 repository interfaces.
-2022-11-08 15:18:13.690  INFO 1076 --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$3db6bdbc] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2022-11-08 15:18:14.021  INFO 1076 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 0 (http)
-2022-11-08 15:18:14.042  INFO 1076 --- [    Test worker] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2022-11-08 15:18:14.042  INFO 1076 --- [    Test worker] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.22]
-2022-11-08 15:18:14.165  INFO 1076 --- [    Test worker] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2022-11-08 15:18:14.165  INFO 1076 --- [    Test worker] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1623 ms
-2022-11-08 15:18:14.396  INFO 1076 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2022-11-08 15:18:14.789  INFO 1076 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2022-11-08 15:18:14.852  INFO 1076 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+2022-11-08 19:07:32.815  INFO 13212 --- [    Test worker] c.b.web.StoresApiControllerTest          : Starting StoresApiControllerTest on user with PID 13212 (started by user1 in C:\Users\user1\Desktop\송아\캡스톤\repo\between-our-clothes-server)
+2022-11-08 19:07:32.816  INFO 13212 --- [    Test worker] c.b.web.StoresApiControllerTest          : No active profile set, falling back to default profiles: default
+2022-11-08 19:07:33.526  INFO 13212 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data repositories in DEFAULT mode.
+2022-11-08 19:07:33.637  INFO 13212 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 105ms. Found 14 repository interfaces.
+2022-11-08 19:07:33.985  INFO 13212 --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$3d843e48] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-11-08 19:07:34.248  INFO 13212 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 0 (http)
+2022-11-08 19:07:34.265  INFO 13212 --- [    Test worker] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-11-08 19:07:34.265  INFO 13212 --- [    Test worker] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.22]
+2022-11-08 19:07:34.364  INFO 13212 --- [    Test worker] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-11-08 19:07:34.364  INFO 13212 --- [    Test worker] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1534 ms
+2022-11-08 19:07:34.588  INFO 13212 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-11-08 19:07:34.932  INFO 13212 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-11-08 19:07:34.991  INFO 13212 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
 	name: default
 	...]
-2022-11-08 15:18:14.925  INFO 1076 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate Core {5.3.10.Final}
-2022-11-08 15:18:14.926  INFO 1076 --- [    Test worker] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
-2022-11-08 15:18:15.059  INFO 1076 --- [    Test worker] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
-2022-11-08 15:18:15.182  INFO 1076 --- [    Test worker] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-Hibernate: 
-    
-    create table stores_comments (
-       id bigint not null auto_increment,
-        created_date datetime,
-        modified_date datetime,
-        content varchar(255),
-        user_id bigint,
-        post_id bigint,
-        primary key (id)
-    ) engine=InnoDB
-Hibernate: 
-    
-    alter table stores_comments 
-       add constraint FKt7dgnnsdqj9kylevgq6ys3ftl 
-       foreign key (user_id) 
-       references members (id)
-Hibernate: 
-    
-    alter table stores_comments 
-       add constraint FK1xq29tkmnnw5rr24br7lexj8a 
-       foreign key (post_id) 
-       references stores (id)
-2022-11-08 15:18:16.198  INFO 1076 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2022-11-08 15:18:16.774  INFO 1076 --- [    Test worker] o.h.h.i.QueryTranslatorFactoryInitiator  : HHH000397: Using ASTQueryTranslatorFactory
-2022-11-08 15:18:17.103  WARN 1076 --- [    Test worker] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2022-11-08 15:18:17.384  INFO 1076 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: org.springframework.boot.autoconfigure.security.servlet.StaticResourceRequest$StaticResourceRequestMatcher@4068b7d1, []
-2022-11-08 15:18:17.449  INFO 1076 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6d879ab0, org.springframework.security.web.context.SecurityContextPersistenceFilter@131af185, org.springframework.security.web.header.HeaderWriterFilter@34309469, org.springframework.security.web.authentication.logout.LogoutFilter@23d412eb, com.betweenourclothes.jwt.JwtAuthenticationFilter@5884171a, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@41e6fe02, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@2df20cc8, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@454ea20e, org.springframework.security.web.session.SessionManagementFilter@62f694da, org.springframework.security.web.access.ExceptionTranslationFilter@544b1ae2, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@8c84b02]
-2022-11-08 15:18:17.498  INFO 1076 --- [    Test worker] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity&lt;springfox.documentation.spring.web.json.Json&gt; springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
-2022-11-08 15:18:17.773  INFO 1076 --- [    Test worker] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
-2022-11-08 15:18:18.080  INFO 1076 --- [    Test worker] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
-2022-11-08 15:18:18.104  INFO 1076 --- [    Test worker] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
-2022-11-08 15:18:18.136  INFO 1076 --- [    Test worker] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
-2022-11-08 15:18:18.313  INFO 1076 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: deleteUsingDELETE_1
-2022-11-08 15:18:18.320  INFO 1076 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: findImagesByAllCategoryUsingGET_1
-2022-11-08 15:18:18.327  INFO 1076 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: findPostByIdUsingGET_1
-2022-11-08 15:18:18.341  INFO 1076 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: postUsingPOST_1
-2022-11-08 15:18:18.344  INFO 1076 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: updateUsingPATCH_1
-2022-11-08 15:18:18.371  INFO 1076 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 61428 (http) with context path ''
-2022-11-08 15:18:18.372  INFO 1076 --- [    Test worker] c.b.web.StoresApiControllerTest          : Started StoresApiControllerTest in 6.022 seconds (JVM running for 6.788)
-2022-11-08 15:18:18.520  INFO 1076 --- [o-auto-1-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2022-11-08 15:18:18.520  INFO 1076 --- [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2022-11-08 15:18:18.542  INFO 1076 --- [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 22 ms
+2022-11-08 19:07:35.044  INFO 13212 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate Core {5.3.10.Final}
+2022-11-08 19:07:35.045  INFO 13212 --- [    Test worker] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2022-11-08 19:07:35.197  INFO 13212 --- [    Test worker] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2022-11-08 19:07:35.322  INFO 13212 --- [    Test worker] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2022-11-08 19:07:36.248  INFO 13212 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-11-08 19:07:36.785  INFO 13212 --- [    Test worker] o.h.h.i.QueryTranslatorFactoryInitiator  : HHH000397: Using ASTQueryTranslatorFactory
+2022-11-08 19:07:37.118  WARN 13212 --- [    Test worker] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-11-08 19:07:37.387  INFO 13212 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: org.springframework.boot.autoconfigure.security.servlet.StaticResourceRequest$StaticResourceRequestMatcher@61fdcbb6, []
+2022-11-08 19:07:37.440  INFO 13212 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3f0e1039, org.springframework.security.web.context.SecurityContextPersistenceFilter@9534fae, org.springframework.security.web.header.HeaderWriterFilter@68fb4536, org.springframework.security.web.authentication.logout.LogoutFilter@3fb3ac7, com.betweenourclothes.jwt.JwtAuthenticationFilter@6ff83420, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@56374e7c, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@2174007b, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@9eec2ee, org.springframework.security.web.session.SessionManagementFilter@48912e8d, org.springframework.security.web.access.ExceptionTranslationFilter@3d6558f8, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@7a69dccc]
+2022-11-08 19:07:37.481  INFO 13212 --- [    Test worker] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity&lt;springfox.documentation.spring.web.json.Json&gt; springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+2022-11-08 19:07:37.710  INFO 13212 --- [    Test worker] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2022-11-08 19:07:38.002  INFO 13212 --- [    Test worker] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2022-11-08 19:07:38.019  INFO 13212 --- [    Test worker] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2022-11-08 19:07:38.045  INFO 13212 --- [    Test worker] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2022-11-08 19:07:38.186  INFO 13212 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: deleteUsingDELETE_1
+2022-11-08 19:07:38.192  INFO 13212 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: findImagesByAllCategoryUsingGET_1
+2022-11-08 19:07:38.197  INFO 13212 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: findPostByIdUsingGET_1
+2022-11-08 19:07:38.208  INFO 13212 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: postUsingPOST_1
+2022-11-08 19:07:38.210  INFO 13212 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: updateUsingPATCH_1
+2022-11-08 19:07:38.238  INFO 13212 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 64420 (http) with context path ''
+2022-11-08 19:07:38.240  INFO 13212 --- [    Test worker] c.b.web.StoresApiControllerTest          : Started StoresApiControllerTest in 5.582 seconds (JVM running for 6.29)
+2022-11-08 19:07:38.389  INFO 13212 --- [o-auto-1-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-11-08 19:07:38.390  INFO 13212 --- [o-auto-1-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-11-08 19:07:38.407  INFO 13212 --- [o-auto-1-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 17 ms
 Hibernate: 
     select
         members0_.id as id1_6_,
@@ -228,10 +205,10 @@ Hibernate:
         role=? 
     where
         id=?
-BearereyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJndW5zb25nMkBuYXZlci5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY3ODk5MDk4fQ.q7Sbway53KN8DTRxuKQf1NKR4lpcNo44BrCBFY49JOU
-2022-11-08 15:18:18.920  INFO 1076 --- [    Test worker] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring TestDispatcherServlet ''
-2022-11-08 15:18:18.920  INFO 1076 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2022-11-08 15:18:18.922  INFO 1076 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+BearereyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJndW5zb25nMkBuYXZlci5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY3OTEyODU4fQ.jnP9xcst81sH6S9WanL9LiWdPzP9CXRoIwFMS7IDNAE
+2022-11-08 19:07:38.745  INFO 13212 --- [    Test worker] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring TestDispatcherServlet ''
+2022-11-08 19:07:38.745  INFO 13212 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2022-11-08 19:07:38.748  INFO 13212 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 3 ms
 gunsong2@naver.com
 Hibernate: 
     select
@@ -250,8 +227,8 @@ Hibernate:
         members0_.email=?
 Hibernate: 
     select
-        style0_.id as id1_12_,
-        style0_.name as name2_12_ 
+        style0_.id as id1_13_,
+        style0_.name as name2_13_ 
     from
         style style0_ 
     where
@@ -288,11 +265,11 @@ Hibernate:
         and clothesinf0_.fit=?
 Hibernate: 
     select
-        salesinfoc0_.id as id1_7_,
-        salesinfoc0_.clothes_brand as clothes_2_7_,
-        salesinfoc0_.clothes_color as clothes_3_7_,
-        salesinfoc0_.clothes_gender as clothes_4_7_,
-        salesinfoc0_.clothes_size as clothes_5_7_ 
+        salesinfoc0_.id as id1_8_,
+        salesinfoc0_.clothes_brand as clothes_2_8_,
+        salesinfoc0_.clothes_color as clothes_3_8_,
+        salesinfoc0_.clothes_gender as clothes_4_8_,
+        salesinfoc0_.clothes_size as clothes_5_8_ 
     from
         sales_info_clothes salesinfoc0_ 
     where
@@ -302,12 +279,12 @@ Hibernate:
         and salesinfoc0_.clothes_color=?
 Hibernate: 
     select
-        salesinfos0_.id as id1_8_,
-        salesinfos0_.status_score as status_s2_8_,
-        salesinfos0_.status_tag as status_t3_8_,
-        salesinfos0_.status_times as status_t4_8_,
-        salesinfos0_.status_when2buy as status_w5_8_,
-        salesinfos0_.transport as transpor6_8_ 
+        salesinfos0_.id as id1_9_,
+        salesinfos0_.status_score as status_s2_9_,
+        salesinfos0_.status_tag as status_t3_9_,
+        salesinfos0_.status_times as status_t4_9_,
+        salesinfos0_.status_when2buy as status_w5_9_,
+        salesinfos0_.transport as transpor6_9_ 
     from
         sales_info_status salesinfos0_ 
     where
@@ -318,10 +295,10 @@ Hibernate:
         and salesinfos0_.transport=?
 Hibernate: 
     select
-        salesinfou0_.id as id1_9_,
-        salesinfou0_.user_height as user_hei2_9_,
-        salesinfou0_.user_size as user_siz3_9_,
-        salesinfou0_.user_weight as user_wei4_9_ 
+        salesinfou0_.id as id1_10_,
+        salesinfou0_.user_height as user_hei2_10_,
+        salesinfou0_.user_size as user_siz3_10_,
+        salesinfou0_.user_weight as user_wei4_10_ 
     from
         sales_info_user salesinfou0_ 
     where
@@ -401,8 +378,8 @@ Hibernate:
         members0_.email=?
 Hibernate: 
     select
-        style0_.id as id1_12_,
-        style0_.name as name2_12_ 
+        style0_.id as id1_13_,
+        style0_.name as name2_13_ 
     from
         style style0_ 
     where
@@ -439,11 +416,11 @@ Hibernate:
         and clothesinf0_.fit=?
 Hibernate: 
     select
-        salesinfoc0_.id as id1_7_,
-        salesinfoc0_.clothes_brand as clothes_2_7_,
-        salesinfoc0_.clothes_color as clothes_3_7_,
-        salesinfoc0_.clothes_gender as clothes_4_7_,
-        salesinfoc0_.clothes_size as clothes_5_7_ 
+        salesinfoc0_.id as id1_8_,
+        salesinfoc0_.clothes_brand as clothes_2_8_,
+        salesinfoc0_.clothes_color as clothes_3_8_,
+        salesinfoc0_.clothes_gender as clothes_4_8_,
+        salesinfoc0_.clothes_size as clothes_5_8_ 
     from
         sales_info_clothes salesinfoc0_ 
     where
@@ -453,12 +430,12 @@ Hibernate:
         and salesinfoc0_.clothes_color=?
 Hibernate: 
     select
-        salesinfos0_.id as id1_8_,
-        salesinfos0_.status_score as status_s2_8_,
-        salesinfos0_.status_tag as status_t3_8_,
-        salesinfos0_.status_times as status_t4_8_,
-        salesinfos0_.status_when2buy as status_w5_8_,
-        salesinfos0_.transport as transpor6_8_ 
+        salesinfos0_.id as id1_9_,
+        salesinfos0_.status_score as status_s2_9_,
+        salesinfos0_.status_tag as status_t3_9_,
+        salesinfos0_.status_times as status_t4_9_,
+        salesinfos0_.status_when2buy as status_w5_9_,
+        salesinfos0_.transport as transpor6_9_ 
     from
         sales_info_status salesinfos0_ 
     where
@@ -469,10 +446,10 @@ Hibernate:
         and salesinfos0_.transport=?
 Hibernate: 
     select
-        salesinfou0_.id as id1_9_,
-        salesinfou0_.user_height as user_hei2_9_,
-        salesinfou0_.user_size as user_siz3_9_,
-        salesinfou0_.user_weight as user_wei4_9_ 
+        salesinfou0_.id as id1_10_,
+        salesinfou0_.user_height as user_hei2_10_,
+        salesinfou0_.user_size as user_siz3_10_,
+        salesinfou0_.user_weight as user_wei4_10_ 
     from
         sales_info_user salesinfou0_ 
     where
@@ -552,8 +529,8 @@ Hibernate:
         members0_.email=?
 Hibernate: 
     select
-        style0_.id as id1_12_,
-        style0_.name as name2_12_ 
+        style0_.id as id1_13_,
+        style0_.name as name2_13_ 
     from
         style style0_ 
     where
@@ -590,11 +567,11 @@ Hibernate:
         and clothesinf0_.fit=?
 Hibernate: 
     select
-        salesinfoc0_.id as id1_7_,
-        salesinfoc0_.clothes_brand as clothes_2_7_,
-        salesinfoc0_.clothes_color as clothes_3_7_,
-        salesinfoc0_.clothes_gender as clothes_4_7_,
-        salesinfoc0_.clothes_size as clothes_5_7_ 
+        salesinfoc0_.id as id1_8_,
+        salesinfoc0_.clothes_brand as clothes_2_8_,
+        salesinfoc0_.clothes_color as clothes_3_8_,
+        salesinfoc0_.clothes_gender as clothes_4_8_,
+        salesinfoc0_.clothes_size as clothes_5_8_ 
     from
         sales_info_clothes salesinfoc0_ 
     where
@@ -604,12 +581,12 @@ Hibernate:
         and salesinfoc0_.clothes_color=?
 Hibernate: 
     select
-        salesinfos0_.id as id1_8_,
-        salesinfos0_.status_score as status_s2_8_,
-        salesinfos0_.status_tag as status_t3_8_,
-        salesinfos0_.status_times as status_t4_8_,
-        salesinfos0_.status_when2buy as status_w5_8_,
-        salesinfos0_.transport as transpor6_8_ 
+        salesinfos0_.id as id1_9_,
+        salesinfos0_.status_score as status_s2_9_,
+        salesinfos0_.status_tag as status_t3_9_,
+        salesinfos0_.status_times as status_t4_9_,
+        salesinfos0_.status_when2buy as status_w5_9_,
+        salesinfos0_.transport as transpor6_9_ 
     from
         sales_info_status salesinfos0_ 
     where
@@ -620,10 +597,10 @@ Hibernate:
         and salesinfos0_.transport=?
 Hibernate: 
     select
-        salesinfou0_.id as id1_9_,
-        salesinfou0_.user_height as user_hei2_9_,
-        salesinfou0_.user_size as user_siz3_9_,
-        salesinfou0_.user_weight as user_wei4_9_ 
+        salesinfou0_.id as id1_10_,
+        salesinfou0_.user_height as user_hei2_10_,
+        salesinfou0_.user_size as user_siz3_10_,
+        salesinfou0_.user_weight as user_wei4_10_ 
     from
         sales_info_user salesinfou0_ 
     where
@@ -703,8 +680,8 @@ Hibernate:
         members0_.email=?
 Hibernate: 
     select
-        style0_.id as id1_12_,
-        style0_.name as name2_12_ 
+        style0_.id as id1_13_,
+        style0_.name as name2_13_ 
     from
         style style0_ 
     where
@@ -741,11 +718,11 @@ Hibernate:
         and clothesinf0_.fit=?
 Hibernate: 
     select
-        salesinfoc0_.id as id1_7_,
-        salesinfoc0_.clothes_brand as clothes_2_7_,
-        salesinfoc0_.clothes_color as clothes_3_7_,
-        salesinfoc0_.clothes_gender as clothes_4_7_,
-        salesinfoc0_.clothes_size as clothes_5_7_ 
+        salesinfoc0_.id as id1_8_,
+        salesinfoc0_.clothes_brand as clothes_2_8_,
+        salesinfoc0_.clothes_color as clothes_3_8_,
+        salesinfoc0_.clothes_gender as clothes_4_8_,
+        salesinfoc0_.clothes_size as clothes_5_8_ 
     from
         sales_info_clothes salesinfoc0_ 
     where
@@ -755,12 +732,12 @@ Hibernate:
         and salesinfoc0_.clothes_color=?
 Hibernate: 
     select
-        salesinfos0_.id as id1_8_,
-        salesinfos0_.status_score as status_s2_8_,
-        salesinfos0_.status_tag as status_t3_8_,
-        salesinfos0_.status_times as status_t4_8_,
-        salesinfos0_.status_when2buy as status_w5_8_,
-        salesinfos0_.transport as transpor6_8_ 
+        salesinfos0_.id as id1_9_,
+        salesinfos0_.status_score as status_s2_9_,
+        salesinfos0_.status_tag as status_t3_9_,
+        salesinfos0_.status_times as status_t4_9_,
+        salesinfos0_.status_when2buy as status_w5_9_,
+        salesinfos0_.transport as transpor6_9_ 
     from
         sales_info_status salesinfos0_ 
     where
@@ -771,10 +748,10 @@ Hibernate:
         and salesinfos0_.transport=?
 Hibernate: 
     select
-        salesinfou0_.id as id1_9_,
-        salesinfou0_.user_height as user_hei2_9_,
-        salesinfou0_.user_size as user_siz3_9_,
-        salesinfou0_.user_weight as user_wei4_9_ 
+        salesinfou0_.id as id1_10_,
+        salesinfou0_.user_height as user_hei2_10_,
+        salesinfou0_.user_size as user_siz3_10_,
+        salesinfou0_.user_weight as user_wei4_10_ 
     from
         sales_info_user salesinfou0_ 
     where
@@ -854,8 +831,8 @@ Hibernate:
         members0_.email=?
 Hibernate: 
     select
-        style0_.id as id1_12_,
-        style0_.name as name2_12_ 
+        style0_.id as id1_13_,
+        style0_.name as name2_13_ 
     from
         style style0_ 
     where
@@ -892,11 +869,11 @@ Hibernate:
         and clothesinf0_.fit=?
 Hibernate: 
     select
-        salesinfoc0_.id as id1_7_,
-        salesinfoc0_.clothes_brand as clothes_2_7_,
-        salesinfoc0_.clothes_color as clothes_3_7_,
-        salesinfoc0_.clothes_gender as clothes_4_7_,
-        salesinfoc0_.clothes_size as clothes_5_7_ 
+        salesinfoc0_.id as id1_8_,
+        salesinfoc0_.clothes_brand as clothes_2_8_,
+        salesinfoc0_.clothes_color as clothes_3_8_,
+        salesinfoc0_.clothes_gender as clothes_4_8_,
+        salesinfoc0_.clothes_size as clothes_5_8_ 
     from
         sales_info_clothes salesinfoc0_ 
     where
@@ -906,12 +883,12 @@ Hibernate:
         and salesinfoc0_.clothes_color=?
 Hibernate: 
     select
-        salesinfos0_.id as id1_8_,
-        salesinfos0_.status_score as status_s2_8_,
-        salesinfos0_.status_tag as status_t3_8_,
-        salesinfos0_.status_times as status_t4_8_,
-        salesinfos0_.status_when2buy as status_w5_8_,
-        salesinfos0_.transport as transpor6_8_ 
+        salesinfos0_.id as id1_9_,
+        salesinfos0_.status_score as status_s2_9_,
+        salesinfos0_.status_tag as status_t3_9_,
+        salesinfos0_.status_times as status_t4_9_,
+        salesinfos0_.status_when2buy as status_w5_9_,
+        salesinfos0_.transport as transpor6_9_ 
     from
         sales_info_status salesinfos0_ 
     where
@@ -922,10 +899,10 @@ Hibernate:
         and salesinfos0_.transport=?
 Hibernate: 
     select
-        salesinfou0_.id as id1_9_,
-        salesinfou0_.user_height as user_hei2_9_,
-        salesinfou0_.user_size as user_siz3_9_,
-        salesinfou0_.user_weight as user_wei4_9_ 
+        salesinfou0_.id as id1_10_,
+        salesinfou0_.user_height as user_hei2_10_,
+        salesinfou0_.user_size as user_siz3_10_,
+        salesinfou0_.user_weight as user_wei4_10_ 
     from
         sales_info_user salesinfou0_ 
     where
@@ -989,22 +966,22 @@ Hibernate:
         id=?
 Hibernate: 
     select
-        stores0_.id as id1_10_,
-        stores0_.created_date as created_2_10_,
-        stores0_.modified_date as modified3_10_,
-        stores0_.author_id as author_i9_10_,
-        stores0_.clothes_info_id as clothes10_10_,
-        stores0_.colors_name as colors_11_10_,
-        stores0_.materials_name as materia12_10_,
-        stores0_.style_name as style_n13_10_,
-        stores0_.clothes_length as clothes_4_10_,
-        stores0_.content as content5_10_,
-        stores0_.price as price6_10_,
-        stores0_.sales_info_clothes_id as sales_i14_10_,
-        stores0_.sales_info_status_id as sales_i15_10_,
-        stores0_.sales_info_user_id as sales_i16_10_,
-        stores0_.status as status7_10_,
-        stores0_.title as title8_10_ 
+        stores0_.id as id1_11_,
+        stores0_.created_date as created_2_11_,
+        stores0_.modified_date as modified3_11_,
+        stores0_.author_id as author_i9_11_,
+        stores0_.clothes_info_id as clothes10_11_,
+        stores0_.colors_name as colors_11_11_,
+        stores0_.materials_name as materia12_11_,
+        stores0_.style_name as style_n13_11_,
+        stores0_.clothes_length as clothes_4_11_,
+        stores0_.content as content5_11_,
+        stores0_.price as price6_11_,
+        stores0_.sales_info_clothes_id as sales_i14_11_,
+        stores0_.sales_info_status_id as sales_i15_11_,
+        stores0_.sales_info_user_id as sales_i16_11_,
+        stores0_.status as status7_11_,
+        stores0_.title as title8_11_ 
     from
         stores stores0_
 Hibernate: 
@@ -1051,41 +1028,41 @@ Hibernate:
         materials0_.name=?
 Hibernate: 
     select
-        style0_.id as id1_12_0_,
-        style0_.name as name2_12_0_ 
+        style0_.id as id1_13_0_,
+        style0_.name as name2_13_0_ 
     from
         style style0_ 
     where
         style0_.name=?
 Hibernate: 
     select
-        salesinfoc0_.id as id1_7_0_,
-        salesinfoc0_.clothes_brand as clothes_2_7_0_,
-        salesinfoc0_.clothes_color as clothes_3_7_0_,
-        salesinfoc0_.clothes_gender as clothes_4_7_0_,
-        salesinfoc0_.clothes_size as clothes_5_7_0_ 
+        salesinfoc0_.id as id1_8_0_,
+        salesinfoc0_.clothes_brand as clothes_2_8_0_,
+        salesinfoc0_.clothes_color as clothes_3_8_0_,
+        salesinfoc0_.clothes_gender as clothes_4_8_0_,
+        salesinfoc0_.clothes_size as clothes_5_8_0_ 
     from
         sales_info_clothes salesinfoc0_ 
     where
         salesinfoc0_.id=?
 Hibernate: 
     select
-        salesinfos0_.id as id1_8_0_,
-        salesinfos0_.status_score as status_s2_8_0_,
-        salesinfos0_.status_tag as status_t3_8_0_,
-        salesinfos0_.status_times as status_t4_8_0_,
-        salesinfos0_.status_when2buy as status_w5_8_0_,
-        salesinfos0_.transport as transpor6_8_0_ 
+        salesinfos0_.id as id1_9_0_,
+        salesinfos0_.status_score as status_s2_9_0_,
+        salesinfos0_.status_tag as status_t3_9_0_,
+        salesinfos0_.status_times as status_t4_9_0_,
+        salesinfos0_.status_when2buy as status_w5_9_0_,
+        salesinfos0_.transport as transpor6_9_0_ 
     from
         sales_info_status salesinfos0_ 
     where
         salesinfos0_.id=?
 Hibernate: 
     select
-        salesinfou0_.id as id1_9_0_,
-        salesinfou0_.user_height as user_hei2_9_0_,
-        salesinfou0_.user_size as user_siz3_9_0_,
-        salesinfou0_.user_weight as user_wei4_9_0_ 
+        salesinfou0_.id as id1_10_0_,
+        salesinfou0_.user_height as user_hei2_10_0_,
+        salesinfou0_.user_size as user_siz3_10_0_,
+        salesinfou0_.user_weight as user_wei4_10_0_ 
     from
         sales_info_user salesinfou0_ 
     where
@@ -1119,41 +1096,41 @@ Hibernate:
         materials0_.name=?
 Hibernate: 
     select
-        style0_.id as id1_12_0_,
-        style0_.name as name2_12_0_ 
+        style0_.id as id1_13_0_,
+        style0_.name as name2_13_0_ 
     from
         style style0_ 
     where
         style0_.name=?
 Hibernate: 
     select
-        salesinfoc0_.id as id1_7_0_,
-        salesinfoc0_.clothes_brand as clothes_2_7_0_,
-        salesinfoc0_.clothes_color as clothes_3_7_0_,
-        salesinfoc0_.clothes_gender as clothes_4_7_0_,
-        salesinfoc0_.clothes_size as clothes_5_7_0_ 
+        salesinfoc0_.id as id1_8_0_,
+        salesinfoc0_.clothes_brand as clothes_2_8_0_,
+        salesinfoc0_.clothes_color as clothes_3_8_0_,
+        salesinfoc0_.clothes_gender as clothes_4_8_0_,
+        salesinfoc0_.clothes_size as clothes_5_8_0_ 
     from
         sales_info_clothes salesinfoc0_ 
     where
         salesinfoc0_.id=?
 Hibernate: 
     select
-        salesinfos0_.id as id1_8_0_,
-        salesinfos0_.status_score as status_s2_8_0_,
-        salesinfos0_.status_tag as status_t3_8_0_,
-        salesinfos0_.status_times as status_t4_8_0_,
-        salesinfos0_.status_when2buy as status_w5_8_0_,
-        salesinfos0_.transport as transpor6_8_0_ 
+        salesinfos0_.id as id1_9_0_,
+        salesinfos0_.status_score as status_s2_9_0_,
+        salesinfos0_.status_tag as status_t3_9_0_,
+        salesinfos0_.status_times as status_t4_9_0_,
+        salesinfos0_.status_when2buy as status_w5_9_0_,
+        salesinfos0_.transport as transpor6_9_0_ 
     from
         sales_info_status salesinfos0_ 
     where
         salesinfos0_.id=?
 Hibernate: 
     select
-        salesinfou0_.id as id1_9_0_,
-        salesinfou0_.user_height as user_hei2_9_0_,
-        salesinfou0_.user_size as user_siz3_9_0_,
-        salesinfou0_.user_weight as user_wei4_9_0_ 
+        salesinfou0_.id as id1_10_0_,
+        salesinfou0_.user_height as user_hei2_10_0_,
+        salesinfou0_.user_size as user_siz3_10_0_,
+        salesinfou0_.user_weight as user_wei4_10_0_ 
     from
         sales_info_user salesinfou0_ 
     where
@@ -1187,41 +1164,41 @@ Hibernate:
         materials0_.name=?
 Hibernate: 
     select
-        style0_.id as id1_12_0_,
-        style0_.name as name2_12_0_ 
+        style0_.id as id1_13_0_,
+        style0_.name as name2_13_0_ 
     from
         style style0_ 
     where
         style0_.name=?
 Hibernate: 
     select
-        salesinfoc0_.id as id1_7_0_,
-        salesinfoc0_.clothes_brand as clothes_2_7_0_,
-        salesinfoc0_.clothes_color as clothes_3_7_0_,
-        salesinfoc0_.clothes_gender as clothes_4_7_0_,
-        salesinfoc0_.clothes_size as clothes_5_7_0_ 
+        salesinfoc0_.id as id1_8_0_,
+        salesinfoc0_.clothes_brand as clothes_2_8_0_,
+        salesinfoc0_.clothes_color as clothes_3_8_0_,
+        salesinfoc0_.clothes_gender as clothes_4_8_0_,
+        salesinfoc0_.clothes_size as clothes_5_8_0_ 
     from
         sales_info_clothes salesinfoc0_ 
     where
         salesinfoc0_.id=?
 Hibernate: 
     select
-        salesinfos0_.id as id1_8_0_,
-        salesinfos0_.status_score as status_s2_8_0_,
-        salesinfos0_.status_tag as status_t3_8_0_,
-        salesinfos0_.status_times as status_t4_8_0_,
-        salesinfos0_.status_when2buy as status_w5_8_0_,
-        salesinfos0_.transport as transpor6_8_0_ 
+        salesinfos0_.id as id1_9_0_,
+        salesinfos0_.status_score as status_s2_9_0_,
+        salesinfos0_.status_tag as status_t3_9_0_,
+        salesinfos0_.status_times as status_t4_9_0_,
+        salesinfos0_.status_when2buy as status_w5_9_0_,
+        salesinfos0_.transport as transpor6_9_0_ 
     from
         sales_info_status salesinfos0_ 
     where
         salesinfos0_.id=?
 Hibernate: 
     select
-        salesinfou0_.id as id1_9_0_,
-        salesinfou0_.user_height as user_hei2_9_0_,
-        salesinfou0_.user_size as user_siz3_9_0_,
-        salesinfou0_.user_weight as user_wei4_9_0_ 
+        salesinfou0_.id as id1_10_0_,
+        salesinfou0_.user_height as user_hei2_10_0_,
+        salesinfou0_.user_size as user_siz3_10_0_,
+        salesinfou0_.user_weight as user_wei4_10_0_ 
     from
         sales_info_user salesinfou0_ 
     where
@@ -1255,41 +1232,41 @@ Hibernate:
         materials0_.name=?
 Hibernate: 
     select
-        style0_.id as id1_12_0_,
-        style0_.name as name2_12_0_ 
+        style0_.id as id1_13_0_,
+        style0_.name as name2_13_0_ 
     from
         style style0_ 
     where
         style0_.name=?
 Hibernate: 
     select
-        salesinfoc0_.id as id1_7_0_,
-        salesinfoc0_.clothes_brand as clothes_2_7_0_,
-        salesinfoc0_.clothes_color as clothes_3_7_0_,
-        salesinfoc0_.clothes_gender as clothes_4_7_0_,
-        salesinfoc0_.clothes_size as clothes_5_7_0_ 
+        salesinfoc0_.id as id1_8_0_,
+        salesinfoc0_.clothes_brand as clothes_2_8_0_,
+        salesinfoc0_.clothes_color as clothes_3_8_0_,
+        salesinfoc0_.clothes_gender as clothes_4_8_0_,
+        salesinfoc0_.clothes_size as clothes_5_8_0_ 
     from
         sales_info_clothes salesinfoc0_ 
     where
         salesinfoc0_.id=?
 Hibernate: 
     select
-        salesinfos0_.id as id1_8_0_,
-        salesinfos0_.status_score as status_s2_8_0_,
-        salesinfos0_.status_tag as status_t3_8_0_,
-        salesinfos0_.status_times as status_t4_8_0_,
-        salesinfos0_.status_when2buy as status_w5_8_0_,
-        salesinfos0_.transport as transpor6_8_0_ 
+        salesinfos0_.id as id1_9_0_,
+        salesinfos0_.status_score as status_s2_9_0_,
+        salesinfos0_.status_tag as status_t3_9_0_,
+        salesinfos0_.status_times as status_t4_9_0_,
+        salesinfos0_.status_when2buy as status_w5_9_0_,
+        salesinfos0_.transport as transpor6_9_0_ 
     from
         sales_info_status salesinfos0_ 
     where
         salesinfos0_.id=?
 Hibernate: 
     select
-        salesinfou0_.id as id1_9_0_,
-        salesinfou0_.user_height as user_hei2_9_0_,
-        salesinfou0_.user_size as user_siz3_9_0_,
-        salesinfou0_.user_weight as user_wei4_9_0_ 
+        salesinfou0_.id as id1_10_0_,
+        salesinfou0_.user_height as user_hei2_10_0_,
+        salesinfou0_.user_size as user_siz3_10_0_,
+        salesinfou0_.user_weight as user_wei4_10_0_ 
     from
         sales_info_user salesinfou0_ 
     where
@@ -1315,41 +1292,41 @@ Hibernate:
         materials0_.name=?
 Hibernate: 
     select
-        style0_.id as id1_12_0_,
-        style0_.name as name2_12_0_ 
+        style0_.id as id1_13_0_,
+        style0_.name as name2_13_0_ 
     from
         style style0_ 
     where
         style0_.name=?
 Hibernate: 
     select
-        salesinfoc0_.id as id1_7_0_,
-        salesinfoc0_.clothes_brand as clothes_2_7_0_,
-        salesinfoc0_.clothes_color as clothes_3_7_0_,
-        salesinfoc0_.clothes_gender as clothes_4_7_0_,
-        salesinfoc0_.clothes_size as clothes_5_7_0_ 
+        salesinfoc0_.id as id1_8_0_,
+        salesinfoc0_.clothes_brand as clothes_2_8_0_,
+        salesinfoc0_.clothes_color as clothes_3_8_0_,
+        salesinfoc0_.clothes_gender as clothes_4_8_0_,
+        salesinfoc0_.clothes_size as clothes_5_8_0_ 
     from
         sales_info_clothes salesinfoc0_ 
     where
         salesinfoc0_.id=?
 Hibernate: 
     select
-        salesinfos0_.id as id1_8_0_,
-        salesinfos0_.status_score as status_s2_8_0_,
-        salesinfos0_.status_tag as status_t3_8_0_,
-        salesinfos0_.status_times as status_t4_8_0_,
-        salesinfos0_.status_when2buy as status_w5_8_0_,
-        salesinfos0_.transport as transpor6_8_0_ 
+        salesinfos0_.id as id1_9_0_,
+        salesinfos0_.status_score as status_s2_9_0_,
+        salesinfos0_.status_tag as status_t3_9_0_,
+        salesinfos0_.status_times as status_t4_9_0_,
+        salesinfos0_.status_when2buy as status_w5_9_0_,
+        salesinfos0_.transport as transpor6_9_0_ 
     from
         sales_info_status salesinfos0_ 
     where
         salesinfos0_.id=?
 Hibernate: 
     select
-        salesinfou0_.id as id1_9_0_,
-        salesinfou0_.user_height as user_hei2_9_0_,
-        salesinfou0_.user_size as user_siz3_9_0_,
-        salesinfou0_.user_weight as user_wei4_9_0_ 
+        salesinfou0_.id as id1_10_0_,
+        salesinfou0_.user_height as user_hei2_10_0_,
+        salesinfou0_.user_size as user_siz3_10_0_,
+        salesinfou0_.user_weight as user_wei4_10_0_ 
     from
         sales_info_user salesinfou0_ 
     where
@@ -1372,22 +1349,22 @@ Hibernate:
         members0_.email=?
 Hibernate: 
     select
-        stores0_.id as id1_10_0_,
-        stores0_.created_date as created_2_10_0_,
-        stores0_.modified_date as modified3_10_0_,
-        stores0_.author_id as author_i9_10_0_,
-        stores0_.clothes_info_id as clothes10_10_0_,
-        stores0_.colors_name as colors_11_10_0_,
-        stores0_.materials_name as materia12_10_0_,
-        stores0_.style_name as style_n13_10_0_,
-        stores0_.clothes_length as clothes_4_10_0_,
-        stores0_.content as content5_10_0_,
-        stores0_.price as price6_10_0_,
-        stores0_.sales_info_clothes_id as sales_i14_10_0_,
-        stores0_.sales_info_status_id as sales_i15_10_0_,
-        stores0_.sales_info_user_id as sales_i16_10_0_,
-        stores0_.status as status7_10_0_,
-        stores0_.title as title8_10_0_,
+        stores0_.id as id1_11_0_,
+        stores0_.created_date as created_2_11_0_,
+        stores0_.modified_date as modified3_11_0_,
+        stores0_.author_id as author_i9_11_0_,
+        stores0_.clothes_info_id as clothes10_11_0_,
+        stores0_.colors_name as colors_11_11_0_,
+        stores0_.materials_name as materia12_11_0_,
+        stores0_.style_name as style_n13_11_0_,
+        stores0_.clothes_length as clothes_4_11_0_,
+        stores0_.content as content5_11_0_,
+        stores0_.price as price6_11_0_,
+        stores0_.sales_info_clothes_id as sales_i14_11_0_,
+        stores0_.sales_info_status_id as sales_i15_11_0_,
+        stores0_.sales_info_user_id as sales_i16_11_0_,
+        stores0_.status as status7_11_0_,
+        stores0_.title as title8_11_0_,
         members1_.id as id1_6_1_,
         members1_.email as email2_6_1_,
         members1_.image as image3_6_1_,
@@ -1406,23 +1383,23 @@ Hibernate:
         colors3_.name as name2_4_3_,
         materials4_.id as id1_5_4_,
         materials4_.name as name2_5_4_,
-        style5_.id as id1_12_5_,
-        style5_.name as name2_12_5_,
-        salesinfoc6_.id as id1_7_6_,
-        salesinfoc6_.clothes_brand as clothes_2_7_6_,
-        salesinfoc6_.clothes_color as clothes_3_7_6_,
-        salesinfoc6_.clothes_gender as clothes_4_7_6_,
-        salesinfoc6_.clothes_size as clothes_5_7_6_,
-        salesinfos7_.id as id1_8_7_,
-        salesinfos7_.status_score as status_s2_8_7_,
-        salesinfos7_.status_tag as status_t3_8_7_,
-        salesinfos7_.status_times as status_t4_8_7_,
-        salesinfos7_.status_when2buy as status_w5_8_7_,
-        salesinfos7_.transport as transpor6_8_7_,
-        salesinfou8_.id as id1_9_8_,
-        salesinfou8_.user_height as user_hei2_9_8_,
-        salesinfou8_.user_size as user_siz3_9_8_,
-        salesinfou8_.user_weight as user_wei4_9_8_ 
+        style5_.id as id1_13_5_,
+        style5_.name as name2_13_5_,
+        salesinfoc6_.id as id1_8_6_,
+        salesinfoc6_.clothes_brand as clothes_2_8_6_,
+        salesinfoc6_.clothes_color as clothes_3_8_6_,
+        salesinfoc6_.clothes_gender as clothes_4_8_6_,
+        salesinfoc6_.clothes_size as clothes_5_8_6_,
+        salesinfos7_.id as id1_9_7_,
+        salesinfos7_.status_score as status_s2_9_7_,
+        salesinfos7_.status_tag as status_t3_9_7_,
+        salesinfos7_.status_times as status_t4_9_7_,
+        salesinfos7_.status_when2buy as status_w5_9_7_,
+        salesinfos7_.transport as transpor6_9_7_,
+        salesinfou8_.id as id1_10_8_,
+        salesinfou8_.user_height as user_hei2_10_8_,
+        salesinfou8_.user_size as user_siz3_10_8_,
+        salesinfou8_.user_weight as user_wei4_10_8_ 
     from
         stores stores0_ 
     left outer join
@@ -1454,11 +1431,10 @@ Hibernate:
 Hibernate: 
     insert 
     into
-        stores_comments
-        (created_date, modified_date, content, user_id, post_id) 
+        members_like_stores_post
+        (store_id, user_id) 
     values
-        (?, ?, ?, ?, ?)
-댓글 등록 완료
+        (?, ?)
 gunsong2@naver.com
 Hibernate: 
     select
@@ -1477,22 +1453,187 @@ Hibernate:
         members0_.email=?
 Hibernate: 
     select
-        stores0_.id as id1_10_0_,
-        stores0_.created_date as created_2_10_0_,
-        stores0_.modified_date as modified3_10_0_,
-        stores0_.author_id as author_i9_10_0_,
-        stores0_.clothes_info_id as clothes10_10_0_,
-        stores0_.colors_name as colors_11_10_0_,
-        stores0_.materials_name as materia12_10_0_,
-        stores0_.style_name as style_n13_10_0_,
-        stores0_.clothes_length as clothes_4_10_0_,
-        stores0_.content as content5_10_0_,
-        stores0_.price as price6_10_0_,
-        stores0_.sales_info_clothes_id as sales_i14_10_0_,
-        stores0_.sales_info_status_id as sales_i15_10_0_,
-        stores0_.sales_info_user_id as sales_i16_10_0_,
-        stores0_.status as status7_10_0_,
-        stores0_.title as title8_10_0_,
+        storeslike0_.user_id as user_id3_7_0_,
+        storeslike0_.id as id1_7_0_,
+        storeslike0_.id as id1_7_1_,
+        storeslike0_.store_id as store_id2_7_1_,
+        storeslike0_.user_id as user_id3_7_1_,
+        stores1_.id as id1_11_2_,
+        stores1_.created_date as created_2_11_2_,
+        stores1_.modified_date as modified3_11_2_,
+        stores1_.author_id as author_i9_11_2_,
+        stores1_.clothes_info_id as clothes10_11_2_,
+        stores1_.colors_name as colors_11_11_2_,
+        stores1_.materials_name as materia12_11_2_,
+        stores1_.style_name as style_n13_11_2_,
+        stores1_.clothes_length as clothes_4_11_2_,
+        stores1_.content as content5_11_2_,
+        stores1_.price as price6_11_2_,
+        stores1_.sales_info_clothes_id as sales_i14_11_2_,
+        stores1_.sales_info_status_id as sales_i15_11_2_,
+        stores1_.sales_info_user_id as sales_i16_11_2_,
+        stores1_.status as status7_11_2_,
+        stores1_.title as title8_11_2_,
+        members2_.id as id1_6_3_,
+        members2_.email as email2_6_3_,
+        members2_.image as image3_6_3_,
+        members2_.name as name4_6_3_,
+        members2_.nickname as nickname5_6_3_,
+        members2_.password as password6_6_3_,
+        members2_.phone as phone7_6_3_,
+        members2_.refresh_token as refresh_8_6_3_,
+        members2_.role as role9_6_3_,
+        clothesinf3_.id as id1_2_4_,
+        clothesinf3_.categoryl as category2_2_4_,
+        clothesinf3_.categorys as category3_2_4_,
+        clothesinf3_.fit as fit4_2_4_,
+        clothesinf3_.length as length5_2_4_,
+        colors4_.id as id1_4_5_,
+        colors4_.name as name2_4_5_,
+        materials5_.id as id1_5_6_,
+        materials5_.name as name2_5_6_,
+        style6_.id as id1_13_7_,
+        style6_.name as name2_13_7_,
+        salesinfoc7_.id as id1_8_8_,
+        salesinfoc7_.clothes_brand as clothes_2_8_8_,
+        salesinfoc7_.clothes_color as clothes_3_8_8_,
+        salesinfoc7_.clothes_gender as clothes_4_8_8_,
+        salesinfoc7_.clothes_size as clothes_5_8_8_,
+        salesinfos8_.id as id1_9_9_,
+        salesinfos8_.status_score as status_s2_9_9_,
+        salesinfos8_.status_tag as status_t3_9_9_,
+        salesinfos8_.status_times as status_t4_9_9_,
+        salesinfos8_.status_when2buy as status_w5_9_9_,
+        salesinfos8_.transport as transpor6_9_9_,
+        salesinfou9_.id as id1_10_10_,
+        salesinfou9_.user_height as user_hei2_10_10_,
+        salesinfou9_.user_size as user_siz3_10_10_,
+        salesinfou9_.user_weight as user_wei4_10_10_ 
+    from
+        members_like_stores_post storeslike0_ 
+    left outer join
+        stores stores1_ 
+            on storeslike0_.store_id=stores1_.id 
+    left outer join
+        members members2_ 
+            on stores1_.author_id=members2_.id 
+    left outer join
+        clothes_info clothesinf3_ 
+            on stores1_.clothes_info_id=clothesinf3_.id 
+    left outer join
+        colors colors4_ 
+            on stores1_.colors_name=colors4_.name 
+    left outer join
+        materials materials5_ 
+            on stores1_.materials_name=materials5_.name 
+    left outer join
+        style style6_ 
+            on stores1_.style_name=style6_.name 
+    left outer join
+        sales_info_clothes salesinfoc7_ 
+            on stores1_.sales_info_clothes_id=salesinfoc7_.id 
+    left outer join
+        sales_info_status salesinfos8_ 
+            on stores1_.sales_info_status_id=salesinfos8_.id 
+    left outer join
+        sales_info_user salesinfou9_ 
+            on stores1_.sales_info_user_id=salesinfou9_.id 
+    where
+        storeslike0_.user_id=?
+Hibernate: 
+    select
+        images0_.stores_post_id as stores_p5_3_0_,
+        images0_.id as id1_3_0_,
+        images0_.images_order as images_o6_0_,
+        images0_.id as id1_3_1_,
+        images0_.closets_post_id as closets_4_3_1_,
+        images0_.path as path2_3_1_,
+        images0_.stores_post_id as stores_p5_3_1_,
+        images0_.type as type3_3_1_,
+        closets1_.id as id1_1_2_,
+        closets1_.created_date as created_2_1_2_,
+        closets1_.modified_date as modified3_1_2_,
+        closets1_.author_id as author_i4_1_2_,
+        closets1_.clothes_info_id as clothes_5_1_2_,
+        closets1_.colors_name as colors_n6_1_2_,
+        closets1_.materials_name as material7_1_2_,
+        closets1_.style_name as style_na8_1_2_,
+        members2_.id as id1_6_3_,
+        members2_.email as email2_6_3_,
+        members2_.image as image3_6_3_,
+        members2_.name as name4_6_3_,
+        members2_.nickname as nickname5_6_3_,
+        members2_.password as password6_6_3_,
+        members2_.phone as phone7_6_3_,
+        members2_.refresh_token as refresh_8_6_3_,
+        members2_.role as role9_6_3_,
+        clothesinf3_.id as id1_2_4_,
+        clothesinf3_.categoryl as category2_2_4_,
+        clothesinf3_.categorys as category3_2_4_,
+        clothesinf3_.fit as fit4_2_4_,
+        clothesinf3_.length as length5_2_4_,
+        colors4_.id as id1_4_5_,
+        colors4_.name as name2_4_5_,
+        materials5_.id as id1_5_6_,
+        materials5_.name as name2_5_6_,
+        style6_.id as id1_13_7_,
+        style6_.name as name2_13_7_ 
+    from
+        clothes_image images0_ 
+    left outer join
+        closets closets1_ 
+            on images0_.closets_post_id=closets1_.id 
+    left outer join
+        members members2_ 
+            on closets1_.author_id=members2_.id 
+    left outer join
+        clothes_info clothesinf3_ 
+            on closets1_.clothes_info_id=clothesinf3_.id 
+    left outer join
+        colors colors4_ 
+            on closets1_.colors_name=colors4_.name 
+    left outer join
+        materials materials5_ 
+            on closets1_.materials_name=materials5_.name 
+    left outer join
+        style style6_ 
+            on closets1_.style_name=style6_.name 
+    where
+        images0_.stores_post_id=?
+gunsong2@naver.com
+Hibernate: 
+    select
+        members0_.id as id1_6_,
+        members0_.email as email2_6_,
+        members0_.image as image3_6_,
+        members0_.name as name4_6_,
+        members0_.nickname as nickname5_6_,
+        members0_.password as password6_6_,
+        members0_.phone as phone7_6_,
+        members0_.refresh_token as refresh_8_6_,
+        members0_.role as role9_6_ 
+    from
+        members members0_ 
+    where
+        members0_.email=?
+Hibernate: 
+    select
+        stores0_.id as id1_11_0_,
+        stores0_.created_date as created_2_11_0_,
+        stores0_.modified_date as modified3_11_0_,
+        stores0_.author_id as author_i9_11_0_,
+        stores0_.clothes_info_id as clothes10_11_0_,
+        stores0_.colors_name as colors_11_11_0_,
+        stores0_.materials_name as materia12_11_0_,
+        stores0_.style_name as style_n13_11_0_,
+        stores0_.clothes_length as clothes_4_11_0_,
+        stores0_.content as content5_11_0_,
+        stores0_.price as price6_11_0_,
+        stores0_.sales_info_clothes_id as sales_i14_11_0_,
+        stores0_.sales_info_status_id as sales_i15_11_0_,
+        stores0_.sales_info_user_id as sales_i16_11_0_,
+        stores0_.status as status7_11_0_,
+        stores0_.title as title8_11_0_,
         members1_.id as id1_6_1_,
         members1_.email as email2_6_1_,
         members1_.image as image3_6_1_,
@@ -1511,23 +1652,23 @@ Hibernate:
         colors3_.name as name2_4_3_,
         materials4_.id as id1_5_4_,
         materials4_.name as name2_5_4_,
-        style5_.id as id1_12_5_,
-        style5_.name as name2_12_5_,
-        salesinfoc6_.id as id1_7_6_,
-        salesinfoc6_.clothes_brand as clothes_2_7_6_,
-        salesinfoc6_.clothes_color as clothes_3_7_6_,
-        salesinfoc6_.clothes_gender as clothes_4_7_6_,
-        salesinfoc6_.clothes_size as clothes_5_7_6_,
-        salesinfos7_.id as id1_8_7_,
-        salesinfos7_.status_score as status_s2_8_7_,
-        salesinfos7_.status_tag as status_t3_8_7_,
-        salesinfos7_.status_times as status_t4_8_7_,
-        salesinfos7_.status_when2buy as status_w5_8_7_,
-        salesinfos7_.transport as transpor6_8_7_,
-        salesinfou8_.id as id1_9_8_,
-        salesinfou8_.user_height as user_hei2_9_8_,
-        salesinfou8_.user_size as user_siz3_9_8_,
-        salesinfou8_.user_weight as user_wei4_9_8_ 
+        style5_.id as id1_13_5_,
+        style5_.name as name2_13_5_,
+        salesinfoc6_.id as id1_8_6_,
+        salesinfoc6_.clothes_brand as clothes_2_8_6_,
+        salesinfoc6_.clothes_color as clothes_3_8_6_,
+        salesinfoc6_.clothes_gender as clothes_4_8_6_,
+        salesinfoc6_.clothes_size as clothes_5_8_6_,
+        salesinfos7_.id as id1_9_7_,
+        salesinfos7_.status_score as status_s2_9_7_,
+        salesinfos7_.status_tag as status_t3_9_7_,
+        salesinfos7_.status_times as status_t4_9_7_,
+        salesinfos7_.status_when2buy as status_w5_9_7_,
+        salesinfos7_.transport as transpor6_9_7_,
+        salesinfou8_.id as id1_10_8_,
+        salesinfou8_.user_height as user_hei2_10_8_,
+        salesinfou8_.user_size as user_siz3_10_8_,
+        salesinfou8_.user_weight as user_wei4_10_8_ 
     from
         stores stores0_ 
     left outer join
@@ -1559,11 +1700,10 @@ Hibernate:
 Hibernate: 
     insert 
     into
-        stores_comments
-        (created_date, modified_date, content, user_id, post_id) 
+        members_like_stores_post
+        (store_id, user_id) 
     values
-        (?, ?, ?, ?, ?)
-댓글 등록 완료
+        (?, ?)
 gunsong2@naver.com
 Hibernate: 
     select
@@ -1582,22 +1722,187 @@ Hibernate:
         members0_.email=?
 Hibernate: 
     select
-        stores0_.id as id1_10_0_,
-        stores0_.created_date as created_2_10_0_,
-        stores0_.modified_date as modified3_10_0_,
-        stores0_.author_id as author_i9_10_0_,
-        stores0_.clothes_info_id as clothes10_10_0_,
-        stores0_.colors_name as colors_11_10_0_,
-        stores0_.materials_name as materia12_10_0_,
-        stores0_.style_name as style_n13_10_0_,
-        stores0_.clothes_length as clothes_4_10_0_,
-        stores0_.content as content5_10_0_,
-        stores0_.price as price6_10_0_,
-        stores0_.sales_info_clothes_id as sales_i14_10_0_,
-        stores0_.sales_info_status_id as sales_i15_10_0_,
-        stores0_.sales_info_user_id as sales_i16_10_0_,
-        stores0_.status as status7_10_0_,
-        stores0_.title as title8_10_0_,
+        storeslike0_.user_id as user_id3_7_0_,
+        storeslike0_.id as id1_7_0_,
+        storeslike0_.id as id1_7_1_,
+        storeslike0_.store_id as store_id2_7_1_,
+        storeslike0_.user_id as user_id3_7_1_,
+        stores1_.id as id1_11_2_,
+        stores1_.created_date as created_2_11_2_,
+        stores1_.modified_date as modified3_11_2_,
+        stores1_.author_id as author_i9_11_2_,
+        stores1_.clothes_info_id as clothes10_11_2_,
+        stores1_.colors_name as colors_11_11_2_,
+        stores1_.materials_name as materia12_11_2_,
+        stores1_.style_name as style_n13_11_2_,
+        stores1_.clothes_length as clothes_4_11_2_,
+        stores1_.content as content5_11_2_,
+        stores1_.price as price6_11_2_,
+        stores1_.sales_info_clothes_id as sales_i14_11_2_,
+        stores1_.sales_info_status_id as sales_i15_11_2_,
+        stores1_.sales_info_user_id as sales_i16_11_2_,
+        stores1_.status as status7_11_2_,
+        stores1_.title as title8_11_2_,
+        members2_.id as id1_6_3_,
+        members2_.email as email2_6_3_,
+        members2_.image as image3_6_3_,
+        members2_.name as name4_6_3_,
+        members2_.nickname as nickname5_6_3_,
+        members2_.password as password6_6_3_,
+        members2_.phone as phone7_6_3_,
+        members2_.refresh_token as refresh_8_6_3_,
+        members2_.role as role9_6_3_,
+        clothesinf3_.id as id1_2_4_,
+        clothesinf3_.categoryl as category2_2_4_,
+        clothesinf3_.categorys as category3_2_4_,
+        clothesinf3_.fit as fit4_2_4_,
+        clothesinf3_.length as length5_2_4_,
+        colors4_.id as id1_4_5_,
+        colors4_.name as name2_4_5_,
+        materials5_.id as id1_5_6_,
+        materials5_.name as name2_5_6_,
+        style6_.id as id1_13_7_,
+        style6_.name as name2_13_7_,
+        salesinfoc7_.id as id1_8_8_,
+        salesinfoc7_.clothes_brand as clothes_2_8_8_,
+        salesinfoc7_.clothes_color as clothes_3_8_8_,
+        salesinfoc7_.clothes_gender as clothes_4_8_8_,
+        salesinfoc7_.clothes_size as clothes_5_8_8_,
+        salesinfos8_.id as id1_9_9_,
+        salesinfos8_.status_score as status_s2_9_9_,
+        salesinfos8_.status_tag as status_t3_9_9_,
+        salesinfos8_.status_times as status_t4_9_9_,
+        salesinfos8_.status_when2buy as status_w5_9_9_,
+        salesinfos8_.transport as transpor6_9_9_,
+        salesinfou9_.id as id1_10_10_,
+        salesinfou9_.user_height as user_hei2_10_10_,
+        salesinfou9_.user_size as user_siz3_10_10_,
+        salesinfou9_.user_weight as user_wei4_10_10_ 
+    from
+        members_like_stores_post storeslike0_ 
+    left outer join
+        stores stores1_ 
+            on storeslike0_.store_id=stores1_.id 
+    left outer join
+        members members2_ 
+            on stores1_.author_id=members2_.id 
+    left outer join
+        clothes_info clothesinf3_ 
+            on stores1_.clothes_info_id=clothesinf3_.id 
+    left outer join
+        colors colors4_ 
+            on stores1_.colors_name=colors4_.name 
+    left outer join
+        materials materials5_ 
+            on stores1_.materials_name=materials5_.name 
+    left outer join
+        style style6_ 
+            on stores1_.style_name=style6_.name 
+    left outer join
+        sales_info_clothes salesinfoc7_ 
+            on stores1_.sales_info_clothes_id=salesinfoc7_.id 
+    left outer join
+        sales_info_status salesinfos8_ 
+            on stores1_.sales_info_status_id=salesinfos8_.id 
+    left outer join
+        sales_info_user salesinfou9_ 
+            on stores1_.sales_info_user_id=salesinfou9_.id 
+    where
+        storeslike0_.user_id=?
+Hibernate: 
+    select
+        images0_.stores_post_id as stores_p5_3_0_,
+        images0_.id as id1_3_0_,
+        images0_.images_order as images_o6_0_,
+        images0_.id as id1_3_1_,
+        images0_.closets_post_id as closets_4_3_1_,
+        images0_.path as path2_3_1_,
+        images0_.stores_post_id as stores_p5_3_1_,
+        images0_.type as type3_3_1_,
+        closets1_.id as id1_1_2_,
+        closets1_.created_date as created_2_1_2_,
+        closets1_.modified_date as modified3_1_2_,
+        closets1_.author_id as author_i4_1_2_,
+        closets1_.clothes_info_id as clothes_5_1_2_,
+        closets1_.colors_name as colors_n6_1_2_,
+        closets1_.materials_name as material7_1_2_,
+        closets1_.style_name as style_na8_1_2_,
+        members2_.id as id1_6_3_,
+        members2_.email as email2_6_3_,
+        members2_.image as image3_6_3_,
+        members2_.name as name4_6_3_,
+        members2_.nickname as nickname5_6_3_,
+        members2_.password as password6_6_3_,
+        members2_.phone as phone7_6_3_,
+        members2_.refresh_token as refresh_8_6_3_,
+        members2_.role as role9_6_3_,
+        clothesinf3_.id as id1_2_4_,
+        clothesinf3_.categoryl as category2_2_4_,
+        clothesinf3_.categorys as category3_2_4_,
+        clothesinf3_.fit as fit4_2_4_,
+        clothesinf3_.length as length5_2_4_,
+        colors4_.id as id1_4_5_,
+        colors4_.name as name2_4_5_,
+        materials5_.id as id1_5_6_,
+        materials5_.name as name2_5_6_,
+        style6_.id as id1_13_7_,
+        style6_.name as name2_13_7_ 
+    from
+        clothes_image images0_ 
+    left outer join
+        closets closets1_ 
+            on images0_.closets_post_id=closets1_.id 
+    left outer join
+        members members2_ 
+            on closets1_.author_id=members2_.id 
+    left outer join
+        clothes_info clothesinf3_ 
+            on closets1_.clothes_info_id=clothesinf3_.id 
+    left outer join
+        colors colors4_ 
+            on closets1_.colors_name=colors4_.name 
+    left outer join
+        materials materials5_ 
+            on closets1_.materials_name=materials5_.name 
+    left outer join
+        style style6_ 
+            on closets1_.style_name=style6_.name 
+    where
+        images0_.stores_post_id=?
+gunsong2@naver.com
+Hibernate: 
+    select
+        members0_.id as id1_6_,
+        members0_.email as email2_6_,
+        members0_.image as image3_6_,
+        members0_.name as name4_6_,
+        members0_.nickname as nickname5_6_,
+        members0_.password as password6_6_,
+        members0_.phone as phone7_6_,
+        members0_.refresh_token as refresh_8_6_,
+        members0_.role as role9_6_ 
+    from
+        members members0_ 
+    where
+        members0_.email=?
+Hibernate: 
+    select
+        stores0_.id as id1_11_0_,
+        stores0_.created_date as created_2_11_0_,
+        stores0_.modified_date as modified3_11_0_,
+        stores0_.author_id as author_i9_11_0_,
+        stores0_.clothes_info_id as clothes10_11_0_,
+        stores0_.colors_name as colors_11_11_0_,
+        stores0_.materials_name as materia12_11_0_,
+        stores0_.style_name as style_n13_11_0_,
+        stores0_.clothes_length as clothes_4_11_0_,
+        stores0_.content as content5_11_0_,
+        stores0_.price as price6_11_0_,
+        stores0_.sales_info_clothes_id as sales_i14_11_0_,
+        stores0_.sales_info_status_id as sales_i15_11_0_,
+        stores0_.sales_info_user_id as sales_i16_11_0_,
+        stores0_.status as status7_11_0_,
+        stores0_.title as title8_11_0_,
         members1_.id as id1_6_1_,
         members1_.email as email2_6_1_,
         members1_.image as image3_6_1_,
@@ -1616,23 +1921,23 @@ Hibernate:
         colors3_.name as name2_4_3_,
         materials4_.id as id1_5_4_,
         materials4_.name as name2_5_4_,
-        style5_.id as id1_12_5_,
-        style5_.name as name2_12_5_,
-        salesinfoc6_.id as id1_7_6_,
-        salesinfoc6_.clothes_brand as clothes_2_7_6_,
-        salesinfoc6_.clothes_color as clothes_3_7_6_,
-        salesinfoc6_.clothes_gender as clothes_4_7_6_,
-        salesinfoc6_.clothes_size as clothes_5_7_6_,
-        salesinfos7_.id as id1_8_7_,
-        salesinfos7_.status_score as status_s2_8_7_,
-        salesinfos7_.status_tag as status_t3_8_7_,
-        salesinfos7_.status_times as status_t4_8_7_,
-        salesinfos7_.status_when2buy as status_w5_8_7_,
-        salesinfos7_.transport as transpor6_8_7_,
-        salesinfou8_.id as id1_9_8_,
-        salesinfou8_.user_height as user_hei2_9_8_,
-        salesinfou8_.user_size as user_siz3_9_8_,
-        salesinfou8_.user_weight as user_wei4_9_8_ 
+        style5_.id as id1_13_5_,
+        style5_.name as name2_13_5_,
+        salesinfoc6_.id as id1_8_6_,
+        salesinfoc6_.clothes_brand as clothes_2_8_6_,
+        salesinfoc6_.clothes_color as clothes_3_8_6_,
+        salesinfoc6_.clothes_gender as clothes_4_8_6_,
+        salesinfoc6_.clothes_size as clothes_5_8_6_,
+        salesinfos7_.id as id1_9_7_,
+        salesinfos7_.status_score as status_s2_9_7_,
+        salesinfos7_.status_tag as status_t3_9_7_,
+        salesinfos7_.status_times as status_t4_9_7_,
+        salesinfos7_.status_when2buy as status_w5_9_7_,
+        salesinfos7_.transport as transpor6_9_7_,
+        salesinfou8_.id as id1_10_8_,
+        salesinfou8_.user_height as user_hei2_10_8_,
+        salesinfou8_.user_size as user_siz3_10_8_,
+        salesinfou8_.user_weight as user_wei4_10_8_ 
     from
         stores stores0_ 
     left outer join
@@ -1662,13 +1967,110 @@ Hibernate:
     where
         stores0_.id=?
 Hibernate: 
-    insert 
-    into
-        stores_comments
-        (created_date, modified_date, content, user_id, post_id) 
-    values
-        (?, ?, ?, ?, ?)
-댓글 등록 완료
+    select
+        memberslik0_.id as id1_7_,
+        memberslik0_.store_id as store_id2_7_,
+        memberslik0_.user_id as user_id3_7_ 
+    from
+        members_like_stores_post memberslik0_ 
+    where
+        memberslik0_.user_id=? 
+        and memberslik0_.store_id=?
+Hibernate: 
+    select
+        storeslike0_.user_id as user_id3_7_0_,
+        storeslike0_.id as id1_7_0_,
+        storeslike0_.id as id1_7_1_,
+        storeslike0_.store_id as store_id2_7_1_,
+        storeslike0_.user_id as user_id3_7_1_,
+        stores1_.id as id1_11_2_,
+        stores1_.created_date as created_2_11_2_,
+        stores1_.modified_date as modified3_11_2_,
+        stores1_.author_id as author_i9_11_2_,
+        stores1_.clothes_info_id as clothes10_11_2_,
+        stores1_.colors_name as colors_11_11_2_,
+        stores1_.materials_name as materia12_11_2_,
+        stores1_.style_name as style_n13_11_2_,
+        stores1_.clothes_length as clothes_4_11_2_,
+        stores1_.content as content5_11_2_,
+        stores1_.price as price6_11_2_,
+        stores1_.sales_info_clothes_id as sales_i14_11_2_,
+        stores1_.sales_info_status_id as sales_i15_11_2_,
+        stores1_.sales_info_user_id as sales_i16_11_2_,
+        stores1_.status as status7_11_2_,
+        stores1_.title as title8_11_2_,
+        members2_.id as id1_6_3_,
+        members2_.email as email2_6_3_,
+        members2_.image as image3_6_3_,
+        members2_.name as name4_6_3_,
+        members2_.nickname as nickname5_6_3_,
+        members2_.password as password6_6_3_,
+        members2_.phone as phone7_6_3_,
+        members2_.refresh_token as refresh_8_6_3_,
+        members2_.role as role9_6_3_,
+        clothesinf3_.id as id1_2_4_,
+        clothesinf3_.categoryl as category2_2_4_,
+        clothesinf3_.categorys as category3_2_4_,
+        clothesinf3_.fit as fit4_2_4_,
+        clothesinf3_.length as length5_2_4_,
+        colors4_.id as id1_4_5_,
+        colors4_.name as name2_4_5_,
+        materials5_.id as id1_5_6_,
+        materials5_.name as name2_5_6_,
+        style6_.id as id1_13_7_,
+        style6_.name as name2_13_7_,
+        salesinfoc7_.id as id1_8_8_,
+        salesinfoc7_.clothes_brand as clothes_2_8_8_,
+        salesinfoc7_.clothes_color as clothes_3_8_8_,
+        salesinfoc7_.clothes_gender as clothes_4_8_8_,
+        salesinfoc7_.clothes_size as clothes_5_8_8_,
+        salesinfos8_.id as id1_9_9_,
+        salesinfos8_.status_score as status_s2_9_9_,
+        salesinfos8_.status_tag as status_t3_9_9_,
+        salesinfos8_.status_times as status_t4_9_9_,
+        salesinfos8_.status_when2buy as status_w5_9_9_,
+        salesinfos8_.transport as transpor6_9_9_,
+        salesinfou9_.id as id1_10_10_,
+        salesinfou9_.user_height as user_hei2_10_10_,
+        salesinfou9_.user_size as user_siz3_10_10_,
+        salesinfou9_.user_weight as user_wei4_10_10_ 
+    from
+        members_like_stores_post storeslike0_ 
+    left outer join
+        stores stores1_ 
+            on storeslike0_.store_id=stores1_.id 
+    left outer join
+        members members2_ 
+            on stores1_.author_id=members2_.id 
+    left outer join
+        clothes_info clothesinf3_ 
+            on stores1_.clothes_info_id=clothesinf3_.id 
+    left outer join
+        colors colors4_ 
+            on stores1_.colors_name=colors4_.name 
+    left outer join
+        materials materials5_ 
+            on stores1_.materials_name=materials5_.name 
+    left outer join
+        style style6_ 
+            on stores1_.style_name=style6_.name 
+    left outer join
+        sales_info_clothes salesinfoc7_ 
+            on stores1_.sales_info_clothes_id=salesinfoc7_.id 
+    left outer join
+        sales_info_status salesinfos8_ 
+            on stores1_.sales_info_status_id=salesinfos8_.id 
+    left outer join
+        sales_info_user salesinfou9_ 
+            on stores1_.sales_info_user_id=salesinfou9_.id 
+    where
+        storeslike0_.user_id=?
+Hibernate: 
+    delete 
+    from
+        members_like_stores_post 
+    where
+        id=?
 gunsong2@naver.com
 Hibernate: 
     select
@@ -1687,22 +2089,22 @@ Hibernate:
         members0_.email=?
 Hibernate: 
     select
-        stores0_.id as id1_10_0_,
-        stores0_.created_date as created_2_10_0_,
-        stores0_.modified_date as modified3_10_0_,
-        stores0_.author_id as author_i9_10_0_,
-        stores0_.clothes_info_id as clothes10_10_0_,
-        stores0_.colors_name as colors_11_10_0_,
-        stores0_.materials_name as materia12_10_0_,
-        stores0_.style_name as style_n13_10_0_,
-        stores0_.clothes_length as clothes_4_10_0_,
-        stores0_.content as content5_10_0_,
-        stores0_.price as price6_10_0_,
-        stores0_.sales_info_clothes_id as sales_i14_10_0_,
-        stores0_.sales_info_status_id as sales_i15_10_0_,
-        stores0_.sales_info_user_id as sales_i16_10_0_,
-        stores0_.status as status7_10_0_,
-        stores0_.title as title8_10_0_,
+        stores0_.id as id1_11_0_,
+        stores0_.created_date as created_2_11_0_,
+        stores0_.modified_date as modified3_11_0_,
+        stores0_.author_id as author_i9_11_0_,
+        stores0_.clothes_info_id as clothes10_11_0_,
+        stores0_.colors_name as colors_11_11_0_,
+        stores0_.materials_name as materia12_11_0_,
+        stores0_.style_name as style_n13_11_0_,
+        stores0_.clothes_length as clothes_4_11_0_,
+        stores0_.content as content5_11_0_,
+        stores0_.price as price6_11_0_,
+        stores0_.sales_info_clothes_id as sales_i14_11_0_,
+        stores0_.sales_info_status_id as sales_i15_11_0_,
+        stores0_.sales_info_user_id as sales_i16_11_0_,
+        stores0_.status as status7_11_0_,
+        stores0_.title as title8_11_0_,
         members1_.id as id1_6_1_,
         members1_.email as email2_6_1_,
         members1_.image as image3_6_1_,
@@ -1721,23 +2123,23 @@ Hibernate:
         colors3_.name as name2_4_3_,
         materials4_.id as id1_5_4_,
         materials4_.name as name2_5_4_,
-        style5_.id as id1_12_5_,
-        style5_.name as name2_12_5_,
-        salesinfoc6_.id as id1_7_6_,
-        salesinfoc6_.clothes_brand as clothes_2_7_6_,
-        salesinfoc6_.clothes_color as clothes_3_7_6_,
-        salesinfoc6_.clothes_gender as clothes_4_7_6_,
-        salesinfoc6_.clothes_size as clothes_5_7_6_,
-        salesinfos7_.id as id1_8_7_,
-        salesinfos7_.status_score as status_s2_8_7_,
-        salesinfos7_.status_tag as status_t3_8_7_,
-        salesinfos7_.status_times as status_t4_8_7_,
-        salesinfos7_.status_when2buy as status_w5_8_7_,
-        salesinfos7_.transport as transpor6_8_7_,
-        salesinfou8_.id as id1_9_8_,
-        salesinfou8_.user_height as user_hei2_9_8_,
-        salesinfou8_.user_size as user_siz3_9_8_,
-        salesinfou8_.user_weight as user_wei4_9_8_ 
+        style5_.id as id1_13_5_,
+        style5_.name as name2_13_5_,
+        salesinfoc6_.id as id1_8_6_,
+        salesinfoc6_.clothes_brand as clothes_2_8_6_,
+        salesinfoc6_.clothes_color as clothes_3_8_6_,
+        salesinfoc6_.clothes_gender as clothes_4_8_6_,
+        salesinfoc6_.clothes_size as clothes_5_8_6_,
+        salesinfos7_.id as id1_9_7_,
+        salesinfos7_.status_score as status_s2_9_7_,
+        salesinfos7_.status_tag as status_t3_9_7_,
+        salesinfos7_.status_times as status_t4_9_7_,
+        salesinfos7_.status_when2buy as status_w5_9_7_,
+        salesinfos7_.transport as transpor6_9_7_,
+        salesinfou8_.id as id1_10_8_,
+        salesinfou8_.user_height as user_hei2_10_8_,
+        salesinfou8_.user_size as user_siz3_10_8_,
+        salesinfou8_.user_weight as user_wei4_10_8_ 
     from
         stores stores0_ 
     left outer join
@@ -1768,30 +2170,116 @@ Hibernate:
         stores0_.id=?
 Hibernate: 
     select
-        comments0_.post_id as post_id6_11_0_,
-        comments0_.id as id1_11_0_,
-        comments0_.id as id1_11_1_,
-        comments0_.created_date as created_2_11_1_,
-        comments0_.modified_date as modified3_11_1_,
-        comments0_.content as content4_11_1_,
-        comments0_.user_id as user_id5_11_1_,
-        comments0_.post_id as post_id6_11_1_,
-        members1_.id as id1_6_2_,
-        members1_.email as email2_6_2_,
-        members1_.image as image3_6_2_,
-        members1_.name as name4_6_2_,
-        members1_.nickname as nickname5_6_2_,
-        members1_.password as password6_6_2_,
-        members1_.phone as phone7_6_2_,
-        members1_.refresh_token as refresh_8_6_2_,
-        members1_.role as role9_6_2_ 
+        memberslik0_.id as id1_7_,
+        memberslik0_.store_id as store_id2_7_,
+        memberslik0_.user_id as user_id3_7_ 
     from
-        stores_comments comments0_ 
-    left outer join
-        members members1_ 
-            on comments0_.user_id=members1_.id 
+        members_like_stores_post memberslik0_ 
     where
-        comments0_.post_id=?
+        memberslik0_.user_id=? 
+        and memberslik0_.store_id=?
+Hibernate: 
+    select
+        storeslike0_.user_id as user_id3_7_0_,
+        storeslike0_.id as id1_7_0_,
+        storeslike0_.id as id1_7_1_,
+        storeslike0_.store_id as store_id2_7_1_,
+        storeslike0_.user_id as user_id3_7_1_,
+        stores1_.id as id1_11_2_,
+        stores1_.created_date as created_2_11_2_,
+        stores1_.modified_date as modified3_11_2_,
+        stores1_.author_id as author_i9_11_2_,
+        stores1_.clothes_info_id as clothes10_11_2_,
+        stores1_.colors_name as colors_11_11_2_,
+        stores1_.materials_name as materia12_11_2_,
+        stores1_.style_name as style_n13_11_2_,
+        stores1_.clothes_length as clothes_4_11_2_,
+        stores1_.content as content5_11_2_,
+        stores1_.price as price6_11_2_,
+        stores1_.sales_info_clothes_id as sales_i14_11_2_,
+        stores1_.sales_info_status_id as sales_i15_11_2_,
+        stores1_.sales_info_user_id as sales_i16_11_2_,
+        stores1_.status as status7_11_2_,
+        stores1_.title as title8_11_2_,
+        members2_.id as id1_6_3_,
+        members2_.email as email2_6_3_,
+        members2_.image as image3_6_3_,
+        members2_.name as name4_6_3_,
+        members2_.nickname as nickname5_6_3_,
+        members2_.password as password6_6_3_,
+        members2_.phone as phone7_6_3_,
+        members2_.refresh_token as refresh_8_6_3_,
+        members2_.role as role9_6_3_,
+        clothesinf3_.id as id1_2_4_,
+        clothesinf3_.categoryl as category2_2_4_,
+        clothesinf3_.categorys as category3_2_4_,
+        clothesinf3_.fit as fit4_2_4_,
+        clothesinf3_.length as length5_2_4_,
+        colors4_.id as id1_4_5_,
+        colors4_.name as name2_4_5_,
+        materials5_.id as id1_5_6_,
+        materials5_.name as name2_5_6_,
+        style6_.id as id1_13_7_,
+        style6_.name as name2_13_7_,
+        salesinfoc7_.id as id1_8_8_,
+        salesinfoc7_.clothes_brand as clothes_2_8_8_,
+        salesinfoc7_.clothes_color as clothes_3_8_8_,
+        salesinfoc7_.clothes_gender as clothes_4_8_8_,
+        salesinfoc7_.clothes_size as clothes_5_8_8_,
+        salesinfos8_.id as id1_9_9_,
+        salesinfos8_.status_score as status_s2_9_9_,
+        salesinfos8_.status_tag as status_t3_9_9_,
+        salesinfos8_.status_times as status_t4_9_9_,
+        salesinfos8_.status_when2buy as status_w5_9_9_,
+        salesinfos8_.transport as transpor6_9_9_,
+        salesinfou9_.id as id1_10_10_,
+        salesinfou9_.user_height as user_hei2_10_10_,
+        salesinfou9_.user_size as user_siz3_10_10_,
+        salesinfou9_.user_weight as user_wei4_10_10_ 
+    from
+        members_like_stores_post storeslike0_ 
+    left outer join
+        stores stores1_ 
+            on storeslike0_.store_id=stores1_.id 
+    left outer join
+        members members2_ 
+            on stores1_.author_id=members2_.id 
+    left outer join
+        clothes_info clothesinf3_ 
+            on stores1_.clothes_info_id=clothesinf3_.id 
+    left outer join
+        colors colors4_ 
+            on stores1_.colors_name=colors4_.name 
+    left outer join
+        materials materials5_ 
+            on stores1_.materials_name=materials5_.name 
+    left outer join
+        style style6_ 
+            on stores1_.style_name=style6_.name 
+    left outer join
+        sales_info_clothes salesinfoc7_ 
+            on stores1_.sales_info_clothes_id=salesinfoc7_.id 
+    left outer join
+        sales_info_status salesinfos8_ 
+            on stores1_.sales_info_status_id=salesinfos8_.id 
+    left outer join
+        sales_info_user salesinfou9_ 
+            on stores1_.sales_info_user_id=salesinfou9_.id 
+    where
+        storeslike0_.user_id=?
+Hibernate: 
+    delete 
+    from
+        members_like_stores_post 
+    where
+        id=?
+Hibernate: 
+    select
+        memberslik0_.id as id1_7_,
+        memberslik0_.store_id as store_id2_7_,
+        memberslik0_.user_id as user_id3_7_ 
+    from
+        members_like_stores_post memberslik0_
 Hibernate: 
     select
         clothesima0_.id as id1_3_,
@@ -1803,22 +2291,22 @@ Hibernate:
         clothes_image clothesima0_
 Hibernate: 
     select
-        stores0_.id as id1_10_0_,
-        stores0_.created_date as created_2_10_0_,
-        stores0_.modified_date as modified3_10_0_,
-        stores0_.author_id as author_i9_10_0_,
-        stores0_.clothes_info_id as clothes10_10_0_,
-        stores0_.colors_name as colors_11_10_0_,
-        stores0_.materials_name as materia12_10_0_,
-        stores0_.style_name as style_n13_10_0_,
-        stores0_.clothes_length as clothes_4_10_0_,
-        stores0_.content as content5_10_0_,
-        stores0_.price as price6_10_0_,
-        stores0_.sales_info_clothes_id as sales_i14_10_0_,
-        stores0_.sales_info_status_id as sales_i15_10_0_,
-        stores0_.sales_info_user_id as sales_i16_10_0_,
-        stores0_.status as status7_10_0_,
-        stores0_.title as title8_10_0_,
+        stores0_.id as id1_11_0_,
+        stores0_.created_date as created_2_11_0_,
+        stores0_.modified_date as modified3_11_0_,
+        stores0_.author_id as author_i9_11_0_,
+        stores0_.clothes_info_id as clothes10_11_0_,
+        stores0_.colors_name as colors_11_11_0_,
+        stores0_.materials_name as materia12_11_0_,
+        stores0_.style_name as style_n13_11_0_,
+        stores0_.clothes_length as clothes_4_11_0_,
+        stores0_.content as content5_11_0_,
+        stores0_.price as price6_11_0_,
+        stores0_.sales_info_clothes_id as sales_i14_11_0_,
+        stores0_.sales_info_status_id as sales_i15_11_0_,
+        stores0_.sales_info_user_id as sales_i16_11_0_,
+        stores0_.status as status7_11_0_,
+        stores0_.title as title8_11_0_,
         members1_.id as id1_6_1_,
         members1_.email as email2_6_1_,
         members1_.image as image3_6_1_,
@@ -1837,23 +2325,23 @@ Hibernate:
         colors3_.name as name2_4_3_,
         materials4_.id as id1_5_4_,
         materials4_.name as name2_5_4_,
-        style5_.id as id1_12_5_,
-        style5_.name as name2_12_5_,
-        salesinfoc6_.id as id1_7_6_,
-        salesinfoc6_.clothes_brand as clothes_2_7_6_,
-        salesinfoc6_.clothes_color as clothes_3_7_6_,
-        salesinfoc6_.clothes_gender as clothes_4_7_6_,
-        salesinfoc6_.clothes_size as clothes_5_7_6_,
-        salesinfos7_.id as id1_8_7_,
-        salesinfos7_.status_score as status_s2_8_7_,
-        salesinfos7_.status_tag as status_t3_8_7_,
-        salesinfos7_.status_times as status_t4_8_7_,
-        salesinfos7_.status_when2buy as status_w5_8_7_,
-        salesinfos7_.transport as transpor6_8_7_,
-        salesinfou8_.id as id1_9_8_,
-        salesinfou8_.user_height as user_hei2_9_8_,
-        salesinfou8_.user_size as user_siz3_9_8_,
-        salesinfou8_.user_weight as user_wei4_9_8_ 
+        style5_.id as id1_13_5_,
+        style5_.name as name2_13_5_,
+        salesinfoc6_.id as id1_8_6_,
+        salesinfoc6_.clothes_brand as clothes_2_8_6_,
+        salesinfoc6_.clothes_color as clothes_3_8_6_,
+        salesinfoc6_.clothes_gender as clothes_4_8_6_,
+        salesinfoc6_.clothes_size as clothes_5_8_6_,
+        salesinfos7_.id as id1_9_7_,
+        salesinfos7_.status_score as status_s2_9_7_,
+        salesinfos7_.status_tag as status_t3_9_7_,
+        salesinfos7_.status_times as status_t4_9_7_,
+        salesinfos7_.status_when2buy as status_w5_9_7_,
+        salesinfos7_.transport as transpor6_9_7_,
+        salesinfou8_.id as id1_10_8_,
+        salesinfou8_.user_height as user_hei2_10_8_,
+        salesinfou8_.user_size as user_siz3_10_8_,
+        salesinfou8_.user_weight as user_wei4_10_8_ 
     from
         stores stores0_ 
     left outer join
@@ -1884,22 +2372,22 @@ Hibernate:
         stores0_.id=?
 Hibernate: 
     select
-        stores0_.id as id1_10_0_,
-        stores0_.created_date as created_2_10_0_,
-        stores0_.modified_date as modified3_10_0_,
-        stores0_.author_id as author_i9_10_0_,
-        stores0_.clothes_info_id as clothes10_10_0_,
-        stores0_.colors_name as colors_11_10_0_,
-        stores0_.materials_name as materia12_10_0_,
-        stores0_.style_name as style_n13_10_0_,
-        stores0_.clothes_length as clothes_4_10_0_,
-        stores0_.content as content5_10_0_,
-        stores0_.price as price6_10_0_,
-        stores0_.sales_info_clothes_id as sales_i14_10_0_,
-        stores0_.sales_info_status_id as sales_i15_10_0_,
-        stores0_.sales_info_user_id as sales_i16_10_0_,
-        stores0_.status as status7_10_0_,
-        stores0_.title as title8_10_0_,
+        stores0_.id as id1_11_0_,
+        stores0_.created_date as created_2_11_0_,
+        stores0_.modified_date as modified3_11_0_,
+        stores0_.author_id as author_i9_11_0_,
+        stores0_.clothes_info_id as clothes10_11_0_,
+        stores0_.colors_name as colors_11_11_0_,
+        stores0_.materials_name as materia12_11_0_,
+        stores0_.style_name as style_n13_11_0_,
+        stores0_.clothes_length as clothes_4_11_0_,
+        stores0_.content as content5_11_0_,
+        stores0_.price as price6_11_0_,
+        stores0_.sales_info_clothes_id as sales_i14_11_0_,
+        stores0_.sales_info_status_id as sales_i15_11_0_,
+        stores0_.sales_info_user_id as sales_i16_11_0_,
+        stores0_.status as status7_11_0_,
+        stores0_.title as title8_11_0_,
         members1_.id as id1_6_1_,
         members1_.email as email2_6_1_,
         members1_.image as image3_6_1_,
@@ -1918,23 +2406,23 @@ Hibernate:
         colors3_.name as name2_4_3_,
         materials4_.id as id1_5_4_,
         materials4_.name as name2_5_4_,
-        style5_.id as id1_12_5_,
-        style5_.name as name2_12_5_,
-        salesinfoc6_.id as id1_7_6_,
-        salesinfoc6_.clothes_brand as clothes_2_7_6_,
-        salesinfoc6_.clothes_color as clothes_3_7_6_,
-        salesinfoc6_.clothes_gender as clothes_4_7_6_,
-        salesinfoc6_.clothes_size as clothes_5_7_6_,
-        salesinfos7_.id as id1_8_7_,
-        salesinfos7_.status_score as status_s2_8_7_,
-        salesinfos7_.status_tag as status_t3_8_7_,
-        salesinfos7_.status_times as status_t4_8_7_,
-        salesinfos7_.status_when2buy as status_w5_8_7_,
-        salesinfos7_.transport as transpor6_8_7_,
-        salesinfou8_.id as id1_9_8_,
-        salesinfou8_.user_height as user_hei2_9_8_,
-        salesinfou8_.user_size as user_siz3_9_8_,
-        salesinfou8_.user_weight as user_wei4_9_8_ 
+        style5_.id as id1_13_5_,
+        style5_.name as name2_13_5_,
+        salesinfoc6_.id as id1_8_6_,
+        salesinfoc6_.clothes_brand as clothes_2_8_6_,
+        salesinfoc6_.clothes_color as clothes_3_8_6_,
+        salesinfoc6_.clothes_gender as clothes_4_8_6_,
+        salesinfoc6_.clothes_size as clothes_5_8_6_,
+        salesinfos7_.id as id1_9_7_,
+        salesinfos7_.status_score as status_s2_9_7_,
+        salesinfos7_.status_tag as status_t3_9_7_,
+        salesinfos7_.status_times as status_t4_9_7_,
+        salesinfos7_.status_when2buy as status_w5_9_7_,
+        salesinfos7_.transport as transpor6_9_7_,
+        salesinfou8_.id as id1_10_8_,
+        salesinfou8_.user_height as user_hei2_10_8_,
+        salesinfou8_.user_size as user_siz3_10_8_,
+        salesinfou8_.user_weight as user_wei4_10_8_ 
     from
         stores stores0_ 
     left outer join
@@ -1965,22 +2453,22 @@ Hibernate:
         stores0_.id=?
 Hibernate: 
     select
-        stores0_.id as id1_10_0_,
-        stores0_.created_date as created_2_10_0_,
-        stores0_.modified_date as modified3_10_0_,
-        stores0_.author_id as author_i9_10_0_,
-        stores0_.clothes_info_id as clothes10_10_0_,
-        stores0_.colors_name as colors_11_10_0_,
-        stores0_.materials_name as materia12_10_0_,
-        stores0_.style_name as style_n13_10_0_,
-        stores0_.clothes_length as clothes_4_10_0_,
-        stores0_.content as content5_10_0_,
-        stores0_.price as price6_10_0_,
-        stores0_.sales_info_clothes_id as sales_i14_10_0_,
-        stores0_.sales_info_status_id as sales_i15_10_0_,
-        stores0_.sales_info_user_id as sales_i16_10_0_,
-        stores0_.status as status7_10_0_,
-        stores0_.title as title8_10_0_,
+        stores0_.id as id1_11_0_,
+        stores0_.created_date as created_2_11_0_,
+        stores0_.modified_date as modified3_11_0_,
+        stores0_.author_id as author_i9_11_0_,
+        stores0_.clothes_info_id as clothes10_11_0_,
+        stores0_.colors_name as colors_11_11_0_,
+        stores0_.materials_name as materia12_11_0_,
+        stores0_.style_name as style_n13_11_0_,
+        stores0_.clothes_length as clothes_4_11_0_,
+        stores0_.content as content5_11_0_,
+        stores0_.price as price6_11_0_,
+        stores0_.sales_info_clothes_id as sales_i14_11_0_,
+        stores0_.sales_info_status_id as sales_i15_11_0_,
+        stores0_.sales_info_user_id as sales_i16_11_0_,
+        stores0_.status as status7_11_0_,
+        stores0_.title as title8_11_0_,
         members1_.id as id1_6_1_,
         members1_.email as email2_6_1_,
         members1_.image as image3_6_1_,
@@ -1999,23 +2487,23 @@ Hibernate:
         colors3_.name as name2_4_3_,
         materials4_.id as id1_5_4_,
         materials4_.name as name2_5_4_,
-        style5_.id as id1_12_5_,
-        style5_.name as name2_12_5_,
-        salesinfoc6_.id as id1_7_6_,
-        salesinfoc6_.clothes_brand as clothes_2_7_6_,
-        salesinfoc6_.clothes_color as clothes_3_7_6_,
-        salesinfoc6_.clothes_gender as clothes_4_7_6_,
-        salesinfoc6_.clothes_size as clothes_5_7_6_,
-        salesinfos7_.id as id1_8_7_,
-        salesinfos7_.status_score as status_s2_8_7_,
-        salesinfos7_.status_tag as status_t3_8_7_,
-        salesinfos7_.status_times as status_t4_8_7_,
-        salesinfos7_.status_when2buy as status_w5_8_7_,
-        salesinfos7_.transport as transpor6_8_7_,
-        salesinfou8_.id as id1_9_8_,
-        salesinfou8_.user_height as user_hei2_9_8_,
-        salesinfou8_.user_size as user_siz3_9_8_,
-        salesinfou8_.user_weight as user_wei4_9_8_ 
+        style5_.id as id1_13_5_,
+        style5_.name as name2_13_5_,
+        salesinfoc6_.id as id1_8_6_,
+        salesinfoc6_.clothes_brand as clothes_2_8_6_,
+        salesinfoc6_.clothes_color as clothes_3_8_6_,
+        salesinfoc6_.clothes_gender as clothes_4_8_6_,
+        salesinfoc6_.clothes_size as clothes_5_8_6_,
+        salesinfos7_.id as id1_9_7_,
+        salesinfos7_.status_score as status_s2_9_7_,
+        salesinfos7_.status_tag as status_t3_9_7_,
+        salesinfos7_.status_times as status_t4_9_7_,
+        salesinfos7_.status_when2buy as status_w5_9_7_,
+        salesinfos7_.transport as transpor6_9_7_,
+        salesinfou8_.id as id1_10_8_,
+        salesinfou8_.user_height as user_hei2_10_8_,
+        salesinfou8_.user_size as user_siz3_10_8_,
+        salesinfou8_.user_weight as user_wei4_10_8_ 
     from
         stores stores0_ 
     left outer join
@@ -2046,22 +2534,22 @@ Hibernate:
         stores0_.id=?
 Hibernate: 
     select
-        stores0_.id as id1_10_0_,
-        stores0_.created_date as created_2_10_0_,
-        stores0_.modified_date as modified3_10_0_,
-        stores0_.author_id as author_i9_10_0_,
-        stores0_.clothes_info_id as clothes10_10_0_,
-        stores0_.colors_name as colors_11_10_0_,
-        stores0_.materials_name as materia12_10_0_,
-        stores0_.style_name as style_n13_10_0_,
-        stores0_.clothes_length as clothes_4_10_0_,
-        stores0_.content as content5_10_0_,
-        stores0_.price as price6_10_0_,
-        stores0_.sales_info_clothes_id as sales_i14_10_0_,
-        stores0_.sales_info_status_id as sales_i15_10_0_,
-        stores0_.sales_info_user_id as sales_i16_10_0_,
-        stores0_.status as status7_10_0_,
-        stores0_.title as title8_10_0_,
+        stores0_.id as id1_11_0_,
+        stores0_.created_date as created_2_11_0_,
+        stores0_.modified_date as modified3_11_0_,
+        stores0_.author_id as author_i9_11_0_,
+        stores0_.clothes_info_id as clothes10_11_0_,
+        stores0_.colors_name as colors_11_11_0_,
+        stores0_.materials_name as materia12_11_0_,
+        stores0_.style_name as style_n13_11_0_,
+        stores0_.clothes_length as clothes_4_11_0_,
+        stores0_.content as content5_11_0_,
+        stores0_.price as price6_11_0_,
+        stores0_.sales_info_clothes_id as sales_i14_11_0_,
+        stores0_.sales_info_status_id as sales_i15_11_0_,
+        stores0_.sales_info_user_id as sales_i16_11_0_,
+        stores0_.status as status7_11_0_,
+        stores0_.title as title8_11_0_,
         members1_.id as id1_6_1_,
         members1_.email as email2_6_1_,
         members1_.image as image3_6_1_,
@@ -2080,23 +2568,23 @@ Hibernate:
         colors3_.name as name2_4_3_,
         materials4_.id as id1_5_4_,
         materials4_.name as name2_5_4_,
-        style5_.id as id1_12_5_,
-        style5_.name as name2_12_5_,
-        salesinfoc6_.id as id1_7_6_,
-        salesinfoc6_.clothes_brand as clothes_2_7_6_,
-        salesinfoc6_.clothes_color as clothes_3_7_6_,
-        salesinfoc6_.clothes_gender as clothes_4_7_6_,
-        salesinfoc6_.clothes_size as clothes_5_7_6_,
-        salesinfos7_.id as id1_8_7_,
-        salesinfos7_.status_score as status_s2_8_7_,
-        salesinfos7_.status_tag as status_t3_8_7_,
-        salesinfos7_.status_times as status_t4_8_7_,
-        salesinfos7_.status_when2buy as status_w5_8_7_,
-        salesinfos7_.transport as transpor6_8_7_,
-        salesinfou8_.id as id1_9_8_,
-        salesinfou8_.user_height as user_hei2_9_8_,
-        salesinfou8_.user_size as user_siz3_9_8_,
-        salesinfou8_.user_weight as user_wei4_9_8_ 
+        style5_.id as id1_13_5_,
+        style5_.name as name2_13_5_,
+        salesinfoc6_.id as id1_8_6_,
+        salesinfoc6_.clothes_brand as clothes_2_8_6_,
+        salesinfoc6_.clothes_color as clothes_3_8_6_,
+        salesinfoc6_.clothes_gender as clothes_4_8_6_,
+        salesinfoc6_.clothes_size as clothes_5_8_6_,
+        salesinfos7_.id as id1_9_7_,
+        salesinfos7_.status_score as status_s2_9_7_,
+        salesinfos7_.status_tag as status_t3_9_7_,
+        salesinfos7_.status_times as status_t4_9_7_,
+        salesinfos7_.status_when2buy as status_w5_9_7_,
+        salesinfos7_.transport as transpor6_9_7_,
+        salesinfou8_.id as id1_10_8_,
+        salesinfou8_.user_height as user_hei2_10_8_,
+        salesinfou8_.user_size as user_siz3_10_8_,
+        salesinfou8_.user_weight as user_wei4_10_8_ 
     from
         stores stores0_ 
     left outer join
@@ -2127,22 +2615,22 @@ Hibernate:
         stores0_.id=?
 Hibernate: 
     select
-        stores0_.id as id1_10_0_,
-        stores0_.created_date as created_2_10_0_,
-        stores0_.modified_date as modified3_10_0_,
-        stores0_.author_id as author_i9_10_0_,
-        stores0_.clothes_info_id as clothes10_10_0_,
-        stores0_.colors_name as colors_11_10_0_,
-        stores0_.materials_name as materia12_10_0_,
-        stores0_.style_name as style_n13_10_0_,
-        stores0_.clothes_length as clothes_4_10_0_,
-        stores0_.content as content5_10_0_,
-        stores0_.price as price6_10_0_,
-        stores0_.sales_info_clothes_id as sales_i14_10_0_,
-        stores0_.sales_info_status_id as sales_i15_10_0_,
-        stores0_.sales_info_user_id as sales_i16_10_0_,
-        stores0_.status as status7_10_0_,
-        stores0_.title as title8_10_0_,
+        stores0_.id as id1_11_0_,
+        stores0_.created_date as created_2_11_0_,
+        stores0_.modified_date as modified3_11_0_,
+        stores0_.author_id as author_i9_11_0_,
+        stores0_.clothes_info_id as clothes10_11_0_,
+        stores0_.colors_name as colors_11_11_0_,
+        stores0_.materials_name as materia12_11_0_,
+        stores0_.style_name as style_n13_11_0_,
+        stores0_.clothes_length as clothes_4_11_0_,
+        stores0_.content as content5_11_0_,
+        stores0_.price as price6_11_0_,
+        stores0_.sales_info_clothes_id as sales_i14_11_0_,
+        stores0_.sales_info_status_id as sales_i15_11_0_,
+        stores0_.sales_info_user_id as sales_i16_11_0_,
+        stores0_.status as status7_11_0_,
+        stores0_.title as title8_11_0_,
         members1_.id as id1_6_1_,
         members1_.email as email2_6_1_,
         members1_.image as image3_6_1_,
@@ -2161,23 +2649,23 @@ Hibernate:
         colors3_.name as name2_4_3_,
         materials4_.id as id1_5_4_,
         materials4_.name as name2_5_4_,
-        style5_.id as id1_12_5_,
-        style5_.name as name2_12_5_,
-        salesinfoc6_.id as id1_7_6_,
-        salesinfoc6_.clothes_brand as clothes_2_7_6_,
-        salesinfoc6_.clothes_color as clothes_3_7_6_,
-        salesinfoc6_.clothes_gender as clothes_4_7_6_,
-        salesinfoc6_.clothes_size as clothes_5_7_6_,
-        salesinfos7_.id as id1_8_7_,
-        salesinfos7_.status_score as status_s2_8_7_,
-        salesinfos7_.status_tag as status_t3_8_7_,
-        salesinfos7_.status_times as status_t4_8_7_,
-        salesinfos7_.status_when2buy as status_w5_8_7_,
-        salesinfos7_.transport as transpor6_8_7_,
-        salesinfou8_.id as id1_9_8_,
-        salesinfou8_.user_height as user_hei2_9_8_,
-        salesinfou8_.user_size as user_siz3_9_8_,
-        salesinfou8_.user_weight as user_wei4_9_8_ 
+        style5_.id as id1_13_5_,
+        style5_.name as name2_13_5_,
+        salesinfoc6_.id as id1_8_6_,
+        salesinfoc6_.clothes_brand as clothes_2_8_6_,
+        salesinfoc6_.clothes_color as clothes_3_8_6_,
+        salesinfoc6_.clothes_gender as clothes_4_8_6_,
+        salesinfoc6_.clothes_size as clothes_5_8_6_,
+        salesinfos7_.id as id1_9_7_,
+        salesinfos7_.status_score as status_s2_9_7_,
+        salesinfos7_.status_tag as status_t3_9_7_,
+        salesinfos7_.status_times as status_t4_9_7_,
+        salesinfos7_.status_when2buy as status_w5_9_7_,
+        salesinfos7_.transport as transpor6_9_7_,
+        salesinfou8_.id as id1_10_8_,
+        salesinfou8_.user_height as user_hei2_10_8_,
+        salesinfou8_.user_size as user_siz3_10_8_,
+        salesinfou8_.user_weight as user_wei4_10_8_ 
     from
         stores stores0_ 
     left outer join
@@ -2206,18 +2694,6 @@ Hibernate:
             on stores0_.sales_info_user_id=salesinfou8_.id 
     where
         stores0_.id=?
-Hibernate: 
-    delete 
-    from
-        clothes_image
-Hibernate: 
-    delete 
-    from
-        stores_comments
-Hibernate: 
-    delete 
-    from
-        stores
 </pre>
 </span>
 </div>
@@ -2229,7 +2705,7 @@ Hibernate:
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 4.10.2</a> at 2022. 11. 8 오후 3:18:19</p>
+<a href="http://www.gradle.org">Gradle 4.10.2</a> at 2022. 11. 8 오후 7:07:39</p>
 </div>
 </div>
 </body>
