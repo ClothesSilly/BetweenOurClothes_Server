@@ -5,6 +5,7 @@ import com.betweenourclothes.domain.clothes.repository.*;
 import com.betweenourclothes.domain.members.Members;
 import com.betweenourclothes.domain.members.MembersLikeStoresPost;
 import com.betweenourclothes.domain.members.repository.MembersLikeStoresPostRepository;
+import com.betweenourclothes.domain.members.repository.MembersQueryDslRepository;
 import com.betweenourclothes.domain.members.repository.MembersRepository;
 import com.betweenourclothes.domain.stores.*;
 import com.betweenourclothes.domain.stores.repository.*;
@@ -47,6 +48,8 @@ public class StoresServiceImpl implements StoresService{
     private final StoresCommentsRepository storesCommentsRepository;
 
     private final MembersLikeStoresPostRepository membersLikeStoresPostRepository;
+
+    private final MembersQueryDslRepository membersQueryDslRepository;
 
 
     /*** 게시글
@@ -252,41 +255,15 @@ public class StoresServiceImpl implements StoresService{
 
     @Transactional
     @Override
-    public StoresThumbnailsResponseDto findImagesByAllCategory(Pageable pageable, StoresSearchCategoryAllRequestDto req) {
+    public Page<StoresThumbnailsResponseDto> findPostsByAllCategory(Pageable pageable, StoresSearchCategoryAllRequestDto req) {
         Members member = membersRepository.findByEmail(SecurityUtil.getMemberEmail())
                 .orElseThrow(()->new StoresPostException(ErrorCode.USER_NOT_FOUND));
 
-        Page<ClothesImage> images = storesQueryDslRepository.findClothesImagesByAllOptions(pageable, member.getId(),
+        Page<StoresThumbnailsResponseDto> responseDto = storesQueryDslRepository.findPostsByAllOptions(pageable, member.getId(),
                 req.getNameL(), req.getNameS(),
                 req.getFit(), req.getLength(),
                 req.getMaterial(), req.getColor());
 
-
-        List<String> titles = new ArrayList<>();
-        List<String> modifiedDates = new ArrayList<>();
-        List<Long> postId = new ArrayList<>();
-        List<String> prices = new ArrayList<>();
-        List<String> transports = new ArrayList<>();
-        List<String> contents = new ArrayList<>();
-        List<byte[]> thumbnails = new ArrayList<>();
-
-
-        Stores post = null;
-        for(ClothesImage image : images.getContent()){
-            if(image.getStores_post().getStatus() == SalesStatus.SALES){
-                thumbnails.add(image.toByte(300, 300));
-                postId.add(image.getStores_post().getId());
-                titles.add(image.getStores_post().getTitle());
-                prices.add(image.getStores_post().getPrice());
-                contents.add(image.getStores_post().getContent().substring(0, Math.min(image.getStores_post().getContent().length(), 30)));
-                transports.add(image.getStores_post().getSalesInfo_status().getTransport());
-                modifiedDates.add(image.getStores_post().getModifiedDate().toString());
-            }
-        }
-
-        StoresThumbnailsResponseDto responseDto = StoresThumbnailsResponseDto.builder()
-                .title(titles).modified_date(modifiedDates).content(contents)
-                .id(postId).images(thumbnails).price(prices).transport(transports).length(thumbnails.size()).build();
         return responseDto;
     }
 
@@ -314,31 +291,15 @@ public class StoresServiceImpl implements StoresService{
 
     @Transactional
     @Override
-    public StoresPostCommentsResponseDto findStoresCommentsByPostId(Long id) {
+    public Page<StoresPostCommentsResponseDto> findStoresCommentsByPostId(Pageable pageable, Long id) {
 
-        membersRepository.findByEmail(SecurityUtil.getMemberEmail())
+        Members member = membersRepository.findByEmail(SecurityUtil.getMemberEmail())
                 .orElseThrow(()->new StoresPostException(ErrorCode.USER_NOT_FOUND));
 
         Stores post = storesRepository.findById(id).orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
 
-        List<String> comments = new ArrayList<>();
-        List<String> nicknames = new ArrayList<>();
-        List<String> createdTimes = new ArrayList<>();
-        int length = 0;
-
-        for(StoresComments comment : post.getComments()){
-            comments.add(comment.getContent());
-            nicknames.add(comment.getUser().getNickname());
-            createdTimes.add(comment.getCreatedDate().toString());
-        }
-        length = comments.size();
-
-        StoresPostCommentsResponseDto responseDto = StoresPostCommentsResponseDto.builder()
-                .comments(comments)
-                .nickname(nicknames)
-                .createdTime(createdTimes)
-                .length(length)
-                .build();
+        Page<StoresPostCommentsResponseDto> responseDto = storesQueryDslRepository.findCommentsByUserAndPost(pageable, member.getId()
+                , post.getId());
 
         return responseDto;
     }
@@ -379,39 +340,11 @@ public class StoresServiceImpl implements StoresService{
 
     @Transactional
     @Override
-    public StoresThumbnailsResponseDto findStoresLikesByMember(Pageable pageable) {
+    public Page<StoresThumbnailsResponseDto> findStoresLikesByMember(Pageable pageable) {
         Members member = membersRepository.findByEmail(SecurityUtil.getMemberEmail())
                 .orElseThrow(()->new StoresPostException(ErrorCode.USER_NOT_FOUND));
 
-        List<String> titles = new ArrayList<>();
-        List<String> modifiedDates = new ArrayList<>();
-        List<Long> postId = new ArrayList<>();
-        List<String> prices = new ArrayList<>();
-        List<String> transports = new ArrayList<>();
-        List<String> contents = new ArrayList<>();
-        List<byte[]> thumbnails = new ArrayList<>();
-
-
-        int start = (int) pageable.getOffset();
-        int end = (int) Math.min(pageable.getOffset() + pageable.getPageSize(), member.getStoresLikes().size());
-        List copy = new ArrayList<>(member.getStoresLikes());
-        Collections.reverse(copy);
-        Page<MembersLikeStoresPost> page =  new PageImpl<>(copy.subList(start, end), pageable, member.getStoresLikes().size());
-
-        for(MembersLikeStoresPost likeinfo : page.getContent()){
-            Stores post = likeinfo.getStore();
-            titles.add(post.getTitle());
-            thumbnails.add(post.getImages().get(0).toByte(300, 300));
-            postId.add(post.getId());
-            prices.add(post.getPrice());
-            contents.add(post.getContent().substring(0, Math.min(post.getContent().length(), 30)));
-            transports.add(post.getSalesInfo_status().getTransport());
-            modifiedDates.add(post.getModifiedDate().toString());
-        }
-
-        StoresThumbnailsResponseDto responseDto = StoresThumbnailsResponseDto.builder()
-                .title(titles).modified_date(modifiedDates).content(contents)
-                .id(postId).images(thumbnails).price(prices).transport(transports).length(page.getContent().size()).build();
+        Page<StoresThumbnailsResponseDto> responseDto = membersQueryDslRepository.findByUser(pageable, member.getId());
 
         return responseDto;
     }
@@ -436,15 +369,13 @@ public class StoresServiceImpl implements StoresService{
      * ***/
     @Transactional
     @Override
-    public StoresThumbnailsResponseDto findByKeyword(Pageable pageable, StoresPostSearchRequestDto requestDto) {
+    public Page<StoresThumbnailsResponseDto> findByKeyword(Pageable pageable, StoresPostSearchRequestDto requestDto) {
         Members member = membersRepository.findByEmail(SecurityUtil.getMemberEmail())
                 .orElseThrow(()->new StoresPostException(ErrorCode.USER_NOT_FOUND));
 
-        //Page<ClothesImage> images = storesQueryDslRepository.findClothesImagesByKeywords(pageable, member.getId(),
-                //requestDto.getKeyword());
+        Page<StoresThumbnailsResponseDto> responseDto = storesQueryDslRepository.findByKeyword(pageable, requestDto.getKeyword());
 
-
-        return null;
+        return responseDto;
     }
 
 

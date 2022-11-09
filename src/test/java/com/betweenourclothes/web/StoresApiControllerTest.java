@@ -12,9 +12,9 @@ import com.betweenourclothes.jwt.JwtTokenProvider;
 import com.betweenourclothes.web.dto.request.auth.AuthSignInRequestDto;
 import com.betweenourclothes.web.dto.request.stores.*;
 import com.betweenourclothes.web.dto.response.auth.AuthTokenResponseDto;
-import com.betweenourclothes.web.dto.response.stores.StoresPostCommentsResponseDto;
 import com.betweenourclothes.web.dto.response.stores.StoresPostResponseDto;
 import com.betweenourclothes.web.dto.response.stores.StoresThumbnailsResponseDto;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -22,6 +22,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.*;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.mock.web.MockPart;
@@ -39,9 +41,11 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -71,7 +75,6 @@ public class StoresApiControllerTest {
 
     @Autowired
     private MembersLikeStoresPostRepository membersLikeStoresPostRepository;
-
 
     private String AT;
     private String postId;
@@ -115,6 +118,24 @@ public class StoresApiControllerTest {
     }
 
     @Test
+    public void 중고거래_검색() throws Exception{
+        String token = "Bearer" + AT;
+
+        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
+
+        String data = "상의";
+        StoresPostSearchRequestDto req = StoresPostSearchRequestDto.builder().keyword(data).build();
+        ObjectMapper mapper = new ObjectMapper();
+        String content = mapper.writeValueAsString(req);
+
+        mockMvc.perform(get("/api/v1/stores/post/search?page=0")
+                        .contentType(MediaType.APPLICATION_JSON).content(content).header("Authorization", token))
+                .andExpect(status().isOk()).andDo(print())
+                .andReturn();
+
+    }
+
+    @Test
     public void 중고거래_판매상태업데이트() throws Exception{
         String token = "Bearer" + AT;
         String url = "http://localhost:" + port + "/api/v1/stores/post/" + postId + "/status";
@@ -135,83 +156,69 @@ public class StoresApiControllerTest {
     @Test
     public void 중고거래_찜_등록과확인과취소() throws Exception{
         String token = "Bearer" + AT;
-        String url = "http://localhost:" + port + "/api/v1/stores/post/" + postId + "/like";
-
+        String url = "/api/v1/stores/post/" + postId + "/like";
         HttpHeaders header = new HttpHeaders();
         header.set("Authorization", token);
+        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
 
         // 좋아요 등록
-        HttpEntity<Long> req = new HttpEntity<>(header);
-        ResponseEntity<String> resp = restTemplate.exchange(url, HttpMethod.POST, req, String.class);
-        assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
+        mockMvc.perform(post(url)
+                        .contentType(MediaType.APPLICATION_JSON).header("Authorization", token))
+                .andExpect(status().isOk()).andReturn();
+
+        url = "/api/v1/stores/post/" + Long.toString(Long.parseLong(postId)-1) + "/like";
+        mockMvc.perform(post(url)
+                        .contentType(MediaType.APPLICATION_JSON).header("Authorization", token))
+                .andExpect(status().isOk()).andReturn();
 
         // 좋아요 가져오기
-        String url_get = "http://localhost:" + port + "/api/v1/stores/post/like?page=0";
-        req = new HttpEntity<>(header);
-        ResponseEntity<StoresThumbnailsResponseDto> dto = restTemplate.exchange(url_get, HttpMethod.GET, req, StoresThumbnailsResponseDto.class);
-        assertThat(dto.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(dto.getBody().getLength()).isEqualTo(1);
-        assertThat(dto.getBody().getId().get(0)).isEqualTo(Long.parseLong(postId));
+        MvcResult mvcResult = mockMvc.perform(get("/api/v1/stores/post/like?page=0")
+                        .contentType(MediaType.APPLICATION_JSON).header("Authorization", token))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.content", hasSize(2))).andReturn();
 
-
-        url = "http://localhost:" + port + "/api/v1/stores/post/" + Long.toString(Long.parseLong(postId)-1) + "/like";
-        req = new HttpEntity<>(header);
-        resp = restTemplate.exchange(url, HttpMethod.POST, req, String.class);
-        assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
-
-
-        req = new HttpEntity<>(header);
-        url_get = "http://localhost:" + port + "/api/v1/stores/post/like?page=0";
-        dto = restTemplate.exchange(url_get, HttpMethod.GET, req, StoresThumbnailsResponseDto.class);
-        assertThat(dto.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(dto.getBody().getLength()).isEqualTo(1);
-        assertThat(dto.getBody().getId().get(0)).isEqualTo(Long.parseLong(postId)-1);
 
         // 좋아요 삭제
-        url = "http://localhost:" + port + "/api/v1/stores/post/" + Long.toString(Long.parseLong(postId)-1) + "/like";
-        req = new HttpEntity<>(header);
-        resp = restTemplate.exchange(url, HttpMethod.DELETE, req, String.class);
-        assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
+        url = "/api/v1/stores/post/" + Long.toString(Long.parseLong(postId)-1) + "/like";
+        mockMvc.perform(delete(url)
+                        .contentType(MediaType.APPLICATION_JSON).header("Authorization", token))
+                .andExpect(status().isOk()).andReturn();
 
-        url = "http://localhost:" + port + "/api/v1/stores/post/" + postId + "/like";
-        req = new HttpEntity<>(header);
-        resp = restTemplate.exchange(url, HttpMethod.DELETE, req, String.class);
-        assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
+        url = "/api/v1/stores/post/" + Long.toString(Long.parseLong(postId)) + "/like";
+        mockMvc.perform(delete(url)
+                        .contentType(MediaType.APPLICATION_JSON).header("Authorization", token))
+                .andExpect(status().isOk()).andReturn();
 
         List<MembersLikeStoresPost> likes = membersLikeStoresPostRepository.findAll();
         assertThat(likes.size()).isEqualTo(0);
-        //assertThat(likes.get(likes.size()-1).getStore().getId()).isEqualTo(Long.parseLong(postId));
     }
 
     @Test
     public void 중고거래_댓글추가_확인() throws Exception{
         String token = "Bearer" + AT;
-        String url = "http://localhost:" + port + "/api/v1/stores/post/" + postId + "/comment";
+        String url =  "/api/v1/stores/post/" + postId + "/comment";
 
         HttpHeaders header = new HttpHeaders();
         header.set("Authorization", token);
 
+        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
         for(int i=0; i<3; i++){
             StoresPostCommentRequestDto dto = StoresPostCommentRequestDto.builder().post_id(Long.parseLong(postId)).content("댓글 " + Integer.toString(i)).build();
-            HttpEntity<StoresPostCommentRequestDto> req = new HttpEntity<>(dto, header);
+            ObjectMapper mapper = new ObjectMapper();
+            String content = mapper.writeValueAsString(dto);
 
-            ResponseEntity<String> resp
-                    = restTemplate.exchange(url, HttpMethod.POST, req, String.class);
-            System.out.println(resp.getBody());
-            assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
+            mockMvc.perform(post(url)
+                            .contentType(MediaType.APPLICATION_JSON).content(content).header("Authorization", token))
+                    .andExpect(status().isOk()).andReturn();
         }
 
-        HttpEntity<Long> get_req = new HttpEntity<>(header);
-        ResponseEntity<StoresPostCommentsResponseDto> resp = restTemplate.exchange(url, HttpMethod.GET, get_req, StoresPostCommentsResponseDto.class);
-        assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(resp.getBody().getLength()).isEqualTo(3);
-        assertThat(resp.getBody().getComments().get(1)).isEqualTo("댓글 1");
+        MvcResult result = mockMvc.perform(get(url)
+                        .contentType(MediaType.APPLICATION_JSON).header("Authorization", token))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.content", hasSize(3))).andReturn();
     }
 
     @Test
     public void 중고거래_옷카테고리전부() throws Exception{
         String token = "Bearer" + AT;
-        System.out.println(token);
 
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
         String data1 = "상의";
@@ -225,17 +232,13 @@ public class StoresApiControllerTest {
 
         MvcResult result = mockMvc.perform(get("/api/v1/stores/post/category?page=0")
                         .contentType(MediaType.APPLICATION_JSON).content(content).header("Authorization", token))
-                .andExpect(status().isOk()).andReturn();
-
-        String json = result.getResponse().getContentAsString();
-        StoresThumbnailsResponseDto resp = new ObjectMapper().readValue(json, StoresThumbnailsResponseDto.class);
-        assertThat(resp.getImages().size()).isEqualTo(1);
+                .andExpect(status().isOk()).andExpect(jsonPath("$.content", hasSize(1)))
+                .andReturn();
     }
 
     @Test
     public void 중고거래_작은카테고리조회() throws Exception{
         String token = "Bearer" + AT;
-        System.out.println(token);
 
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
         String data1 = "상의";
@@ -248,11 +251,8 @@ public class StoresApiControllerTest {
 
         MvcResult result = mockMvc.perform(get("/api/v1/stores/post/category?page=0")
                         .contentType(MediaType.APPLICATION_JSON).content(content).header("Authorization", token))
-                .andExpect(status().isOk()).andReturn();
-
-        String json = result.getResponse().getContentAsString();
-        StoresThumbnailsResponseDto resp = new ObjectMapper().readValue(json, StoresThumbnailsResponseDto.class);
-        assertThat(resp.getImages().size()).isEqualTo(1);
+                .andExpect(status().isOk()).andExpect(jsonPath("$.content", hasSize(1)))
+                .andReturn();
 
 
         data1 = "하의";
@@ -266,11 +266,8 @@ public class StoresApiControllerTest {
         result = mockMvc.perform(get("/api/v1/stores/post/category?page=0")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(content).header("Authorization", token))
-                .andExpect(status().isOk()).andReturn();
-
-        json = result.getResponse().getContentAsString();
-        resp = new ObjectMapper().readValue(json, StoresThumbnailsResponseDto.class);
-        assertThat(resp.getImages().size()).isEqualTo(2);
+                .andExpect(status().isOk()).andExpect(jsonPath("$.content", hasSize(2)))
+                .andReturn();
 
     }
 
@@ -285,11 +282,10 @@ public class StoresApiControllerTest {
         MvcResult result = mockMvc.perform(get("/api/v1/stores/post/category?page=0")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(data2json)
-                .header("Authorization", token)).andExpect(status().isOk()).andReturn();
+                .header("Authorization", token)).andExpect(status().isOk())
+                .andExpect(jsonPath("$.content", hasSize(2)))
+                .andReturn();
 
-        String json = result.getResponse().getContentAsString();
-        StoresThumbnailsResponseDto resp = new ObjectMapper().readValue(json, StoresThumbnailsResponseDto.class);
-        assertThat(resp.getLength()).isEqualTo(2);
     }
 
     @Test
@@ -305,9 +301,9 @@ public class StoresApiControllerTest {
                 .andExpect(status().isOk()).andReturn();
 
         String json = result.getResponse().getContentAsString();
-        StoresThumbnailsResponseDto resp = new ObjectMapper().readValue(json, StoresThumbnailsResponseDto.class);
+        Page<StoresThumbnailsResponseDto> resp = new ObjectMapper().readValue(json, Page.class);
 
-        assertThat(resp.getImages().size()).isEqualTo(5);
+        assertThat(resp.getContent().size()).isEqualTo(5);
     }
 
     @Test

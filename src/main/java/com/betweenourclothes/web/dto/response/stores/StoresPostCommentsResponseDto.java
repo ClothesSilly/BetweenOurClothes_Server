@@ -1,19 +1,25 @@
 package com.betweenourclothes.web.dto.response.stores;
 
+import com.betweenourclothes.web.dto.request.stores.StoresPostCommentRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
-@Builder
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class StoresPostCommentsResponseDto {
-    List<String> comments;
-    List<String> nickname;
-    List<String> createdTime;
-    int length;
+    private String comments;
+    private String nickname;
+    private String createdTime;
+
+    public StoresPostCommentsResponseDto(String comments, String nickname, LocalDateTime createdTime){
+        this.comments = comments;
+        this.nickname = nickname;
+        this.createdTime = createdTime.toString();
+    }
+
 }

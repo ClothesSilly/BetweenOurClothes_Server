@@ -1,26 +1,33 @@
 package com.betweenourclothes.web.dto.response.stores;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.betweenourclothes.domain.clothes.ClothesImage;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 
-import java.util.List;
+import java.time.LocalDateTime;
 
-@Builder
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class StoresThumbnailsResponseDto {
-    private List<byte[]> images;
-    private List<String> title;
-    private List<Long> id;
-    private List<String> modified_date;
-    private List<String> price;
-    private List<String> content;
-    private List<String> transport;
+    private byte[] image;
+    private String title;
+    private Long id;
+    private String modified_date;
+    private String price;
+    private String content;
+    private String transport;
 
-    private int length;
+    public StoresThumbnailsResponseDto(ClothesImage image, String title, Long id, LocalDateTime modified_date,
+                                       String price, String content, String transport){
+        this.image = image.toByte(300, 300);
+        this.title = title;
+        this.id = id;
+        this.modified_date = modified_date.toString();
+        this.price = price;
+        this.content = content;
+        this.transport = transport;
+    }
 }

@@ -6,6 +6,7 @@ import com.betweenourclothes.web.dto.response.stores.StoresPostCommentsResponseD
 import com.betweenourclothes.web.dto.response.stores.StoresPostResponseDto;
 import com.betweenourclothes.web.dto.response.stores.StoresThumbnailsResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -67,10 +68,10 @@ public class StoresApiController {
 
     // 게시글 미리보기 가져오기
     @GetMapping("/post/category")
-    public ResponseEntity<StoresThumbnailsResponseDto> findImagesByAllCategory(@PageableDefault(size=15) Pageable pageable,
+    public ResponseEntity<Page<StoresThumbnailsResponseDto>> findPostsByAllCategory(@PageableDefault(size=15) Pageable pageable,
                                                                                @RequestBody StoresSearchCategoryAllRequestDto req){
-        StoresThumbnailsResponseDto responseDto = storesService.findImagesByAllCategory(pageable, req);
-        return new ResponseEntity<StoresThumbnailsResponseDto>(responseDto, HttpStatus.OK);
+        Page<StoresThumbnailsResponseDto> responseDto = storesService.findPostsByAllCategory(pageable, req);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
     /*** 댓글
@@ -87,9 +88,10 @@ public class StoresApiController {
 
     // 게시글 ID로 댓글 가져오기
     @GetMapping("/post/{id}/comment")
-    public ResponseEntity<StoresPostCommentsResponseDto> findStoresCommentsByPostId(@PathVariable("id") Long id){
-        StoresPostCommentsResponseDto responseDto = storesService.findStoresCommentsByPostId(id);
-        return new ResponseEntity<StoresPostCommentsResponseDto>(responseDto, HttpStatus.OK);
+    public ResponseEntity<Page<StoresPostCommentsResponseDto>> findStoresCommentsByPostId(@PageableDefault(size=20) Pageable pageable,
+                                                                                          @PathVariable("id") Long id){
+        Page<StoresPostCommentsResponseDto> responseDto = storesService.findStoresCommentsByPostId(pageable, id);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
 
@@ -111,9 +113,9 @@ public class StoresApiController {
     }
 
     @GetMapping("/post/like")
-    public ResponseEntity<StoresThumbnailsResponseDto> findStoresLikesByMember(@PageableDefault(size=15) Pageable pageable){
-        StoresThumbnailsResponseDto responseDto = storesService.findStoresLikesByMember(pageable);
-        return new ResponseEntity<StoresThumbnailsResponseDto>(responseDto, HttpStatus.OK);
+    public ResponseEntity<Page<StoresThumbnailsResponseDto>> findStoresLikesByMember(@PageableDefault(size=15) Pageable pageable){
+        Page<StoresThumbnailsResponseDto> responseDto = storesService.findStoresLikesByMember(pageable);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
     /*** 판매 상태
@@ -128,9 +130,9 @@ public class StoresApiController {
     /*** 게시글 검색
      * 1. 검색
      * ***/
-    @GetMapping("/post")
-    public ResponseEntity<StoresThumbnailsResponseDto> findByKeyword(@PageableDefault(size=15) Pageable pageable, StoresPostSearchRequestDto requestDto){
-        StoresThumbnailsResponseDto responseDto = storesService.findByKeyword(pageable, requestDto);
+    @GetMapping("/post/search")
+    public ResponseEntity<Page<StoresThumbnailsResponseDto>> findByKeyword(@PageableDefault(size=15) Pageable pageable, @RequestBody StoresPostSearchRequestDto requestDto){
+        Page<StoresThumbnailsResponseDto> responseDto = storesService.findByKeyword(pageable, requestDto);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 

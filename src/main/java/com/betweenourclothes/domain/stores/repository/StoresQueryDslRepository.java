@@ -5,8 +5,14 @@ import com.betweenourclothes.domain.closets.QClosets;
 import com.betweenourclothes.domain.clothes.ClothesImage;
 import com.betweenourclothes.domain.clothes.QClothesImage;
 import com.betweenourclothes.domain.stores.QStores;
+import com.betweenourclothes.domain.stores.QStoresComments;
 import com.betweenourclothes.domain.stores.Stores;
+import com.betweenourclothes.domain.stores.StoresComments;
+import com.betweenourclothes.web.dto.response.stores.StoresPostCommentsResponseDto;
+import com.betweenourclothes.web.dto.response.stores.StoresThumbnailsResponseDto;
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -17,6 +23,11 @@ import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -24,41 +35,91 @@ public class StoresQueryDslRepository {
 
     private final JPAQueryFactory queryFactory;
 
+    public Page<StoresThumbnailsResponseDto> findByKeyword(Pageable pageable, String keyword) {
 
-    /*public Page<ClothesImage> findClothesImagesByKeyword(Pageable pageable, Long id, String keyword){
+        QStores stores = QStores.stores;
+        QClothesImage clothesImage = QClothesImage.clothesImage;
 
-    }*/
+        List<StoresThumbnailsResponseDto> content = queryFactory.select(Projections.constructor(StoresThumbnailsResponseDto.class,
+                        clothesImage, stores.title, stores.id, stores.modifiedDate, stores.price, stores.content, stores.salesInfo_status.transport
+                ))
+                .from(stores)
+                .join(stores.images, clothesImage)
+                .where(
+                        clothesImage.in(
+                                JPAExpressions
+                                        .select(clothesImage)
+                                        .from(clothesImage)
+                                        .where(clothesImage.closets_post.isNull())
+                                        .groupBy(clothesImage.stores_post).orderBy(clothesImage.stores_post.createdDate.asc()).limit(1)),
+                        stores.title.contains(keyword).or(stores.content.contains(keyword))
+                )
+                .orderBy(stores.createdDate.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch().stream().filter(distinctByKey(StoresThumbnailsResponseDto::getId))
+                .collect(Collectors.toList());
 
-    public Page<ClothesImage> findClothesImagesByAllOptions(Pageable pageable, Long id, String nameL, String nameS,
+        return new PageImpl<>(content, pageable, content.size());
+    }
+    public Page<StoresPostCommentsResponseDto> findCommentsByUserAndPost(Pageable pageable, Long mid, Long pid){
+
+        QStoresComments comments = QStoresComments.storesComments;
+        QStores stores = QStores.stores;
+
+        List<StoresPostCommentsResponseDto> content = queryFactory.select(
+                Projections.constructor(StoresPostCommentsResponseDto.class, comments.content, comments.user.nickname, comments.createdDate))
+                .from(comments)
+                .where(comments.post.id.eq(pid), comments.user.id.eq(mid))
+                .orderBy(comments.createdDate.asc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize()).fetch();
+
+        return new PageImpl<>(content, pageable, content.size());
+    }
+
+    public Page<StoresThumbnailsResponseDto> findPostsByAllOptions(Pageable pageable, Long id, String nameL, String nameS,
                                                             String fit, String length,
                                                             String material, String color){
 
         QStores stores = QStores.stores;
         QClothesImage clothesImage = QClothesImage.clothesImage;
 
-        List<Stores> posts = queryFactory.select(stores)
+        List<StoresThumbnailsResponseDto> list = queryFactory.select(Projections.constructor(StoresThumbnailsResponseDto.class,
+                        clothesImage, stores.title, stores.id, stores.modifiedDate, stores.price, stores.content, stores.salesInfo_status.transport
+                        ))
                 .from(stores)
-                .distinct()
-                .leftJoin(stores.images, clothesImage)
-                .fetchJoin()
-                .where(stores.author.id.eq(id),
+                .join(stores.images, clothesImage)
+                .where(
+                        clothesImage.in(
+                                JPAExpressions
+                                        .select(clothesImage)
+                                        .from(clothesImage)
+                                        .where(clothesImage.closets_post.isNull())
+                                        .groupBy(clothesImage.stores_post).orderBy(clothesImage.stores_post.createdDate.asc()).limit(1)),
+                        stores.author.id.eq(id),
                         eqNameL(nameL),
                         eqNameS(nameS),
                         eqFit(fit),
                         eqLength(length),
                         eqMaterial(material),
-                        eqColor(color))
+                        eqColor(color)
+                )
                 .orderBy(stores.createdDate.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
 
-        List<ClothesImage> content = new ArrayList<>();
-        for(Stores post: posts){
-            content.add(post.getImages().get(0));
-        }
+        List<StoresThumbnailsResponseDto> content = list.stream()
+                .filter(distinctByKey(StoresThumbnailsResponseDto::getId))
+                .collect(Collectors.toList());
 
-        return new PageImpl<ClothesImage>(content, pageable, content.size());
+        return new PageImpl<>(content, pageable, content.size());
+    }
+
+    public static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor) {
+        Map<Object, Boolean> map = new ConcurrentHashMap<>();
+        return t -> map.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
     }
 
     private BooleanExpression eqNameL(String nameL){
@@ -102,6 +163,5 @@ public class StoresQueryDslRepository {
         }
         return QStores.stores.colors.name.eq(color);
     }
-
 
 }

@@ -2,3 +2,6 @@
 .idea/
 application.properties
 generated/
+profile-*.jpg
+closets-*.jpg
+stores-*.jpg

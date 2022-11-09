@@ -4,6 +4,7 @@ import com.betweenourclothes.web.dto.request.stores.*;
 import com.betweenourclothes.web.dto.response.stores.StoresPostCommentsResponseDto;
 import com.betweenourclothes.web.dto.response.stores.StoresPostResponseDto;
 import com.betweenourclothes.web.dto.response.stores.StoresThumbnailsResponseDto;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,7 +24,7 @@ public interface StoresService {
     void update(Long id, StoresPostRequestDto postinfo, StoresPostClothesRequestDto clothesinfo, StoresPostSalesRequestDto salesinfo, List<MultipartFile> imgs);
     void delete(Long id);
     StoresPostResponseDto findPostById(Long id);
-    StoresThumbnailsResponseDto findImagesByAllCategory(Pageable pageable, StoresSearchCategoryAllRequestDto req);
+    Page<StoresThumbnailsResponseDto> findPostsByAllCategory(Pageable pageable, StoresSearchCategoryAllRequestDto req);
 
 
     /*** 댓글
@@ -32,7 +33,7 @@ public interface StoresService {
      * ***/
 
     void comment(Long id, StoresPostCommentRequestDto requestDto);
-    StoresPostCommentsResponseDto findStoresCommentsByPostId(Long id);
+    Page<StoresPostCommentsResponseDto> findStoresCommentsByPostId(Pageable pageable, Long id);
 
 
     /*** 찜
@@ -43,13 +44,13 @@ public interface StoresService {
 
     void likes(Long id);
     void undo_likes(Long id);
-    StoresThumbnailsResponseDto findStoresLikesByMember(Pageable pageable);
+    Page<StoresThumbnailsResponseDto> findStoresLikesByMember(Pageable pageable);
 
 
     /*** 게시글 검색
      * 1. 검색
      * ***/
-    StoresThumbnailsResponseDto findByKeyword(Pageable pageable, StoresPostSearchRequestDto requestDto);
+    Page<StoresThumbnailsResponseDto> findByKeyword(Pageable pageable, StoresPostSearchRequestDto requestDto);
 
 
     /*** 판매 상태
