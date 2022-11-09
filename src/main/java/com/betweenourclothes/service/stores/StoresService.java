@@ -1,9 +1,9 @@
 package com.betweenourclothes.service.stores;
 
 import com.betweenourclothes.web.dto.request.stores.*;
-import com.betweenourclothes.web.dto.response.StoresPostCommentsResponseDto;
-import com.betweenourclothes.web.dto.response.StoresPostResponseDto;
-import com.betweenourclothes.web.dto.response.StoresThumbnailsResponseDto;
+import com.betweenourclothes.web.dto.response.stores.StoresPostCommentsResponseDto;
+import com.betweenourclothes.web.dto.response.stores.StoresPostResponseDto;
+import com.betweenourclothes.web.dto.response.stores.StoresThumbnailsResponseDto;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,7 +37,8 @@ public interface StoresService {
 
     /*** 찜
      * 1. 찜 등록
-     * 2. 찜 가져오기
+     * 2. 찜 삭제
+     * 3. 찜 가져오기
      * ***/
 
     void likes(Long id);
@@ -48,4 +49,11 @@ public interface StoresService {
     /*** 게시글 검색
      * 1. 검색
      * ***/
+    StoresThumbnailsResponseDto findByKeyword(Pageable pageable, StoresPostSearchRequestDto requestDto);
+
+
+    /*** 판매 상태
+     * 1. 판매 상태 업데이트
+     * ***/
+    void updateSalesStatus(Long id);
 }

@@ -132,7 +132,12 @@ public class Members implements UserDetails {
         }
     }
 
+    public void deleteStoresLikes(MembersLikeStoresPost entity) {
+        this.storesLikes.remove(entity);
+    }
 
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -166,7 +171,5 @@ public class Members implements UserDetails {
         return true;
     }
 
-    public void deleteStoresLikes(MembersLikeStoresPost entity) {
-        this.storesLikes.remove(entity);
-    }
+
 }

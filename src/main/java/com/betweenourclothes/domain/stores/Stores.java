@@ -94,4 +94,12 @@ public class Stores extends Posts {
     public void updateComments(StoresComments comments){
         this.comments.add(comments);
     }
+
+    public void updateSalesStatus(){
+        if(this.status == SalesStatus.SALES){
+            this.status = SalesStatus.SOLD;
+        } else{
+            this.status = SalesStatus.SALES;
+        }
+    }
 }

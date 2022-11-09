@@ -1,4 +1,4 @@
-package com.betweenourclothes.web.dto.response;
+package com.betweenourclothes.web.dto.response.closets;
 
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;

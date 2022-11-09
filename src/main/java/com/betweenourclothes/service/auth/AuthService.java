@@ -3,7 +3,7 @@ package com.betweenourclothes.service.auth;
 import com.betweenourclothes.web.dto.request.auth.AuthEmailRequestDto;
 import com.betweenourclothes.web.dto.request.auth.AuthSignInRequestDto;
 import com.betweenourclothes.web.dto.request.auth.AuthSignUpRequestDto;
-import com.betweenourclothes.web.dto.response.AuthTokenResponseDto;
+import com.betweenourclothes.web.dto.response.auth.AuthTokenResponseDto;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;

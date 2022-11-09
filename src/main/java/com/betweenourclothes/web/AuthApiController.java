@@ -7,7 +7,7 @@ import com.betweenourclothes.exception.ErrorCode;
 import com.betweenourclothes.exception.customException.AuthSignInException;
 import com.betweenourclothes.service.auth.AuthServiceImpl;
 import com.betweenourclothes.web.dto.request.auth.AuthEmailRequestDto;
-import com.betweenourclothes.web.dto.response.AuthTokenResponseDto;
+import com.betweenourclothes.web.dto.response.auth.AuthTokenResponseDto;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

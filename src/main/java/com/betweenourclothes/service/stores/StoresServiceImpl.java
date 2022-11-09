@@ -12,14 +12,13 @@ import com.betweenourclothes.exception.ErrorCode;
 import com.betweenourclothes.exception.customException.StoresPostException;
 import com.betweenourclothes.jwt.SecurityUtil;
 import com.betweenourclothes.web.dto.request.stores.*;
-import com.betweenourclothes.web.dto.response.StoresPostCommentsResponseDto;
-import com.betweenourclothes.web.dto.response.StoresPostResponseDto;
-import com.betweenourclothes.web.dto.response.StoresThumbnailsResponseDto;
+import com.betweenourclothes.web.dto.response.stores.StoresPostCommentsResponseDto;
+import com.betweenourclothes.web.dto.response.stores.StoresPostResponseDto;
+import com.betweenourclothes.web.dto.response.stores.StoresThumbnailsResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -207,7 +206,7 @@ public class StoresServiceImpl implements StoresService{
     @Transactional
     @Override
     public StoresPostResponseDto findPostById(Long id) {
-        membersRepository.findByEmail(SecurityUtil.getMemberEmail())
+        Members members = membersRepository.findByEmail(SecurityUtil.getMemberEmail())
                 .orElseThrow(()->new StoresPostException(ErrorCode.USER_NOT_FOUND));
 
         Stores post = storesRepository.findById(id).orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
@@ -217,7 +216,16 @@ public class StoresServiceImpl implements StoresService{
             returnArr.add(image.toByte(-1, -1));
         }
 
+        Boolean status = false;
+        for(MembersLikeStoresPost mks : members.getStoresLikes()) {
+            if (post.getId() == mks.getStore().getId()){
+                status = true;
+                break;
+            }
+        }
+
         StoresPostResponseDto responseDto = StoresPostResponseDto.builder()
+                .like(status)
                 .profile_images(post.getAuthor().toByte(200, 200))
                 .nickname(post.getAuthor().getNickname())
                 .createdTime(post.getCreatedDate().toString())
@@ -406,6 +414,37 @@ public class StoresServiceImpl implements StoresService{
                 .id(postId).images(thumbnails).price(prices).transport(transports).length(page.getContent().size()).build();
 
         return responseDto;
+    }
+
+
+    /*** 판매 상태
+     * 1. 판매 상태 업데이트
+     * ***/
+    @Transactional
+    @Override
+    public void updateSalesStatus(Long id){
+        membersRepository.findByEmail(SecurityUtil.getMemberEmail())
+                .orElseThrow(()->new StoresPostException(ErrorCode.USER_NOT_FOUND));
+
+        Stores post = storesRepository.findById(id).orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
+        post.updateSalesStatus();
+    }
+
+
+    /*** 게시글 검색
+     * 1. 검색
+     * ***/
+    @Transactional
+    @Override
+    public StoresThumbnailsResponseDto findByKeyword(Pageable pageable, StoresPostSearchRequestDto requestDto) {
+        Members member = membersRepository.findByEmail(SecurityUtil.getMemberEmail())
+                .orElseThrow(()->new StoresPostException(ErrorCode.USER_NOT_FOUND));
+
+        //Page<ClothesImage> images = storesQueryDslRepository.findClothesImagesByKeywords(pageable, member.getId(),
+                //requestDto.getKeyword());
+
+
+        return null;
     }
 
 

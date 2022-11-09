@@ -2,7 +2,7 @@ package com.betweenourclothes.jwt;
 
 import com.betweenourclothes.exception.ErrorCode;
 import com.betweenourclothes.exception.customException.AuthSignInException;
-import com.betweenourclothes.web.dto.response.AuthTokenResponseDto;
+import com.betweenourclothes.web.dto.response.auth.AuthTokenResponseDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;

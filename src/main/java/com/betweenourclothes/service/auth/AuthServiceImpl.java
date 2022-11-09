@@ -12,7 +12,7 @@ import com.betweenourclothes.jwt.JwtTokenProvider;
 import com.betweenourclothes.web.dto.request.auth.AuthEmailRequestDto;
 import com.betweenourclothes.web.dto.request.auth.AuthSignInRequestDto;
 import com.betweenourclothes.web.dto.request.auth.AuthSignUpRequestDto;
-import com.betweenourclothes.web.dto.response.AuthTokenResponseDto;
+import com.betweenourclothes.web.dto.response.auth.AuthTokenResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;

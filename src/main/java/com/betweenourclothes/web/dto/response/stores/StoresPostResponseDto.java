@@ -1,4 +1,4 @@
-package com.betweenourclothes.web.dto.response;
+package com.betweenourclothes.web.dto.response.stores;
 
 import com.betweenourclothes.domain.stores.SalesStatus;
 import lombok.AllArgsConstructor;
@@ -36,6 +36,7 @@ public class StoresPostResponseDto {
     private String sales_status;
     private String nickname;
     private String createdTime;
+    private Boolean like;
 
 
     public static String enum2String(SalesStatus status){

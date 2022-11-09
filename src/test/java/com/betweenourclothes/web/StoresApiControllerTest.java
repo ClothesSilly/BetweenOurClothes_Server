@@ -6,13 +6,15 @@ import com.betweenourclothes.domain.members.MembersLikeStoresPost;
 import com.betweenourclothes.domain.members.repository.MembersLikeStoresPostRepository;
 import com.betweenourclothes.domain.stores.SalesStatus;
 import com.betweenourclothes.domain.stores.Stores;
-import com.betweenourclothes.domain.stores.StoresComments;
 import com.betweenourclothes.domain.stores.repository.StoresCommentsRepository;
 import com.betweenourclothes.domain.stores.repository.StoresRepository;
 import com.betweenourclothes.jwt.JwtTokenProvider;
 import com.betweenourclothes.web.dto.request.auth.AuthSignInRequestDto;
 import com.betweenourclothes.web.dto.request.stores.*;
-import com.betweenourclothes.web.dto.response.*;
+import com.betweenourclothes.web.dto.response.auth.AuthTokenResponseDto;
+import com.betweenourclothes.web.dto.response.stores.StoresPostCommentsResponseDto;
+import com.betweenourclothes.web.dto.response.stores.StoresPostResponseDto;
+import com.betweenourclothes.web.dto.response.stores.StoresThumbnailsResponseDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -27,7 +29,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.io.File;
@@ -96,10 +97,10 @@ public class StoresApiControllerTest {
             }
         }
 
-        //clothesImageRepository.deleteAllInBatch();
-        //storesCommentsRepository.deleteAllInBatch();
-        //membersLikeStoresPostRepository.deleteAllInBatch();
-        //storesRepository.deleteAllInBatch();
+        clothesImageRepository.deleteAllInBatch();
+        storesCommentsRepository.deleteAllInBatch();
+        membersLikeStoresPostRepository.deleteAllInBatch();
+        storesRepository.deleteAllInBatch();
     }
 
     @Test
@@ -113,6 +114,23 @@ public class StoresApiControllerTest {
         AT = respDto.getBody().getAccessToken();
     }
 
+    @Test
+    public void 중고거래_판매상태업데이트() throws Exception{
+        String token = "Bearer" + AT;
+        String url = "http://localhost:" + port + "/api/v1/stores/post/" + postId + "/status";
+
+        HttpHeaders header = new HttpHeaders();
+        header.set("Authorization", token);
+
+        HttpEntity<Long> req = new HttpEntity<>(header);
+        ResponseEntity<String> resp = restTemplate.exchange(url, HttpMethod.PUT, req, String.class);
+        assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        List<Stores> all = storesRepository.findAll();
+        Stores last = all.get(all.size()-1);
+        assertThat(last.getStatus()).isEqualTo(SalesStatus.SOLD);
+
+    }
 
     @Test
     public void 중고거래_찜_등록과확인과취소() throws Exception{
@@ -123,7 +141,7 @@ public class StoresApiControllerTest {
         header.set("Authorization", token);
 
         // 좋아요 등록
-        HttpEntity<Long> req = new HttpEntity<>(Long.parseLong(postId), header);
+        HttpEntity<Long> req = new HttpEntity<>(header);
         ResponseEntity<String> resp = restTemplate.exchange(url, HttpMethod.POST, req, String.class);
         assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
 
@@ -137,7 +155,7 @@ public class StoresApiControllerTest {
 
 
         url = "http://localhost:" + port + "/api/v1/stores/post/" + Long.toString(Long.parseLong(postId)-1) + "/like";
-        req = new HttpEntity<>(Long.parseLong(postId)-1, header);
+        req = new HttpEntity<>(header);
         resp = restTemplate.exchange(url, HttpMethod.POST, req, String.class);
         assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
 
@@ -151,12 +169,12 @@ public class StoresApiControllerTest {
 
         // 좋아요 삭제
         url = "http://localhost:" + port + "/api/v1/stores/post/" + Long.toString(Long.parseLong(postId)-1) + "/like";
-        req = new HttpEntity<>(Long.parseLong(postId)-1, header);
+        req = new HttpEntity<>(header);
         resp = restTemplate.exchange(url, HttpMethod.DELETE, req, String.class);
         assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
 
         url = "http://localhost:" + port + "/api/v1/stores/post/" + postId + "/like";
-        req = new HttpEntity<>(Long.parseLong(postId), header);
+        req = new HttpEntity<>(header);
         resp = restTemplate.exchange(url, HttpMethod.DELETE, req, String.class);
         assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
 
@@ -183,7 +201,7 @@ public class StoresApiControllerTest {
             assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
         }
 
-        HttpEntity<Long> get_req = new HttpEntity<>(Long.parseLong(postId), header);
+        HttpEntity<Long> get_req = new HttpEntity<>(header);
         ResponseEntity<StoresPostCommentsResponseDto> resp = restTemplate.exchange(url, HttpMethod.GET, get_req, StoresPostCommentsResponseDto.class);
         assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(resp.getBody().getLength()).isEqualTo(3);
@@ -299,7 +317,7 @@ public class StoresApiControllerTest {
 
         HttpHeaders header = new HttpHeaders();
         header.set("Authorization", token);
-        HttpEntity<Long> req = new HttpEntity<>(Long.parseLong(postId), header);
+        HttpEntity<Long> req = new HttpEntity<>(header);
 
         ResponseEntity<StoresPostResponseDto> resp
                 = restTemplate.exchange(url_get, HttpMethod.GET, req, StoresPostResponseDto.class);
@@ -308,6 +326,8 @@ public class StoresApiControllerTest {
         assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(resp.getBody().getId()).isEqualTo(Long.parseLong(postId));
         assertThat(resp.getBody().getTitle()).isEqualTo("원피스팝니다");
+        assertThat(resp.getBody().getLike()).isEqualTo(false);
+        assertThat(resp.getBody().getSales_status()).isEqualTo("SALES");
     }
 
     @Test
@@ -317,7 +337,7 @@ public class StoresApiControllerTest {
 
         HttpHeaders header = new HttpHeaders();
         header.set("Authorization", token);
-        HttpEntity<Long> req = new HttpEntity<>(Long.parseLong(postId), header);
+        HttpEntity<Long> req = new HttpEntity<>(header);
 
         ResponseEntity<String> resp = restTemplate.exchange(url_delete, HttpMethod.DELETE, req, String.class);
         System.out.println(resp.getBody());

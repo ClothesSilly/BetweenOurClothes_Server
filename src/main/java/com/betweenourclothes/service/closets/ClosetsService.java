@@ -2,8 +2,8 @@ package com.betweenourclothes.service.closets;
 
 import com.betweenourclothes.web.dto.request.closets.ClosetsPostRequestDto;
 import com.betweenourclothes.web.dto.request.closets.ClosetsSearchCategoryAllRequestDto;
-import com.betweenourclothes.web.dto.response.ClosetsImagesResponseDto;
-import com.betweenourclothes.web.dto.response.ClosetsThumbnailsResponseDto;
+import com.betweenourclothes.web.dto.response.closets.ClosetsImagesResponseDto;
+import com.betweenourclothes.web.dto.response.closets.ClosetsThumbnailsResponseDto;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 

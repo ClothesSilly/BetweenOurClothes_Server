@@ -2,9 +2,9 @@ package com.betweenourclothes.web;
 
 import com.betweenourclothes.service.stores.StoresService;
 import com.betweenourclothes.web.dto.request.stores.*;
-import com.betweenourclothes.web.dto.response.StoresPostCommentsResponseDto;
-import com.betweenourclothes.web.dto.response.StoresPostResponseDto;
-import com.betweenourclothes.web.dto.response.StoresThumbnailsResponseDto;
+import com.betweenourclothes.web.dto.response.stores.StoresPostCommentsResponseDto;
+import com.betweenourclothes.web.dto.response.stores.StoresPostResponseDto;
+import com.betweenourclothes.web.dto.response.stores.StoresThumbnailsResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -105,13 +105,13 @@ public class StoresApiController {
     }
 
     @DeleteMapping("/post/{id}/like")
-    public ResponseEntity<String> undo_likes(@PathVariable("id") Long id){
+    public ResponseEntity<String> undoLikes(@PathVariable("id") Long id){
         storesService.undo_likes(id);
         return new ResponseEntity<String>("찜 취소 완료", HttpStatus.OK);
     }
 
     @GetMapping("/post/like")
-    public ResponseEntity<StoresThumbnailsResponseDto> findStoresLikesByMember(@PageableDefault(size=1) Pageable pageable){
+    public ResponseEntity<StoresThumbnailsResponseDto> findStoresLikesByMember(@PageableDefault(size=15) Pageable pageable){
         StoresThumbnailsResponseDto responseDto = storesService.findStoresLikesByMember(pageable);
         return new ResponseEntity<StoresThumbnailsResponseDto>(responseDto, HttpStatus.OK);
     }
@@ -119,10 +119,20 @@ public class StoresApiController {
     /*** 판매 상태
      * 1. 판매 상태 업데이트
      * ***/
+    @PutMapping("/post/{id}/status")
+    public ResponseEntity<String> updateSalesStatus(@PathVariable("id") Long id){
+        storesService.updateSalesStatus(id);
+        return new ResponseEntity<>("판매 상태 업데이트 완료", HttpStatus.OK);
+    }
 
     /*** 게시글 검색
      * 1. 검색
      * ***/
+    @GetMapping("/post")
+    public ResponseEntity<StoresThumbnailsResponseDto> findByKeyword(@PageableDefault(size=15) Pageable pageable, StoresPostSearchRequestDto requestDto){
+        StoresThumbnailsResponseDto responseDto = storesService.findByKeyword(pageable, requestDto);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
 
 
 }

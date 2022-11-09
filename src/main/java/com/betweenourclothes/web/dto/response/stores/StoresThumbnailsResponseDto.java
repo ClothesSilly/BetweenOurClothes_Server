@@ -1,4 +1,4 @@
-package com.betweenourclothes.web.dto.response;
+package com.betweenourclothes.web.dto.response.stores;
 
 
 import lombok.AllArgsConstructor;

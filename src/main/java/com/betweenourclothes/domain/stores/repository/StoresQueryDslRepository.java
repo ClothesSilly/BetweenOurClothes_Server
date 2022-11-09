@@ -25,6 +25,10 @@ public class StoresQueryDslRepository {
     private final JPAQueryFactory queryFactory;
 
 
+    /*public Page<ClothesImage> findClothesImagesByKeyword(Pageable pageable, Long id, String keyword){
+
+    }*/
+
     public Page<ClothesImage> findClothesImagesByAllOptions(Pageable pageable, Long id, String nameL, String nameS,
                                                             String fit, String length,
                                                             String material, String color){
