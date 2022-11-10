@@ -33,7 +33,6 @@ public class Closets extends Posts {
         this.materials = materials;
         this.colors = colors;
         this.clothesInfo = clothesInfo;
-        this.images = new ArrayList<>();
         this.recomms = new ArrayList<>();
     }
 
