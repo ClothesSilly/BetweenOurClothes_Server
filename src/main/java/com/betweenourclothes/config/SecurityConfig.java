@@ -38,11 +38,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // jwt 사용
                 .and()
                 .authorizeRequests() // HttpServletRequest를 사용하는 요청들에 대한 접근제한 설정
-                    //.antMatchers("/api/v1/closets/post/thumbnails/display").permitAll()
                     .antMatchers("/api/v1/auth/**").permitAll()
                     .antMatchers("/api/v1/closets/**", "/api/v1/stores/**", "/api/v1/main/**").hasAuthority("ROLE_USER")
                     .antMatchers("/v2/api-docs","/swagger-ui.html/**", "/swagger-resources/**").permitAll()
-                    .anyRequest().authenticated()
+                    .anyRequest().permitAll()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
                  // UPAF 전에 AuthenticationFilter 추가

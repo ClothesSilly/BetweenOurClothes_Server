@@ -1,5 +1,6 @@
 package com.betweenourclothes.web.dto.response.closets;
 
+import com.betweenourclothes.domain.clothes.ClothesImage;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,16 +9,19 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Builder
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class ClosetsThumbnailsResponseDto {
     @ApiParam(value="썸네일 이미지 바이트 배열 (300x300)")
-    List<byte[]> images;
+    private byte[] images;
+
     @ApiParam(value="게시글 id 배열")
-    List<Long> id;
-    @ApiParam(value="이미지 개수")
-    int length;
+    private Long id;
+
+    @Builder
+    public ClosetsThumbnailsResponseDto(ClothesImage image, Long id){
+        this.images = image.toByte(300, 300);
+        this.id = id;
+    }
 }
 

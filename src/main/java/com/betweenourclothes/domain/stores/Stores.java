@@ -1,10 +1,8 @@
 package com.betweenourclothes.domain.stores;
 
-import com.betweenourclothes.domain.BaseTimeEntity;
 import com.betweenourclothes.domain.Posts;
 import com.betweenourclothes.domain.clothes.*;
 import com.betweenourclothes.domain.members.Members;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,7 +39,6 @@ public class Stores extends Posts {
     private Long clothes_length;
 
     @OneToMany(mappedBy = "stores_post", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
-    @OrderColumn()
     private List<ClothesImage> images;
 
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

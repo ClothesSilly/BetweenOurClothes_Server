@@ -68,9 +68,6 @@ public class StoresApiControllerTest {
     private WebApplicationContext webApplicationContext;
 
     @Autowired
-    private JwtTokenProvider jwtTokenProvider;
-
-    @Autowired
     private StoresCommentsRepository storesCommentsRepository;
 
     @Autowired
@@ -298,12 +295,7 @@ public class StoresApiControllerTest {
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
         MvcResult result = mockMvc.perform(get("/api/v1/stores/post/category?page=0").header("Authorization", token)
                         .content(data2json).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk()).andReturn();
-
-        String json = result.getResponse().getContentAsString();
-        Page<StoresThumbnailsResponseDto> resp = new ObjectMapper().readValue(json, Page.class);
-
-        assertThat(resp.getContent().size()).isEqualTo(5);
+                .andExpect(status().isOk()).andExpect(jsonPath("$.content", hasSize(5))).andReturn();
     }
 
     @Test
@@ -405,7 +397,6 @@ public class StoresApiControllerTest {
         assertThat(last.getSalesInfo_clothes().getClothes_brand()).isEqualTo("보세");
         assertThat(last.getSalesInfo_user().getUser_size()).isEqualTo("M");
         assertThat(last.getSalesInfo_status().getStatus_score()).isEqualTo("2");
-        assertThat(last.getStatus()).isEqualTo(SalesStatus.SOLD);
 
     }
 
@@ -413,7 +404,6 @@ public class StoresApiControllerTest {
     public void 중고거래_테스트데이터등록() throws Exception{
         중고거래_테스트데이터추가();
         String token = "Bearer" + AT;
-        System.out.println(token);
 
         String url_post = "http://localhost:" + port + "/api/v1/stores/post";
 

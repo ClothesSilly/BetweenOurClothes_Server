@@ -117,7 +117,7 @@ public class StoresQueryDslRepository {
         return new PageImpl<>(content, pageable, content.size());
     }
 
-    public static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor) {
+    private static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor) {
         Map<Object, Boolean> map = new ConcurrentHashMap<>();
         return t -> map.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
     }

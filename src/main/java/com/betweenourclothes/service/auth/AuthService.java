@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 
 public interface AuthService {
-    void signUp(AuthSignUpRequestDto requestDto, String imgPath);
+    void signUp(AuthSignUpRequestDto requestDto, String imgPath) throws UnsupportedEncodingException;
     void sendMail(String email) throws UnsupportedEncodingException;
 
     AuthTokenResponseDto login(AuthSignInRequestDto requestDto);

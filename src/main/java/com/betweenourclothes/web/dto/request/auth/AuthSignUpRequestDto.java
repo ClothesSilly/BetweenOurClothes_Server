@@ -11,6 +11,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 @Getter
 @NoArgsConstructor
@@ -37,8 +39,8 @@ public class AuthSignUpRequestDto {
 
 
     @Builder
-    public AuthSignUpRequestDto(String email, String password, String name, String nickname, String phone){
-        this.email = email;
+    public AuthSignUpRequestDto(String email, String password, String name, String nickname, String phone) throws UnsupportedEncodingException {
+        this.email = URLDecoder.decode(email, "utf-8");
         this.password = password;
         this.nickname = nickname;
         this.name = name;

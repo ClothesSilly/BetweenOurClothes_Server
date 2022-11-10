@@ -40,6 +40,14 @@ public class ClosetsServiceImpl implements ClosetsService{
     private final ClosetsQueryDslRepository closetsQueryDslRepository;
     private final ClothesImageRepository clothesImageRepository;
 
+
+    /*** 게시글
+     * 1. post: 등록
+     * 2. update: 수정
+     * 3. delete: 삭제
+     * 4. findPostById: 게시글 ID로 게시글 가져오기
+     * 5. findPostsByAllCategory: 게시글 미리보기 가져오기
+     * ***/
     @Transactional
     @Override
     public Long post(ClosetsPostRequestDto requestDto, List<MultipartFile> imgs) {
@@ -123,6 +131,7 @@ public class ClosetsServiceImpl implements ClosetsService{
         for(MultipartFile img: imgs){
             ClothesImage imgEntity = ClothesImage.builder().type("closets").build();
             imgEntity.updateImage(img);
+            imgEntity.updatePostId(post);
             imgArr.add(imgEntity);
         }
         post.updateImage(imgArr);
@@ -155,7 +164,6 @@ public class ClosetsServiceImpl implements ClosetsService{
 
     @Transactional
     @Override
-    // 게시글 이미지 모두 가져오기
     public ClosetsImagesResponseDto findPostById(Long id) {
         membersRepository.findByEmail(SecurityUtil.getMemberEmail())
                 .orElseThrow(()->new ClosetsPostException(ErrorCode.USER_NOT_FOUND));
@@ -173,59 +181,17 @@ public class ClosetsServiceImpl implements ClosetsService{
 
     @Transactional
     @Override
-    // 전체 카테고리 정보를 이용해 이미지 가져오기
-    public ClosetsThumbnailsResponseDto findImagesByAllCategory(Pageable pageable, ClosetsSearchCategoryAllRequestDto req) {
+    public Page<ClosetsThumbnailsResponseDto> findPostsByAllCategory(Pageable pageable, ClosetsSearchCategoryAllRequestDto req) {
         Members member = membersRepository.findByEmail(SecurityUtil.getMemberEmail())
                 .orElseThrow(()->new ClosetsPostException(ErrorCode.USER_NOT_FOUND));
 
-        Page<ClothesImage> images = closetsQueryDslRepository.findClothesImagesByAllOptions(pageable, member.getId(),
+        Page<ClosetsThumbnailsResponseDto> responseDto = closetsQueryDslRepository.findPostsByAllOptions(pageable, member.getId(),
                 req.getNameL(), req.getNameS(),
                 req.getFit(), req.getLength(),
                 req.getMaterial(), req.getColor());
 
-        List<Long> postId = new ArrayList<>();
-        List<byte[]> returnArr = new ArrayList<>();
-        for(ClothesImage image : images.getContent()){
-            returnArr.add(image.toByte(300, 300));
-            postId.add(image.getClosets_post().getId());
-        }
-
-        ClosetsThumbnailsResponseDto responseDto = ClosetsThumbnailsResponseDto.builder().id(postId).images(returnArr).length(returnArr.size()).build();
         return responseDto;
     }
-
-
-
-/*
-
-    @Override
-    public ClosetsThumbnailsResponseDto findImagesByCreatedDateDescDisplay() {
-        Members member = membersRepository.findByEmail("gunsong2@naver.com")
-                .orElseThrow(()->new ClosetsPostException(ErrorCode.USER_NOT_FOUND));
-
-        List<ClothesImage> images = closetsRepository.findImagesByMemberIdOrderByCreatedDateDesc(member.getId());
-
-
-        List<byte[]> returnArr = new ArrayList<>();
-        for(ClothesImage image : images){
-            try {
-                BufferedImage bi = Thumbnails.of(new File(image.getPath()))
-                        .size(300, 300)
-                        .asBufferedImage();
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                ImageIO.write(bi, "jpeg", baos);
-                byte[] imageByteArr = baos.toByteArray();
-                baos.close();
-                returnArr.add(imageByteArr);
-            } catch (Exception e){
-                throw new ClosetsPostException(ErrorCode.IMAGE_OPEN_ERROR);
-            }
-        }
-
-        ClosetsThumbnailsResponseDto responseDto = ClosetsThumbnailsResponseDto.builder().images(returnArr).build();
-        return responseDto;
-    }
-*/
 
 }
 

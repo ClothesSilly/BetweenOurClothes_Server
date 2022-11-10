@@ -56,10 +56,10 @@ public class AuthApiControllerTest {
     private WebApplicationContext webApplicationContext;
 
 
-    @After
+    @Before
     public void cleanup(){
-        //membersRepository.deleteAll();
-        //emailRepository.deleteAll();
+        membersRepository.deleteAll();
+        emailRepository.deleteAll();
     }
 
 
@@ -191,6 +191,18 @@ public class AuthApiControllerTest {
 
     }
 
+    @Test
+    @Ignore
+    public void 이메일_utf8() throws Exception{
+        String url_email = "http://localhost:" + port + "api/v1/auth/sign-up/email";
+        String email = "aaaa%40naver.com";
+        AuthOnlyEmailRequestDto r = AuthOnlyEmailRequestDto.builder().email(email).build();
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(url_email, r, String.class);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        List<Email> all = emailRepository.findAll();
+        assertThat(all.get(all.size()-1).getEmail()).isEqualTo("aaaa@naver.com");
+    }
 
     @Test
     @Ignore

@@ -28,6 +28,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 @RequiredArgsConstructor
 @Service
@@ -44,7 +45,8 @@ public class AuthServiceImpl implements AuthService{
 
     @Transactional
     @Override
-    public void signUp(AuthSignUpRequestDto requestDto, String imgPath){
+    public void signUp(AuthSignUpRequestDto requestDto, String imgPath) throws UnsupportedEncodingException {
+
 
         // 이메일 중복 체크
         if(membersRepository.findByEmail(requestDto.getEmail()).isPresent()){
@@ -83,7 +85,12 @@ public class AuthServiceImpl implements AuthService{
             throw new AuthSignUpException(ErrorCode.DUPLICATE_EMAIL);
         }
 
-        AuthEmailRequestDto requestDto = AuthEmailRequestDto.builder().email(email).build();
+        AuthEmailRequestDto requestDto = null;
+        try {
+            requestDto = AuthEmailRequestDto.builder().email(email).build();
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
         requestDto.setAuthCode(requestDto.createCode());
 
         // 이메일 인증코드 생성: Dto 객체가 생성될 때 생성함

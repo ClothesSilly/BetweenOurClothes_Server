@@ -3,10 +3,6 @@ package com.betweenourclothes.web.dto.request.closets;
 import com.betweenourclothes.domain.closets.Closets;
 import com.betweenourclothes.domain.clothes.*;
 import com.betweenourclothes.domain.members.Members;
-import com.betweenourclothes.domain.stores.SalesInfoClothes;
-import com.betweenourclothes.domain.stores.SalesInfoStatus;
-import com.betweenourclothes.domain.stores.SalesInfoUser;
-import com.betweenourclothes.domain.stores.Stores;
 import io.swagger.annotations.ApiParam;
 import lombok.*;
 

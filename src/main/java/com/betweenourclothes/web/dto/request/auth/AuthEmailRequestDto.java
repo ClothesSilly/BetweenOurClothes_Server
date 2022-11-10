@@ -6,6 +6,8 @@ import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Random;
 
 @Getter
@@ -50,8 +52,8 @@ public class AuthEmailRequestDto {
 
 
     @Builder
-    public AuthEmailRequestDto(String email, String code){
-        this.email = email;
+    public AuthEmailRequestDto(String email, String code) throws UnsupportedEncodingException {
+        this.email = URLDecoder.decode(email, "utf-8");
         this.code = code;
     }
 

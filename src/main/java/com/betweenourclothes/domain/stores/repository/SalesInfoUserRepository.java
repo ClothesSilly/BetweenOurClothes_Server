@@ -1,6 +1,5 @@
 package com.betweenourclothes.domain.stores.repository;
 
-import com.betweenourclothes.domain.stores.SalesInfoStatus;
 import com.betweenourclothes.domain.stores.SalesInfoUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

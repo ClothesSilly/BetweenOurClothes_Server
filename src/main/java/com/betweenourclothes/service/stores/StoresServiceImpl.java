@@ -8,6 +8,9 @@ import com.betweenourclothes.domain.members.repository.MembersLikeStoresPostRepo
 import com.betweenourclothes.domain.members.repository.MembersQueryDslRepository;
 import com.betweenourclothes.domain.members.repository.MembersRepository;
 import com.betweenourclothes.domain.stores.*;
+import com.betweenourclothes.domain.stores.SalesInfoClothes;
+import com.betweenourclothes.domain.stores.SalesInfoStatus;
+import com.betweenourclothes.domain.stores.SalesInfoUser;
 import com.betweenourclothes.domain.stores.repository.*;
 import com.betweenourclothes.exception.ErrorCode;
 import com.betweenourclothes.exception.customException.StoresPostException;
@@ -18,7 +21,6 @@ import com.betweenourclothes.web.dto.response.stores.StoresPostResponseDto;
 import com.betweenourclothes.web.dto.response.stores.StoresThumbnailsResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +28,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -66,7 +67,7 @@ public class StoresServiceImpl implements StoresService{
 
         // 1. 회원 체크
         Members member = membersRepository.findByEmail(SecurityUtil.getMemberEmail())
-                .orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
+                .orElseThrow(()->new StoresPostException(ErrorCode.USER_NOT_FOUND));
 
         // 2. 옷 정보 & 스타일 형식
         Style style = styleRepository.findByName(clothesinfo.getStyle())
@@ -177,6 +178,7 @@ public class StoresServiceImpl implements StoresService{
         for(MultipartFile img: imgs){
             ClothesImage imgEntity = ClothesImage.builder().type("stores").build();
             imgEntity.updateImage(img);
+            imgEntity.updatePostId(post);
             imgArr.add(imgEntity);
         }
         post.updateImage(imgArr);
