@@ -45,6 +45,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Ignore
 public class ClosetsApiControllerTest {
 
     @LocalServerPort
@@ -71,7 +72,7 @@ public class ClosetsApiControllerTest {
         내옷장_테스트데이터등록();
     }
 
-    /*@After
+    @After
     public void 추가한_게시글과이미지_지우기() throws Exception{
         List<ClothesImage> clothesImages = clothesImageRepository.findAll();
         for(ClothesImage image : clothesImages){
@@ -82,7 +83,7 @@ public class ClosetsApiControllerTest {
         }
         clothesImageRepository.deleteAllInBatch();
         closetsRepository.deleteAllInBatch();
-    }*/
+    }
 
     private String AT;
     private String postId;

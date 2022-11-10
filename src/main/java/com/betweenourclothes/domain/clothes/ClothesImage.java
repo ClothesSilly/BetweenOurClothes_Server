@@ -92,7 +92,6 @@ public class ClothesImage {
                         .size(width, height)
                         .asBufferedImage();
             }
-            System.out.println(path);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ImageIO.write(bi, "jpg", baos);
             byte[] imageByteArr = baos.toByteArray();
