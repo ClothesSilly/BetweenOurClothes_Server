@@ -215,8 +215,8 @@ public class StoresServiceImpl implements StoresService{
                 .orElseThrow(()->new StoresPostException(ErrorCode.USER_NOT_FOUND));
 
         Stores post = storesRepository.findById(id).orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
-
         List<byte[]> returnArr = new ArrayList<>();
+
         for(ClothesImage image : post.getImages()){
             returnArr.add(image.toByte(-1, -1));
         }
