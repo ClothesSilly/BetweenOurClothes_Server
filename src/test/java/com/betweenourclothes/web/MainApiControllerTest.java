@@ -94,7 +94,7 @@ public class MainApiControllerTest {
         중고거래_테스트데이터등록();
     }
 
-    @After
+    /*@After
     public void 추가한_게시글과이미지_지우기() throws Exception{
         List<ClothesImage> clothesImages = clothesImageRepository.findAll();
         for(ClothesImage image : clothesImages){
@@ -110,7 +110,7 @@ public class MainApiControllerTest {
         recommRepository.deleteAllInBatch();
         closetsRepository.deleteAllInBatch();
         storesRepository.deleteAllInBatch();
-    }
+    }*/
 
     @Test
     public void 로그인() throws Exception{
