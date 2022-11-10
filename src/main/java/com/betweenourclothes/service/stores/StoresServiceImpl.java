@@ -218,7 +218,7 @@ public class StoresServiceImpl implements StoresService{
         List<byte[]> returnArr = new ArrayList<>();
 
         for(ClothesImage image : post.getImages()){
-            returnArr.add(image.toByte(-1, -1));
+            returnArr.add(image.toByte(image.getPath(), -1, -1));
         }
 
         Boolean status = false;

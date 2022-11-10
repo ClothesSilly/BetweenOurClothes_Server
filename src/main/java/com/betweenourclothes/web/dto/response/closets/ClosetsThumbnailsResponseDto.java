@@ -20,7 +20,7 @@ public class ClosetsThumbnailsResponseDto {
 
     @Builder
     public ClosetsThumbnailsResponseDto(ClothesImage image, Long id){
-        this.image = image.toByte(300, 300);
+        this.image = image.toByte(image.getPath(), 300, 300);
         this.id = id;
     }
 }

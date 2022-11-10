@@ -82,19 +82,19 @@ public class ClothesImage {
         this.stores_post = stores;
     }
 
-    public byte[] toByte(int width, int height){
+    public byte[] toByte(String path, int width, int height){
         try {
             BufferedImage bi = null;
             if(width == -1 && height == -1){
-                bi = ImageIO.read(new File(this.path));
+                bi = ImageIO.read(new File(path));
             } else{
-                bi = Thumbnails.of(new File(this.path))
+                bi = Thumbnails.of(new File(path))
                         .size(width, height)
                         .asBufferedImage();
             }
-            System.out.println(this.path);
+            System.out.println(path);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(bi, "jpeg", baos);
+            ImageIO.write(bi, "jpg", baos);
             byte[] imageByteArr = baos.toByteArray();
             baos.close();
             return imageByteArr;

@@ -172,7 +172,7 @@ public class ClosetsServiceImpl implements ClosetsService{
 
         List<byte[]> returnArr = new ArrayList<>();
         for(ClothesImage image : post.getImages()){
-            returnArr.add(image.toByte(-1, -1));
+            returnArr.add(image.toByte(image.getPath(), -1, -1));
         }
 
         ClosetsImagesResponseDto responseDto = ClosetsImagesResponseDto.builder().images(returnArr).id(id).build();
