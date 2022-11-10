@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.betweenourclothes.web.AuthApiControllerTest" tests="5" skipped="4" failures="0" errors="0" timestamp="2022-11-09T18:37:53" hostname="user" time="11.437">
+<testsuite name="com.betweenourclothes.web.AuthApiControllerTest" tests="5" skipped="4" failures="0" errors="0" timestamp="2022-11-10T02:07:18" hostname="user" time="10.841">
   <properties/>
   <testcase name="이메일_중복체크" classname="com.betweenourclothes.web.AuthApiControllerTest" time="0.0">
     <skipped/>
   </testcase>
-  <testcase name="회원가입_로그인" classname="com.betweenourclothes.web.AuthApiControllerTest" time="4.806"/>
+  <testcase name="회원가입_로그인" classname="com.betweenourclothes.web.AuthApiControllerTest" time="4.917"/>
   <testcase name="로그인_토큰재발급" classname="com.betweenourclothes.web.AuthApiControllerTest" time="0.0">
     <skipped/>
   </testcase>
@@ -14,30 +14,30 @@
   <testcase name="이메일_utf8" classname="com.betweenourclothes.web.AuthApiControllerTest" time="0.0">
     <skipped/>
   </testcase>
-  <system-out><![CDATA[03:37:53.327 [Test worker] DEBUG org.springframework.test.context.junit4.SpringJUnit4ClassRunner - SpringJUnit4ClassRunner constructor called with [class com.betweenourclothes.web.AuthApiControllerTest]
-03:37:53.327 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating CacheAwareContextLoaderDelegate from class [org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate]
-03:37:53.327 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating BootstrapContext using constructor [public org.springframework.test.context.support.DefaultBootstrapContext(java.lang.Class,org.springframework.test.context.CacheAwareContextLoaderDelegate)]
-03:37:53.327 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating TestContextBootstrapper for test class [com.betweenourclothes.web.AuthApiControllerTest] from class [org.springframework.boot.test.context.SpringBootTestContextBootstrapper]
-03:37:53.328 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.betweenourclothes.web.AuthApiControllerTest], using SpringBootContextLoader
-03:37:53.328 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [com.betweenourclothes.web.AuthApiControllerTest]: class path resource [com/betweenourclothes/web/AuthApiControllerTest-context.xml] does not exist
-03:37:53.328 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [com.betweenourclothes.web.AuthApiControllerTest]: class path resource [com/betweenourclothes/web/AuthApiControllerTestContext.groovy] does not exist
-03:37:53.328 [Test worker] INFO org.springframework.test.context.support.AbstractContextLoader - Could not detect default resource locations for test class [com.betweenourclothes.web.AuthApiControllerTest]: no resource found for suffixes {-context.xml, Context.groovy}.
-03:37:53.329 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.betweenourclothes.web.AuthApiControllerTest]: AuthApiControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-03:37:53.330 [Test worker] DEBUG org.springframework.test.context.support.ActiveProfilesUtils - Could not find an 'annotation declaring class' for annotation type [org.springframework.test.context.ActiveProfiles] and class [com.betweenourclothes.web.AuthApiControllerTest]
-03:37:53.364 [Test worker] DEBUG org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider - Identified candidate component class: file [C:\Users\user1\Desktop\송아\캡스톤\repo\between-our-clothes-server\build\classes\java\main\com\betweenourclothes\Application.class]
-03:37:53.364 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.betweenourclothes.Application for test class com.betweenourclothes.web.AuthApiControllerTest
-03:37:53.365 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - @TestExecutionListeners is not present for class [com.betweenourclothes.web.AuthApiControllerTest]: using defaults.
-03:37:53.366 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener, org.springframework.security.test.context.support.ReactorContextTestExecutionListener, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
-03:37:53.366 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@1964e16c, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@5f06317f, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@61e0ae5b, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@720d79cb, org.springframework.test.context.support.DirtiesContextTestExecutionListener@4cdc8967, org.springframework.test.context.transaction.TransactionalTestExecutionListener@22bfc44a, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@46c93430, org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener@5f93de03, org.springframework.security.test.context.support.ReactorContextTestExecutionListener@77ace327, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@2b6de40c, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@240a3de5, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@65289ca1, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@758dfef8, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@318439c1]
-03:37:53.367 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved @ProfileValueSourceConfiguration [null] for test class [com.betweenourclothes.web.AuthApiControllerTest]
-03:37:53.367 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved ProfileValueSource type [class org.springframework.test.annotation.SystemProfileValueSource] for class [com.betweenourclothes.web.AuthApiControllerTest]
-03:37:53.367 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved @ProfileValueSourceConfiguration [null] for test class [com.betweenourclothes.web.AuthApiControllerTest]
-03:37:53.367 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved ProfileValueSource type [class org.springframework.test.annotation.SystemProfileValueSource] for class [com.betweenourclothes.web.AuthApiControllerTest]
-03:37:53.371 [Test worker] DEBUG org.springframework.test.context.support.AbstractDirtiesContextTestExecutionListener - Before test class: context [DefaultTestContext@5b0aa01e testClass = AuthApiControllerTest, testInstance = [null], testMethod = [null], testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@5d2e44e6 testClass = AuthApiControllerTest, locations = '{}', classes = '{class com.betweenourclothes.Application}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true, server.port=0}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@6270e2c7, org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@75f04daf, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@4470e51, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@6b8eebe4], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -> false]], class annotated with @DirtiesContext [false] with mode [null].
-03:37:53.371 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved @ProfileValueSourceConfiguration [null] for test class [com.betweenourclothes.web.AuthApiControllerTest]
-03:37:53.371 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved ProfileValueSource type [class org.springframework.test.annotation.SystemProfileValueSource] for class [com.betweenourclothes.web.AuthApiControllerTest]
-03:37:53.374 [Test worker] DEBUG org.springframework.test.context.support.DependencyInjectionTestExecutionListener - Performing dependency injection for test context [[DefaultTestContext@5b0aa01e testClass = AuthApiControllerTest, testInstance = com.betweenourclothes.web.AuthApiControllerTest@2339902b, testMethod = [null], testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@5d2e44e6 testClass = AuthApiControllerTest, locations = '{}', classes = '{class com.betweenourclothes.Application}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true, server.port=0}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@6270e2c7, org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@75f04daf, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@4470e51, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@6b8eebe4], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -> false]]].
-03:37:53.388 [Test worker] DEBUG org.springframework.test.context.support.TestPropertySourceUtils - Adding inlined properties to environment: {spring.jmx.enabled=false, org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true, server.port=0}
+  <system-out><![CDATA[11:07:18.458 [Test worker] DEBUG org.springframework.test.context.junit4.SpringJUnit4ClassRunner - SpringJUnit4ClassRunner constructor called with [class com.betweenourclothes.web.AuthApiControllerTest]
+11:07:18.458 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating CacheAwareContextLoaderDelegate from class [org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate]
+11:07:18.458 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating BootstrapContext using constructor [public org.springframework.test.context.support.DefaultBootstrapContext(java.lang.Class,org.springframework.test.context.CacheAwareContextLoaderDelegate)]
+11:07:18.459 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating TestContextBootstrapper for test class [com.betweenourclothes.web.AuthApiControllerTest] from class [org.springframework.boot.test.context.SpringBootTestContextBootstrapper]
+11:07:18.459 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.betweenourclothes.web.AuthApiControllerTest], using SpringBootContextLoader
+11:07:18.459 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [com.betweenourclothes.web.AuthApiControllerTest]: class path resource [com/betweenourclothes/web/AuthApiControllerTest-context.xml] does not exist
+11:07:18.460 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [com.betweenourclothes.web.AuthApiControllerTest]: class path resource [com/betweenourclothes/web/AuthApiControllerTestContext.groovy] does not exist
+11:07:18.460 [Test worker] INFO org.springframework.test.context.support.AbstractContextLoader - Could not detect default resource locations for test class [com.betweenourclothes.web.AuthApiControllerTest]: no resource found for suffixes {-context.xml, Context.groovy}.
+11:07:18.460 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.betweenourclothes.web.AuthApiControllerTest]: AuthApiControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+11:07:18.461 [Test worker] DEBUG org.springframework.test.context.support.ActiveProfilesUtils - Could not find an 'annotation declaring class' for annotation type [org.springframework.test.context.ActiveProfiles] and class [com.betweenourclothes.web.AuthApiControllerTest]
+11:07:18.497 [Test worker] DEBUG org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider - Identified candidate component class: file [C:\Users\user1\Desktop\송아\캡스톤\repo\between-our-clothes-server\build\classes\java\main\com\betweenourclothes\Application.class]
+11:07:18.497 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.betweenourclothes.Application for test class com.betweenourclothes.web.AuthApiControllerTest
+11:07:18.498 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - @TestExecutionListeners is not present for class [com.betweenourclothes.web.AuthApiControllerTest]: using defaults.
+11:07:18.498 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener, org.springframework.security.test.context.support.ReactorContextTestExecutionListener, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+11:07:18.499 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@2e194039, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@64a638c8, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@1e5828eb, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@248721c0, org.springframework.test.context.support.DirtiesContextTestExecutionListener@407bb5e1, org.springframework.test.context.transaction.TransactionalTestExecutionListener@154eb55e, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@4a0ec86c, org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener@579a79cc, org.springframework.security.test.context.support.ReactorContextTestExecutionListener@4a530a63, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@2a57b232, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@16a652bc, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@12f60dbd, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@40a40d92, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@57f5f196]
+11:07:18.499 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved @ProfileValueSourceConfiguration [null] for test class [com.betweenourclothes.web.AuthApiControllerTest]
+11:07:18.499 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved ProfileValueSource type [class org.springframework.test.annotation.SystemProfileValueSource] for class [com.betweenourclothes.web.AuthApiControllerTest]
+11:07:18.499 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved @ProfileValueSourceConfiguration [null] for test class [com.betweenourclothes.web.AuthApiControllerTest]
+11:07:18.499 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved ProfileValueSource type [class org.springframework.test.annotation.SystemProfileValueSource] for class [com.betweenourclothes.web.AuthApiControllerTest]
+11:07:18.502 [Test worker] DEBUG org.springframework.test.context.support.AbstractDirtiesContextTestExecutionListener - Before test class: context [DefaultTestContext@6d7b349f testClass = AuthApiControllerTest, testInstance = [null], testMethod = [null], testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@2aef258a testClass = AuthApiControllerTest, locations = '{}', classes = '{class com.betweenourclothes.Application}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true, server.port=0}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@29f35225, org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@3a2d27e8, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@64fceff4, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@39cc2f7], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -> false]], class annotated with @DirtiesContext [false] with mode [null].
+11:07:18.503 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved @ProfileValueSourceConfiguration [null] for test class [com.betweenourclothes.web.AuthApiControllerTest]
+11:07:18.503 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved ProfileValueSource type [class org.springframework.test.annotation.SystemProfileValueSource] for class [com.betweenourclothes.web.AuthApiControllerTest]
+11:07:18.505 [Test worker] DEBUG org.springframework.test.context.support.DependencyInjectionTestExecutionListener - Performing dependency injection for test context [[DefaultTestContext@6d7b349f testClass = AuthApiControllerTest, testInstance = com.betweenourclothes.web.AuthApiControllerTest@34c5b268, testMethod = [null], testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@2aef258a testClass = AuthApiControllerTest, locations = '{}', classes = '{class com.betweenourclothes.Application}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true, server.port=0}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@29f35225, org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@3a2d27e8, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@64fceff4, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@39cc2f7], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -> false]]].
+11:07:18.517 [Test worker] DEBUG org.springframework.test.context.support.TestPropertySourceUtils - Adding inlined properties to environment: {spring.jmx.enabled=false, org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true, server.port=0}
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -47,42 +47,42 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::        (v2.1.7.RELEASE)
 
-2022-11-10 03:37:53.566  INFO 12728 --- [    Test worker] c.b.web.AuthApiControllerTest            : Starting AuthApiControllerTest on user with PID 12728 (started by user1 in C:\Users\user1\Desktop\송아\캡스톤\repo\between-our-clothes-server)
-2022-11-10 03:37:53.568  INFO 12728 --- [    Test worker] c.b.web.AuthApiControllerTest            : No active profile set, falling back to default profiles: default
-2022-11-10 03:37:54.384  INFO 12728 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data repositories in DEFAULT mode.
-2022-11-10 03:37:54.499  INFO 12728 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 107ms. Found 15 repository interfaces.
-2022-11-10 03:37:54.895  INFO 12728 --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$743eea37] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2022-11-10 03:37:55.234  INFO 12728 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 0 (http)
-2022-11-10 03:37:55.254  INFO 12728 --- [    Test worker] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2022-11-10 03:37:55.254  INFO 12728 --- [    Test worker] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.22]
-2022-11-10 03:37:55.372  INFO 12728 --- [    Test worker] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2022-11-10 03:37:55.372  INFO 12728 --- [    Test worker] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1791 ms
-2022-11-10 03:37:55.596  INFO 12728 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2022-11-10 03:37:56.027  INFO 12728 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2022-11-10 03:37:56.085  INFO 12728 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+2022-11-10 11:07:18.684  INFO 17444 --- [    Test worker] c.b.web.AuthApiControllerTest            : Starting AuthApiControllerTest on user with PID 17444 (started by user1 in C:\Users\user1\Desktop\송아\캡스톤\repo\between-our-clothes-server)
+2022-11-10 11:07:18.685  INFO 17444 --- [    Test worker] c.b.web.AuthApiControllerTest            : No active profile set, falling back to default profiles: default
+2022-11-10 11:07:19.391  INFO 17444 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data repositories in DEFAULT mode.
+2022-11-10 11:07:19.509  INFO 17444 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 112ms. Found 15 repository interfaces.
+2022-11-10 11:07:19.896  INFO 17444 --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$da19ac0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-11-10 11:07:20.205  INFO 17444 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 0 (http)
+2022-11-10 11:07:20.223  INFO 17444 --- [    Test worker] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-11-10 11:07:20.223  INFO 17444 --- [    Test worker] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.22]
+2022-11-10 11:07:20.336  INFO 17444 --- [    Test worker] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-11-10 11:07:20.336  INFO 17444 --- [    Test worker] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1639 ms
+2022-11-10 11:07:20.555  INFO 17444 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-11-10 11:07:20.906  INFO 17444 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-11-10 11:07:20.964  INFO 17444 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
 	name: default
 	...]
-2022-11-10 03:37:56.140  INFO 12728 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate Core {5.3.10.Final}
-2022-11-10 03:37:56.142  INFO 12728 --- [    Test worker] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
-2022-11-10 03:37:56.289  INFO 12728 --- [    Test worker] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
-2022-11-10 03:37:56.425  INFO 12728 --- [    Test worker] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-2022-11-10 03:37:57.614  INFO 12728 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2022-11-10 03:37:58.219  INFO 12728 --- [    Test worker] o.h.h.i.QueryTranslatorFactoryInitiator  : HHH000397: Using ASTQueryTranslatorFactory
-2022-11-10 03:37:58.641  WARN 12728 --- [    Test worker] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2022-11-10 03:37:58.980  INFO 12728 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: org.springframework.boot.autoconfigure.security.servlet.StaticResourceRequest$StaticResourceRequestMatcher@3111ad50, []
-2022-11-10 03:37:59.052  INFO 12728 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3696fb9f, org.springframework.security.web.context.SecurityContextPersistenceFilter@16ca1052, org.springframework.security.web.header.HeaderWriterFilter@62b21cb1, org.springframework.security.web.authentication.logout.LogoutFilter@4aa42f6b, com.betweenourclothes.jwt.JwtAuthenticationFilter@79bc7889, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1e159f0b, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1536232e, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@428ed71, org.springframework.security.web.session.SessionManagementFilter@173926ad, org.springframework.security.web.access.ExceptionTranslationFilter@42c8459e, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@10003868]
-2022-11-10 03:37:59.105  INFO 12728 --- [    Test worker] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
-2022-11-10 03:37:59.405  INFO 12728 --- [    Test worker] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
-2022-11-10 03:37:59.701  INFO 12728 --- [    Test worker] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
-2022-11-10 03:37:59.720  INFO 12728 --- [    Test worker] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
-2022-11-10 03:37:59.748  INFO 12728 --- [    Test worker] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
-2022-11-10 03:37:59.921  INFO 12728 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: deleteUsingDELETE_1
-2022-11-10 03:37:59.932  INFO 12728 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: findPostByIdUsingGET_1
-2022-11-10 03:37:59.936  INFO 12728 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: findPostsByAllCategoryUsingGET_1
-2022-11-10 03:37:59.954  INFO 12728 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: postUsingPOST_1
-2022-11-10 03:37:59.957  INFO 12728 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: updateUsingPATCH_1
-2022-11-10 03:37:59.987  INFO 12728 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 59681 (http) with context path ''
-2022-11-10 03:37:59.988  INFO 12728 --- [    Test worker] c.b.web.AuthApiControllerTest            : Started AuthApiControllerTest in 6.6 seconds (JVM running for 7.45)
+2022-11-10 11:07:21.015  INFO 17444 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate Core {5.3.10.Final}
+2022-11-10 11:07:21.016  INFO 17444 --- [    Test worker] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2022-11-10 11:07:21.149  INFO 17444 --- [    Test worker] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2022-11-10 11:07:21.260  INFO 17444 --- [    Test worker] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2022-11-10 11:07:22.228  INFO 17444 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-11-10 11:07:22.836  INFO 17444 --- [    Test worker] o.h.h.i.QueryTranslatorFactoryInitiator  : HHH000397: Using ASTQueryTranslatorFactory
+2022-11-10 11:07:23.227  WARN 17444 --- [    Test worker] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-11-10 11:07:23.495  INFO 17444 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: org.springframework.boot.autoconfigure.security.servlet.StaticResourceRequest$StaticResourceRequestMatcher@7e78789a, []
+2022-11-10 11:07:23.553  INFO 17444 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@617df769, org.springframework.security.web.context.SecurityContextPersistenceFilter@30fcf021, org.springframework.security.web.header.HeaderWriterFilter@11283d07, org.springframework.security.web.authentication.logout.LogoutFilter@27138e6, com.betweenourclothes.jwt.JwtAuthenticationFilter@7e993370, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@fce9787, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3c583a0, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3eb67f73, org.springframework.security.web.session.SessionManagementFilter@16f87134, org.springframework.security.web.access.ExceptionTranslationFilter@39a2e8c1, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@7c9233a4]
+2022-11-10 11:07:23.596  INFO 17444 --- [    Test worker] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+2022-11-10 11:07:23.826  INFO 17444 --- [    Test worker] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2022-11-10 11:07:24.107  INFO 17444 --- [    Test worker] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2022-11-10 11:07:24.130  INFO 17444 --- [    Test worker] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2022-11-10 11:07:24.164  INFO 17444 --- [    Test worker] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2022-11-10 11:07:24.344  INFO 17444 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: deleteUsingDELETE_1
+2022-11-10 11:07:24.362  INFO 17444 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: findPostByIdUsingGET_1
+2022-11-10 11:07:24.366  INFO 17444 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: findPostsByAllCategoryUsingGET_1
+2022-11-10 11:07:24.384  INFO 17444 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: postUsingPOST_1
+2022-11-10 11:07:24.387  INFO 17444 --- [    Test worker] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: updateUsingPATCH_1
+2022-11-10 11:07:24.416  INFO 17444 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 61336 (http) with context path ''
+2022-11-10 11:07:24.417  INFO 17444 --- [    Test worker] c.b.web.AuthApiControllerTest            : Started AuthApiControllerTest in 5.899 seconds (JVM running for 6.653)
 Hibernate: 
     select
         members0_.id as id1_6_,
@@ -98,14 +98,311 @@ Hibernate:
         members members0_
 Hibernate: 
     select
+        closetspos0_.author_id as author_i4_1_0_,
+        closetspos0_.id as id1_1_0_,
+        closetspos0_.id as id1_1_1_,
+        closetspos0_.created_date as created_2_1_1_,
+        closetspos0_.modified_date as modified3_1_1_,
+        closetspos0_.author_id as author_i4_1_1_,
+        closetspos0_.clothes_info_id as clothes_5_1_1_,
+        closetspos0_.colors_name as colors_n6_1_1_,
+        closetspos0_.materials_name as material7_1_1_,
+        closetspos0_.style_name as style_na8_1_1_,
+        clothesinf1_.id as id1_2_2_,
+        clothesinf1_.categoryl as category2_2_2_,
+        clothesinf1_.categorys as category3_2_2_,
+        clothesinf1_.fit as fit4_2_2_,
+        clothesinf1_.length as length5_2_2_,
+        colors2_.id as id1_4_3_,
+        colors2_.name as name2_4_3_,
+        materials3_.id as id1_5_4_,
+        materials3_.name as name2_5_4_,
+        style4_.id as id1_14_5_,
+        style4_.name as name2_14_5_ 
+    from
+        closets closetspos0_ 
+    left outer join
+        clothes_info clothesinf1_ 
+            on closetspos0_.clothes_info_id=clothesinf1_.id 
+    left outer join
+        colors colors2_ 
+            on closetspos0_.colors_name=colors2_.name 
+    left outer join
+        materials materials3_ 
+            on closetspos0_.materials_name=materials3_.name 
+    left outer join
+        style style4_ 
+            on closetspos0_.style_name=style4_.name 
+    where
+        closetspos0_.author_id=?
+Hibernate: 
+    select
+        storescomm0_.user_id as user_id5_13_0_,
+        storescomm0_.id as id1_13_0_,
+        storescomm0_.id as id1_13_1_,
+        storescomm0_.created_date as created_2_13_1_,
+        storescomm0_.modified_date as modified3_13_1_,
+        storescomm0_.content as content4_13_1_,
+        storescomm0_.user_id as user_id5_13_1_,
+        storescomm0_.post_id as post_id6_13_1_,
+        stores1_.id as id1_12_2_,
+        stores1_.created_date as created_2_12_2_,
+        stores1_.modified_date as modified3_12_2_,
+        stores1_.author_id as author_i9_12_2_,
+        stores1_.clothes_info_id as clothes10_12_2_,
+        stores1_.colors_name as colors_11_12_2_,
+        stores1_.materials_name as materia12_12_2_,
+        stores1_.style_name as style_n13_12_2_,
+        stores1_.clothes_length as clothes_4_12_2_,
+        stores1_.content as content5_12_2_,
+        stores1_.price as price6_12_2_,
+        stores1_.sales_info_clothes_id as sales_i14_12_2_,
+        stores1_.sales_info_status_id as sales_i15_12_2_,
+        stores1_.sales_info_user_id as sales_i16_12_2_,
+        stores1_.status as status7_12_2_,
+        stores1_.title as title8_12_2_,
+        members2_.id as id1_6_3_,
+        members2_.email as email2_6_3_,
+        members2_.image as image3_6_3_,
+        members2_.name as name4_6_3_,
+        members2_.nickname as nickname5_6_3_,
+        members2_.password as password6_6_3_,
+        members2_.phone as phone7_6_3_,
+        members2_.refresh_token as refresh_8_6_3_,
+        members2_.role as role9_6_3_,
+        clothesinf3_.id as id1_2_4_,
+        clothesinf3_.categoryl as category2_2_4_,
+        clothesinf3_.categorys as category3_2_4_,
+        clothesinf3_.fit as fit4_2_4_,
+        clothesinf3_.length as length5_2_4_,
+        colors4_.id as id1_4_5_,
+        colors4_.name as name2_4_5_,
+        materials5_.id as id1_5_6_,
+        materials5_.name as name2_5_6_,
+        style6_.id as id1_14_7_,
+        style6_.name as name2_14_7_,
+        salesinfoc7_.id as id1_9_8_,
+        salesinfoc7_.clothes_brand as clothes_2_9_8_,
+        salesinfoc7_.clothes_color as clothes_3_9_8_,
+        salesinfoc7_.clothes_gender as clothes_4_9_8_,
+        salesinfoc7_.clothes_size as clothes_5_9_8_,
+        salesinfos8_.id as id1_10_9_,
+        salesinfos8_.status_score as status_s2_10_9_,
+        salesinfos8_.status_tag as status_t3_10_9_,
+        salesinfos8_.status_times as status_t4_10_9_,
+        salesinfos8_.status_when2buy as status_w5_10_9_,
+        salesinfos8_.transport as transpor6_10_9_,
+        salesinfou9_.id as id1_11_10_,
+        salesinfou9_.user_height as user_hei2_11_10_,
+        salesinfou9_.user_size as user_siz3_11_10_,
+        salesinfou9_.user_weight as user_wei4_11_10_ 
+    from
+        stores_comments storescomm0_ 
+    left outer join
+        stores stores1_ 
+            on storescomm0_.post_id=stores1_.id 
+    left outer join
+        members members2_ 
+            on stores1_.author_id=members2_.id 
+    left outer join
+        clothes_info clothesinf3_ 
+            on stores1_.clothes_info_id=clothesinf3_.id 
+    left outer join
+        colors colors4_ 
+            on stores1_.colors_name=colors4_.name 
+    left outer join
+        materials materials5_ 
+            on stores1_.materials_name=materials5_.name 
+    left outer join
+        style style6_ 
+            on stores1_.style_name=style6_.name 
+    left outer join
+        sales_info_clothes salesinfoc7_ 
+            on stores1_.sales_info_clothes_id=salesinfoc7_.id 
+    left outer join
+        sales_info_status salesinfos8_ 
+            on stores1_.sales_info_status_id=salesinfos8_.id 
+    left outer join
+        sales_info_user salesinfou9_ 
+            on stores1_.sales_info_user_id=salesinfou9_.id 
+    where
+        storescomm0_.user_id=?
+Hibernate: 
+    select
+        storeslike0_.user_id as user_id3_7_0_,
+        storeslike0_.id as id1_7_0_,
+        storeslike0_.id as id1_7_1_,
+        storeslike0_.store_id as store_id2_7_1_,
+        storeslike0_.user_id as user_id3_7_1_,
+        stores1_.id as id1_12_2_,
+        stores1_.created_date as created_2_12_2_,
+        stores1_.modified_date as modified3_12_2_,
+        stores1_.author_id as author_i9_12_2_,
+        stores1_.clothes_info_id as clothes10_12_2_,
+        stores1_.colors_name as colors_11_12_2_,
+        stores1_.materials_name as materia12_12_2_,
+        stores1_.style_name as style_n13_12_2_,
+        stores1_.clothes_length as clothes_4_12_2_,
+        stores1_.content as content5_12_2_,
+        stores1_.price as price6_12_2_,
+        stores1_.sales_info_clothes_id as sales_i14_12_2_,
+        stores1_.sales_info_status_id as sales_i15_12_2_,
+        stores1_.sales_info_user_id as sales_i16_12_2_,
+        stores1_.status as status7_12_2_,
+        stores1_.title as title8_12_2_,
+        members2_.id as id1_6_3_,
+        members2_.email as email2_6_3_,
+        members2_.image as image3_6_3_,
+        members2_.name as name4_6_3_,
+        members2_.nickname as nickname5_6_3_,
+        members2_.password as password6_6_3_,
+        members2_.phone as phone7_6_3_,
+        members2_.refresh_token as refresh_8_6_3_,
+        members2_.role as role9_6_3_,
+        clothesinf3_.id as id1_2_4_,
+        clothesinf3_.categoryl as category2_2_4_,
+        clothesinf3_.categorys as category3_2_4_,
+        clothesinf3_.fit as fit4_2_4_,
+        clothesinf3_.length as length5_2_4_,
+        colors4_.id as id1_4_5_,
+        colors4_.name as name2_4_5_,
+        materials5_.id as id1_5_6_,
+        materials5_.name as name2_5_6_,
+        style6_.id as id1_14_7_,
+        style6_.name as name2_14_7_,
+        salesinfoc7_.id as id1_9_8_,
+        salesinfoc7_.clothes_brand as clothes_2_9_8_,
+        salesinfoc7_.clothes_color as clothes_3_9_8_,
+        salesinfoc7_.clothes_gender as clothes_4_9_8_,
+        salesinfoc7_.clothes_size as clothes_5_9_8_,
+        salesinfos8_.id as id1_10_9_,
+        salesinfos8_.status_score as status_s2_10_9_,
+        salesinfos8_.status_tag as status_t3_10_9_,
+        salesinfos8_.status_times as status_t4_10_9_,
+        salesinfos8_.status_when2buy as status_w5_10_9_,
+        salesinfos8_.transport as transpor6_10_9_,
+        salesinfou9_.id as id1_11_10_,
+        salesinfou9_.user_height as user_hei2_11_10_,
+        salesinfou9_.user_size as user_siz3_11_10_,
+        salesinfou9_.user_weight as user_wei4_11_10_ 
+    from
+        members_like_stores_post storeslike0_ 
+    left outer join
+        stores stores1_ 
+            on storeslike0_.store_id=stores1_.id 
+    left outer join
+        members members2_ 
+            on stores1_.author_id=members2_.id 
+    left outer join
+        clothes_info clothesinf3_ 
+            on stores1_.clothes_info_id=clothesinf3_.id 
+    left outer join
+        colors colors4_ 
+            on stores1_.colors_name=colors4_.name 
+    left outer join
+        materials materials5_ 
+            on stores1_.materials_name=materials5_.name 
+    left outer join
+        style style6_ 
+            on stores1_.style_name=style6_.name 
+    left outer join
+        sales_info_clothes salesinfoc7_ 
+            on stores1_.sales_info_clothes_id=salesinfoc7_.id 
+    left outer join
+        sales_info_status salesinfos8_ 
+            on stores1_.sales_info_status_id=salesinfos8_.id 
+    left outer join
+        sales_info_user salesinfou9_ 
+            on stores1_.sales_info_user_id=salesinfou9_.id 
+    where
+        storeslike0_.user_id=?
+Hibernate: 
+    select
+        storespost0_.author_id as author_i9_12_0_,
+        storespost0_.id as id1_12_0_,
+        storespost0_.id as id1_12_1_,
+        storespost0_.created_date as created_2_12_1_,
+        storespost0_.modified_date as modified3_12_1_,
+        storespost0_.author_id as author_i9_12_1_,
+        storespost0_.clothes_info_id as clothes10_12_1_,
+        storespost0_.colors_name as colors_11_12_1_,
+        storespost0_.materials_name as materia12_12_1_,
+        storespost0_.style_name as style_n13_12_1_,
+        storespost0_.clothes_length as clothes_4_12_1_,
+        storespost0_.content as content5_12_1_,
+        storespost0_.price as price6_12_1_,
+        storespost0_.sales_info_clothes_id as sales_i14_12_1_,
+        storespost0_.sales_info_status_id as sales_i15_12_1_,
+        storespost0_.sales_info_user_id as sales_i16_12_1_,
+        storespost0_.status as status7_12_1_,
+        storespost0_.title as title8_12_1_,
+        clothesinf1_.id as id1_2_2_,
+        clothesinf1_.categoryl as category2_2_2_,
+        clothesinf1_.categorys as category3_2_2_,
+        clothesinf1_.fit as fit4_2_2_,
+        clothesinf1_.length as length5_2_2_,
+        colors2_.id as id1_4_3_,
+        colors2_.name as name2_4_3_,
+        materials3_.id as id1_5_4_,
+        materials3_.name as name2_5_4_,
+        style4_.id as id1_14_5_,
+        style4_.name as name2_14_5_,
+        salesinfoc5_.id as id1_9_6_,
+        salesinfoc5_.clothes_brand as clothes_2_9_6_,
+        salesinfoc5_.clothes_color as clothes_3_9_6_,
+        salesinfoc5_.clothes_gender as clothes_4_9_6_,
+        salesinfoc5_.clothes_size as clothes_5_9_6_,
+        salesinfos6_.id as id1_10_7_,
+        salesinfos6_.status_score as status_s2_10_7_,
+        salesinfos6_.status_tag as status_t3_10_7_,
+        salesinfos6_.status_times as status_t4_10_7_,
+        salesinfos6_.status_when2buy as status_w5_10_7_,
+        salesinfos6_.transport as transpor6_10_7_,
+        salesinfou7_.id as id1_11_8_,
+        salesinfou7_.user_height as user_hei2_11_8_,
+        salesinfou7_.user_size as user_siz3_11_8_,
+        salesinfou7_.user_weight as user_wei4_11_8_ 
+    from
+        stores storespost0_ 
+    left outer join
+        clothes_info clothesinf1_ 
+            on storespost0_.clothes_info_id=clothesinf1_.id 
+    left outer join
+        colors colors2_ 
+            on storespost0_.colors_name=colors2_.name 
+    left outer join
+        materials materials3_ 
+            on storespost0_.materials_name=materials3_.name 
+    left outer join
+        style style4_ 
+            on storespost0_.style_name=style4_.name 
+    left outer join
+        sales_info_clothes salesinfoc5_ 
+            on storespost0_.sales_info_clothes_id=salesinfoc5_.id 
+    left outer join
+        sales_info_status salesinfos6_ 
+            on storespost0_.sales_info_status_id=salesinfos6_.id 
+    left outer join
+        sales_info_user salesinfou7_ 
+            on storespost0_.sales_info_user_id=salesinfou7_.id 
+    where
+        storespost0_.author_id=?
+Hibernate: 
+    delete 
+    from
+        members 
+    where
+        id=?
+Hibernate: 
+    select
         email0_.email as email1_0_,
         email0_.code as code2_0_,
         email0_.status as status3_0_ 
     from
         authentication email0_
-2022-11-10 03:38:00.190  INFO 12728 --- [o-auto-1-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2022-11-10 03:38:00.190  INFO 12728 --- [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2022-11-10 03:38:00.210  INFO 12728 --- [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 20 ms
+2022-11-10 11:07:24.647  INFO 17444 --- [o-auto-1-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-11-10 11:07:24.647  INFO 17444 --- [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-11-10 11:07:24.662  INFO 17444 --- [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 15 ms
 Hibernate: 
     select
         members0_.id as id1_6_,
@@ -169,9 +466,9 @@ Hibernate:
     from
         authentication email0_
 {"email":"gunsong2@naver.com","password":"abcde1234!","name":"이름","nickname":"송아","phone":"00033334444"}
-2022-11-10 03:38:04.406  INFO 12728 --- [    Test worker] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring TestDispatcherServlet ''
-2022-11-10 03:38:04.406  INFO 12728 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2022-11-10 03:38:04.408  INFO 12728 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2022-11-10 11:07:29.044  INFO 17444 --- [    Test worker] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring TestDispatcherServlet ''
+2022-11-10 11:07:29.044  INFO 17444 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2022-11-10 11:07:29.048  INFO 17444 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 4 ms
 Hibernate: 
     select
         members0_.id as id1_6_,
@@ -274,7 +571,7 @@ Hibernate:
         members0_.role as role9_6_ 
     from
         members members0_
-C:\Users\user1\Desktop\송아\캡스톤\repo\between-our-clothes-server\.\src\main\resources\static\images\profile\profile-49369869-91fb-4b49-93b8-c4067fa4367a.png
+C:\Users\user1\Desktop\송아\캡스톤\repo\between-our-clothes-server\.\src\main\resources\static\images\profile\profile-b5089b60-bec0-4288-baf2-837c66305115.png
 Hibernate: 
     select
         members0_.id as id1_6_,

@@ -41,7 +41,7 @@ public class StoresQueryDslRepository {
         QClothesImage clothesImage = QClothesImage.clothesImage;
 
         List<StoresThumbnailsResponseDto> content = queryFactory.select(Projections.constructor(StoresThumbnailsResponseDto.class,
-                        clothesImage, stores.title, stores.id, stores.modifiedDate, stores.price, stores.content, stores.salesInfo_status.transport
+                        clothesImage.as("image"), stores.title.as("title"), stores.id.as("id"), stores.modifiedDate.as("modified_date"), stores.price.as("price"), stores.content.as("content"), stores.salesInfo_status.transport.as("transport")
                 ))
                 .from(stores)
                 .join(stores.images, clothesImage)
@@ -68,7 +68,7 @@ public class StoresQueryDslRepository {
         QStores stores = QStores.stores;
 
         List<StoresPostCommentsResponseDto> content = queryFactory.select(
-                Projections.constructor(StoresPostCommentsResponseDto.class, comments.content, comments.user.nickname, comments.createdDate))
+                Projections.constructor(StoresPostCommentsResponseDto.class, comments.content.as("comments"), comments.user.nickname.as("nickname"), comments.createdDate.as("createdTime")))
                 .from(comments)
                 .where(comments.post.id.eq(pid), comments.user.id.eq(mid))
                 .orderBy(comments.createdDate.asc())

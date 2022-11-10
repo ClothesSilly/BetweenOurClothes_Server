@@ -41,7 +41,7 @@ public class ClosetsQueryDslRepository {
         QClothesImage clothesImage = QClothesImage.clothesImage;
 
         List<ClosetsThumbnailsResponseDto> content = queryFactory.select(Projections.constructor(ClosetsThumbnailsResponseDto.class,
-                        clothesImage, closets.id
+                        clothesImage.as("image"), closets.id.as("id")
                 ))
                 .from(closets)
                 .join(closets.images, clothesImage)

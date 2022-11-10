@@ -13,14 +13,14 @@ import java.util.List;
 @NoArgsConstructor
 public class ClosetsThumbnailsResponseDto {
     @ApiParam(value="썸네일 이미지 바이트 배열 (300x300)")
-    private byte[] images;
+    private byte[] image;
 
     @ApiParam(value="게시글 id 배열")
     private Long id;
 
     @Builder
     public ClosetsThumbnailsResponseDto(ClothesImage image, Long id){
-        this.images = image.toByte(300, 300);
+        this.image = image.toByte(300, 300);
         this.id = id;
     }
 }
