@@ -12,13 +12,13 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 public class StoresThumbnailsResponseDto {
-    private byte[] image;
-    private String title;
-    private Long id;
-    private String modified_date;
-    private String price;
-    private String content;
-    private String transport;
+    public byte[] image;
+    public String title;
+    public Long id;
+    public String modified_date;
+    public String price;
+    public String content;
+    public String transport;
 
     public StoresThumbnailsResponseDto(ClothesImage image, String title, Long id, LocalDateTime modified_date,
                                        String price, String content, String transport){

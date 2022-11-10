@@ -13,10 +13,10 @@ import java.util.List;
 @NoArgsConstructor
 public class ClosetsThumbnailsResponseDto {
     @ApiParam(value="썸네일 이미지 바이트 배열 (300x300)")
-    private byte[] image;
+    public byte[] image;
 
     @ApiParam(value="게시글 id 배열")
-    private Long id;
+    public Long id;
 
     @Builder
     public ClosetsThumbnailsResponseDto(ClothesImage image, Long id){

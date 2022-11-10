@@ -12,9 +12,9 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class StoresPostCommentsResponseDto {
-    private String comments;
-    private String nickname;
-    private String createdTime;
+    public String comments;
+    public String nickname;
+    public String createdTime;
 
     public StoresPostCommentsResponseDto(String comments, String nickname, LocalDateTime createdTime){
         this.comments = comments;
