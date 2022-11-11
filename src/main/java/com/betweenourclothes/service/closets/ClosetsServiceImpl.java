@@ -75,6 +75,7 @@ public class ClosetsServiceImpl implements ClosetsService{
         List<ClothesImage> imgArr = new ArrayList<>();
         for(MultipartFile img: imgs){
             ClothesImage imgEntity = ClothesImage.builder().type("closets").build();
+            System.out.println(img.getOriginalFilename());
             imgEntity.updateImage(img);
             clothesImageRepository.save(imgEntity);
             imgArr.add(imgEntity);
@@ -172,8 +173,7 @@ public class ClosetsServiceImpl implements ClosetsService{
 
         List<byte[]> returnArr = new ArrayList<>();
         for(ClothesImage image : post.getImages()){
-            System.out.println(image.getPath());
-            returnArr.add(image.toByte(image.getPath(), -1, -1));
+            returnArr.add(image.toByte(-1, -1));
         }
 
         ClosetsImagesResponseDto responseDto = ClosetsImagesResponseDto.builder().images(returnArr).id(id).build();

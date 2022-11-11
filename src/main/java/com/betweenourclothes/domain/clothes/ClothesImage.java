@@ -46,6 +46,10 @@ public class ClothesImage {
 
     public void updateImage(MultipartFile img){
         try{
+
+            String SAVE_PATH = "/upload";
+            String PREFIX_URL = "/upload/";
+
             // 업로드 파일 이름 생성
             // 업로드 파일 식별을 위한 uuid 생성
             String uuid = UUID.randomUUID().toString();
@@ -82,13 +86,13 @@ public class ClothesImage {
         this.stores_post = stores;
     }
 
-    public byte[] toByte(String path, int width, int height){
+    public byte[] toByte(int width, int height){
         try {
             BufferedImage bi = null;
             if(width == -1 && height == -1){
-                bi = ImageIO.read(new File(path));
+                bi = ImageIO.read(new File(this.path));
             } else{
-                bi = Thumbnails.of(new File(path))
+                bi = Thumbnails.of(new File(this.path))
                         .size(width, height)
                         .asBufferedImage();
             }

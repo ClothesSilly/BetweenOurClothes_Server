@@ -3,5 +3,8 @@
 application.properties
 generated/
 profile-*.jpg
+profile-*.png
 closets-*.jpg
+closets-*.png
 stores-*.jpg
+stores-*.png

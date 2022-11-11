@@ -88,7 +88,7 @@ public class StoresApiControllerTest {
         중고거래_테스트데이터등록();
     }
 
-    @After
+    /*@After
     public void 추가한_게시글과이미지_지우기() throws Exception{
         List<ClothesImage> clothesImages = clothesImageRepository.findAll();
         for(ClothesImage image : clothesImages){
@@ -103,6 +103,7 @@ public class StoresApiControllerTest {
         membersLikeStoresPostRepository.deleteAllInBatch();
         storesRepository.deleteAllInBatch();
     }
+    */
 
     @Test
     public void 로그인() throws Exception{
@@ -152,7 +153,6 @@ public class StoresApiControllerTest {
     }
 
     @Test
-    @Ignore
     public void 중고거래_찜_등록과확인과취소() throws Exception{
         String token = "Bearer" + AT;
         String url = "/api/v1/stores/post/" + postId + "/like";
@@ -216,7 +216,6 @@ public class StoresApiControllerTest {
     }
 
     @Test
-    @Ignore
     public void 중고거래_옷카테고리전부() throws Exception{
         String token = "Bearer" + AT;
 
@@ -238,7 +237,6 @@ public class StoresApiControllerTest {
     }
 
     @Test
-    @Ignore
     public void 중고거래_작은카테고리조회() throws Exception{
         String token = "Bearer" + AT;
 
@@ -276,7 +274,6 @@ public class StoresApiControllerTest {
     }
 
     @Test
-    @Ignore
     public void 중고거래_큰카테고리조회() throws Exception{
         String token = "Bearer" + AT;
 
@@ -294,7 +291,6 @@ public class StoresApiControllerTest {
     }
 
     @Test
-    @Ignore
     public void 중고거래_썸네일불러오기() throws Exception{
 
         String token = "Bearer" + AT;

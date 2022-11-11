@@ -4,6 +4,7 @@ import com.betweenourclothes.domain.closets.Closets;
 import com.betweenourclothes.domain.closets.QClosets;
 import com.betweenourclothes.domain.clothes.ClothesImage;
 import com.betweenourclothes.domain.clothes.QClothesImage;
+import com.betweenourclothes.web.dto.ClosetsImageTmpDto;
 import com.betweenourclothes.web.dto.response.closets.ClosetsThumbnailsResponseDto;
 import com.betweenourclothes.web.dto.response.stores.StoresThumbnailsResponseDto;
 import com.querydsl.core.types.Projections;
@@ -40,7 +41,7 @@ public class ClosetsQueryDslRepository {
         QClosets closets = QClosets.closets;
         QClothesImage clothesImage = QClothesImage.clothesImage;
 
-        List<ClosetsThumbnailsResponseDto> content = queryFactory.select(Projections.constructor(ClosetsThumbnailsResponseDto.class,
+        List<ClosetsImageTmpDto> tmp_content = queryFactory.select(Projections.constructor(ClosetsImageTmpDto.class,
                         clothesImage.as("image"), closets.id.as("id")
                 ))
                 .from(closets)
@@ -63,8 +64,17 @@ public class ClosetsQueryDslRepository {
                 .orderBy(closets.createdDate.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .fetch().stream().filter(distinctByKey(ClosetsThumbnailsResponseDto::getId))
+                .fetch()
+                .stream().filter(distinctByKey(ClosetsImageTmpDto::getId))
                 .collect(Collectors.toList());
+
+        List<ClosetsThumbnailsResponseDto> content = new ArrayList<>();
+        for(ClosetsImageTmpDto dto : tmp_content){
+            content.add(ClosetsThumbnailsResponseDto.builder()
+                    .image(dto.getImage().toByte(300, 300))
+                    .id(dto.getId())
+                    .build());
+        }
 
         return new PageImpl<ClosetsThumbnailsResponseDto>(content, pageable, content.size());
     }

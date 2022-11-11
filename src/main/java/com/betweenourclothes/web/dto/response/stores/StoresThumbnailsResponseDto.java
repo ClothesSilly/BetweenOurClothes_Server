@@ -22,7 +22,7 @@ public class StoresThumbnailsResponseDto {
 
     public StoresThumbnailsResponseDto(ClothesImage image, String title, Long id, LocalDateTime modified_date,
                                        String price, String content, String transport){
-        this.image = image.toByte(image.getPath(), 300, 300);
+        this.image = image.toByte(300, 300);
         this.title = title;
         this.id = id;
         this.modified_date = modified_date.toString();

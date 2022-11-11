@@ -45,7 +45,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Ignore
 public class ClosetsApiControllerTest {
 
     @LocalServerPort
@@ -331,7 +330,6 @@ public class ClosetsApiControllerTest {
         System.out.println(resp.getBody());
         assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
-
 
     @Test
     public void 내옷장_게시글수정() throws Exception{

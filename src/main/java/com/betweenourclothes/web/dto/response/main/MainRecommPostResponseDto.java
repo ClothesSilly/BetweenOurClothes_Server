@@ -14,6 +14,6 @@ public class MainRecommPostResponseDto {
     @Builder
     public MainRecommPostResponseDto(Long id, ClothesImage image){
         this.id = id;
-        this.image = image.toByte(image.getPath(), 300, 300);
+        this.image = image.toByte(300, 300);
     }
 }

@@ -19,8 +19,8 @@ public class ClosetsThumbnailsResponseDto {
     public Long id;
 
     @Builder
-    public ClosetsThumbnailsResponseDto(ClothesImage image, Long id){
-        this.image = image.toByte(image.getPath(), 300, 300);
+    public ClosetsThumbnailsResponseDto(byte[] image, Long id){
+        this.image = image;
         this.id = id;
     }
 }
