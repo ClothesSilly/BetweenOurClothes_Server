@@ -50,7 +50,8 @@ public class ClothesImage {
             // 업로드 파일 이름 생성
             // 업로드 파일 식별을 위한 uuid 생성
             String uuid = UUID.randomUUID().toString();
-            String path = new File("src/main/resources/static/images/"+type).getAbsolutePath();
+            String homePath = System.getProperty("user.home");
+            String path = new File(homePath +"/betweenourclothes/images/"+type).getAbsolutePath();
             String uploadedFileName = type+"-" + uuid;
             // 확장자
             String extension = '.' + img.getOriginalFilename().replaceAll("^.*\\.(.*)$", "$1");
@@ -60,13 +61,12 @@ public class ClothesImage {
             if(!file.exists()){
                 file.mkdirs();
             }
-
             // 파일 객체 생성: 업로드될 파일을 위한 것
             file = new File(path+File.separator+uploadedFileName+extension);
-
             // 전송 후, 파일 경로 반환
             img.transferTo(file);
             this.path = file.getAbsolutePath();
+            System.out.println(this.path);
         } catch(NullPointerException e){
             throw new ClosetsPostException(ErrorCode.REQUEST_FORMAT_ERROR);
         } catch (IOException e) {
