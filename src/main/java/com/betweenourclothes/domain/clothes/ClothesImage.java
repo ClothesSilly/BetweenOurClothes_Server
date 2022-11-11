@@ -47,15 +47,11 @@ public class ClothesImage {
     public void updateImage(MultipartFile img){
         try{
 
-            String SAVE_PATH = "/upload";
-            String PREFIX_URL = "/upload/";
-
             // 업로드 파일 이름 생성
             // 업로드 파일 식별을 위한 uuid 생성
             String uuid = UUID.randomUUID().toString();
             String path = new File("src/main/resources/static/images/"+type).getAbsolutePath();
             String uploadedFileName = type+"-" + uuid;
-
             // 확장자
             String extension = '.' + img.getOriginalFilename().replaceAll("^.*\\.(.*)$", "$1");
 
