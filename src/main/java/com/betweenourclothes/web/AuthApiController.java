@@ -29,7 +29,7 @@ public class AuthApiController {
 
     private final AuthServiceImpl authService;
 
-    @ApiOperation(value="최종 회원가입")
+    @ApiOperation(value="최종 회원가입", notes="Models > AuthSignUpRequestDto 참고")
     @PostMapping(path="/sign-up")
     public ResponseEntity<String> signUp(@Valid @RequestPart(name="data") AuthSignUpRequestDto requestDto,
                                          @RequestPart(name="image") MultipartFile img) throws Exception {
@@ -68,7 +68,7 @@ public class AuthApiController {
         }
     }
 
-    @ApiOperation(value="이메일 인증코드 발송")
+    @ApiOperation(value="이메일 인증코드 발송", notes="Models > AuthOnlyEmailRequestDto 참고")
     @PostMapping("/sign-up/email")
     public ResponseEntity<String> sendEmail(@RequestBody @Valid AuthOnlyEmailRequestDto email) throws Exception{
         authService.sendMail(email.getEmail());
@@ -76,14 +76,14 @@ public class AuthApiController {
     }
 
 
-    @ApiOperation(value="이메일 인증코드 일치여부 확인")
+    @ApiOperation(value="이메일 인증코드 일치여부 확인", notes="Models > AuthEmailRequestDto 참고")
     @PostMapping("/sign-up/code")
     public ResponseEntity<String> checkAuthCode(@RequestBody @Valid AuthEmailRequestDto requestDto) throws Exception{
         authService.checkAuthCode(requestDto);
         return new ResponseEntity<>("인증 성공", HttpStatus.OK);
     }
 
-    @ApiOperation(value="로그인", notes="header의 Authorization: grantType+accessToken")
+    @ApiOperation(value="로그인", notes="Models > AuthSignInRequestDto 참고")
     @PostMapping("/login")
     public ResponseEntity<AuthTokenResponseDto> login(@RequestBody AuthSignInRequestDto requestDto) throws Exception{
         AuthTokenResponseDto responseDto = authService.login(requestDto);

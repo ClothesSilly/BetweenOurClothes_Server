@@ -4,6 +4,7 @@ import com.betweenourclothes.domain.clothes.QClothesImage;
 import com.betweenourclothes.domain.members.QMembersLikeStoresPost;
 import com.betweenourclothes.domain.stores.QStores;
 import com.betweenourclothes.domain.stores.Stores;
+import com.betweenourclothes.web.dto.StoresImageTmpDto;
 import com.betweenourclothes.web.dto.response.stores.StoresThumbnailsResponseDto;
 import com.querydsl.core.types.EntityPath;
 import com.querydsl.core.types.Projections;
@@ -17,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -36,7 +38,7 @@ public class MembersQueryDslRepository {
         QClothesImage clothesImage = QClothesImage.clothesImage;
 
 
-        List<StoresThumbnailsResponseDto> content = queryFactory.select(Projections.constructor(StoresThumbnailsResponseDto.class,
+        List<StoresImageTmpDto> tmp_content = queryFactory.select(Projections.constructor(StoresImageTmpDto.class,
                         clothesImage, stores.title, stores.id, stores.modifiedDate, stores.price, stores.content, stores.salesInfo_status.transport
                 ))
                 .from(stores)
@@ -55,9 +57,16 @@ public class MembersQueryDslRepository {
                 .orderBy(stores.createdDate.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .fetch().stream().filter(distinctByKey(StoresThumbnailsResponseDto::getId))
-                .collect(Collectors.toList());;
+                .fetch().stream().filter(distinctByKey(StoresImageTmpDto::getId))
+                .collect(Collectors.toList());
 
+        List<StoresThumbnailsResponseDto> content = new ArrayList<>();
+        for(StoresImageTmpDto dto : tmp_content){
+            content.add(StoresThumbnailsResponseDto.builder().image(dto.getImage())
+                    .id(dto.getId()).title(dto.getTitle()).modified_date(dto.getModified_date())
+                    .price(dto.getPrice()).content(dto.getContent()).transport(dto.getTransport())
+                    .build());
+        }
 
         return new PageImpl<>(content, pageable, content.size());
     }
