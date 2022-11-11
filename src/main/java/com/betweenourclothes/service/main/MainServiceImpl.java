@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,7 +96,11 @@ public class MainServiceImpl implements MainService{
 
         List<MainBannerResponseDto> responseDto = new ArrayList<>();
 
-        String path = "src/main/resources/static/images/banner/";
+        String path = System.getProperty("user.home") + "/betweenourclothes/images/banner/";
+        File file = new File(path);
+        if(!file.exists()){
+            file.mkdirs();
+        }
 
         for(int i=1; i<=3; i++){
             MainBannerResponseDto dto = MainBannerResponseDto.builder().path(path+"banner"+Integer.toString(i)+".jpg").build();

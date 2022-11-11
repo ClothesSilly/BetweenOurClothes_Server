@@ -39,7 +39,9 @@ public class MembersQueryDslRepository {
 
 
         List<StoresImageTmpDto> tmp_content = queryFactory.select(Projections.constructor(StoresImageTmpDto.class,
-                        clothesImage, stores.title, stores.id, stores.modifiedDate, stores.price, stores.content, stores.salesInfo_status.transport
+                        clothesImage.as("image"), stores.title.as("title"), stores.id.as("id"),
+                        stores.modifiedDate.as("modified_date"), stores.price.as("price"),
+                        stores.content.as("content"), stores.salesInfo_status.transport.as("transport")
                 ))
                 .from(stores)
                 .join(stores.images, clothesImage)
