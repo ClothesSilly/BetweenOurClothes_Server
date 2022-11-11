@@ -102,7 +102,7 @@ public class StoresQueryDslRepository {
         QStores stores = QStores.stores;
         QClothesImage clothesImage = QClothesImage.clothesImage;
 
-        List<StoresThumbnailsResponseDto> list = queryFactory.select(Projections.constructor(StoresThumbnailsResponseDto.class,
+        List<StoresImageTmpDto> tmp_content = queryFactory.select(Projections.constructor(StoresImageTmpDto.class,
                         clothesImage, stores.title, stores.id, stores.modifiedDate, stores.price, stores.content, stores.salesInfo_status.transport
                         ))
                 .from(stores)
@@ -125,11 +125,17 @@ public class StoresQueryDslRepository {
                 .orderBy(stores.createdDate.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .fetch();
-
-        List<StoresThumbnailsResponseDto> content = list.stream()
-                .filter(distinctByKey(StoresThumbnailsResponseDto::getId))
+                .fetch().stream()
+                .filter(distinctByKey(StoresImageTmpDto::getId))
                 .collect(Collectors.toList());
+
+        List<StoresThumbnailsResponseDto> content = new ArrayList<>();
+        for(StoresImageTmpDto dto : tmp_content){
+            content.add(StoresThumbnailsResponseDto.builder().image(dto.getImage())
+                    .id(dto.getId()).title(dto.getTitle()).modified_date(dto.getModified_date())
+                    .price(dto.getPrice()).content(dto.getContent()).transport(dto.getTransport())
+                    .build());
+        }
 
         return new PageImpl<>(content, pageable, content.size());
     }
