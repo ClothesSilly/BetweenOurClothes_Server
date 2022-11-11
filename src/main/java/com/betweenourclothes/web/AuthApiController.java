@@ -43,7 +43,8 @@ public class AuthApiController {
             // 업로드 파일 이름 생성
             // 업로드 파일 식별을 위한 uuid 생성
             String uuid = UUID.randomUUID().toString();
-            String path = new File("./src/main/resources/static/images/profile").getAbsolutePath();
+            String homePath = System.getProperty("user.home");
+            String path = new File(homePath +"/betweenourclothes/images/profile").getAbsolutePath();
             String uploadedFileName = "profile-" + uuid;
 
             // 확장자
