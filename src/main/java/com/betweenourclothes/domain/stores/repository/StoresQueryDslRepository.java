@@ -8,6 +8,7 @@ import com.betweenourclothes.domain.stores.QStores;
 import com.betweenourclothes.domain.stores.QStoresComments;
 import com.betweenourclothes.domain.stores.Stores;
 import com.betweenourclothes.domain.stores.StoresComments;
+import com.betweenourclothes.web.dto.StoresImageTmpDto;
 import com.betweenourclothes.web.dto.response.stores.StoresPostCommentsResponseDto;
 import com.betweenourclothes.web.dto.response.stores.StoresThumbnailsResponseDto;
 import com.querydsl.core.types.Projections;
@@ -40,8 +41,14 @@ public class StoresQueryDslRepository {
         QStores stores = QStores.stores;
         QClothesImage clothesImage = QClothesImage.clothesImage;
 
-        List<StoresThumbnailsResponseDto> content = queryFactory.select(Projections.constructor(StoresThumbnailsResponseDto.class,
-                        clothesImage.as("image"), stores.title.as("title"), stores.id.as("id"), stores.modifiedDate.as("modified_date"), stores.price.as("price"), stores.content.as("content"), stores.salesInfo_status.transport.as("transport")
+        List<StoresImageTmpDto> tmp_content = queryFactory.select(Projections.constructor(StoresImageTmpDto.class,
+                        clothesImage.as("image"),
+                        stores.title.as("title"),
+                        stores.id.as("id"),
+                        stores.modifiedDate.as("modified_date"),
+                        stores.price.as("price"),
+                        stores.content.as("content"),
+                        stores.salesInfo_status.transport.as("transport")
                 ))
                 .from(stores)
                 .join(stores.images, clothesImage)
@@ -57,8 +64,18 @@ public class StoresQueryDslRepository {
                 .orderBy(stores.createdDate.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .fetch().stream().filter(distinctByKey(StoresThumbnailsResponseDto::getId))
+                .fetch()
+                .stream()
+                .filter(distinctByKey(StoresImageTmpDto::getId))
                 .collect(Collectors.toList());
+
+        List<StoresThumbnailsResponseDto> content = new ArrayList<>();
+        for(StoresImageTmpDto dto : tmp_content){
+            content.add(StoresThumbnailsResponseDto.builder().image(dto.getImage())
+                            .id(dto.getId()).title(dto.getTitle()).modified_date(dto.getModified_date())
+                            .price(dto.getPrice()).content(dto.getContent()).transport(dto.getTransport())
+                    .build());
+        }
 
         return new PageImpl<>(content, pageable, content.size());
     }
