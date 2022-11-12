@@ -18,6 +18,7 @@ import com.betweenourclothes.web.dto.request.stores.StoresPostClothesRequestDto;
 import com.betweenourclothes.web.dto.request.stores.StoresPostRequestDto;
 import com.betweenourclothes.web.dto.request.stores.StoresPostSalesRequestDto;
 import com.betweenourclothes.web.dto.request.stores.StoresPostSearchRequestDto;
+import com.betweenourclothes.web.dto.response.auth.AuthSignInResponseDto;
 import com.betweenourclothes.web.dto.response.auth.AuthTokenResponseDto;
 import com.betweenourclothes.web.dto.response.main.MainRecommPostResponseDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -95,6 +96,7 @@ public class MainApiControllerTest {
         중고거래_테스트데이터등록();
     }
 
+
     @After
     public void 추가한_게시글과이미지_지우기() throws Exception{
         List<ClothesImage> clothesImages = clothesImageRepository.findAll();
@@ -119,8 +121,9 @@ public class MainApiControllerTest {
         String email = "gunsong2@naver.com";
         String pw = "abcde1234!";
         AuthSignInRequestDto reqDto = AuthSignInRequestDto.builder().email(email).password(pw).build();
-        ResponseEntity<AuthTokenResponseDto> respDto = restTemplate.postForEntity(url_login, reqDto, AuthTokenResponseDto.class);
+        ResponseEntity<AuthSignInResponseDto> respDto = restTemplate.postForEntity(url_login, reqDto, AuthSignInResponseDto.class);
         assertThat(respDto.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(respDto.getBody().getNickname()).isEqualTo("송아");
         AT = respDto.getBody().getAccessToken();
     }
 
@@ -165,7 +168,7 @@ public class MainApiControllerTest {
         dto = MainRecommPostRequestDto.builder().stores_id(arr).build();
 
         String content = new ObjectMapper().writeValueAsString(dto);
-        mockMvc.perform(patch("/api/v1/main/recomm/" + closets_postId)
+        mockMvc.perform(put("/api/v1/main/recomm/" + closets_postId)
                         .contentType(MediaType.APPLICATION_JSON).content(content).header("Authorization", token))
                 .andExpect(status().isOk()).andDo(print()).andReturn();
 

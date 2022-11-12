@@ -9,6 +9,7 @@ import com.betweenourclothes.web.dto.request.auth.AuthOnlyEmailRequestDto;
 import com.betweenourclothes.web.dto.request.auth.AuthSignInRequestDto;
 import com.betweenourclothes.web.dto.request.auth.AuthSignUpRequestDto;
 import com.betweenourclothes.web.dto.request.closets.ClosetsPostRequestDto;
+import com.betweenourclothes.web.dto.response.auth.AuthSignInResponseDto;
 import com.betweenourclothes.web.dto.response.auth.AuthTokenResponseDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
@@ -181,10 +182,9 @@ public class AuthApiControllerTest {
         String url_login = "http://localhost:" + port + "api/v1/auth/login";
         AuthSignInRequestDto reqDto = AuthSignInRequestDto.builder().email(email).password(password).build();
 
-        ResponseEntity<AuthTokenResponseDto> respDto = restTemplate.postForEntity(url_login, reqDto, AuthTokenResponseDto.class);
-
+        ResponseEntity<AuthSignInResponseDto> respDto = restTemplate.postForEntity(url_login, reqDto, AuthSignInResponseDto.class);
         assertThat(respDto.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(respDto.getBody()).isNotNull();
+        assertThat(respDto.getBody().getNickname()).isEqualTo("송아");
 
         List<Members> mem = membersRepository.findAll();
         assertThat(mem.get(mem.size()-1).getRefreshToken()).isEqualTo(respDto.getBody().getRefreshToken());

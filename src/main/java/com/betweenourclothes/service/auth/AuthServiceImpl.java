@@ -12,6 +12,7 @@ import com.betweenourclothes.jwt.JwtTokenProvider;
 import com.betweenourclothes.web.dto.request.auth.AuthEmailRequestDto;
 import com.betweenourclothes.web.dto.request.auth.AuthSignInRequestDto;
 import com.betweenourclothes.web.dto.request.auth.AuthSignUpRequestDto;
+import com.betweenourclothes.web.dto.response.auth.AuthSignInResponseDto;
 import com.betweenourclothes.web.dto.response.auth.AuthTokenResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -161,7 +162,7 @@ public class AuthServiceImpl implements AuthService{
 
     @Transactional
     @Override
-    public AuthTokenResponseDto login(AuthSignInRequestDto requestDto) {
+    public AuthSignInResponseDto login(AuthSignInRequestDto requestDto) {
 
 
         // 로그인 하려는 member 찾기
@@ -176,8 +177,12 @@ public class AuthServiceImpl implements AuthService{
         // authentication을 jwtTokenProvider에게 전달해 jwt 토큰을 만듦
         // DB에 refresh token 저장
         // jwt 토큰 리턴
-        AuthTokenResponseDto responseDto = jwtTokenProvider.createToken(authentication);
-        member.updateRefreshToken(responseDto.getRefreshToken());
+        AuthTokenResponseDto token = jwtTokenProvider.createToken(authentication);
+        AuthSignInResponseDto responseDto = AuthSignInResponseDto.builder().image(member.toByte(300, 300))
+                .nickname(member.getNickname()).grantType(token.getGrantType()).accessToken(token.getAccessToken())
+                .refreshToken(token.getRefreshToken()).build();
+
+        member.updateRefreshToken(token.getRefreshToken());
         return responseDto;
     }
 

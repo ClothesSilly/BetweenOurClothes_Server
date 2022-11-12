@@ -38,7 +38,7 @@ public class ClosetsApiController {
         return new ResponseEntity<>(id.toString(), HttpStatus.OK);
     }
 
-    @PatchMapping("/post/{id}")
+    @PutMapping("/post/{id}")
     @ApiOperation(value="게시글 수정", notes="Models > ClosetsPostRequestDto, 게시글 ID Path Variable로 넘김")
     public ResponseEntity<String> update(@PathVariable("id") Long id,
                                          @RequestPart(name="data") ClosetsPostRequestDto requestDto,

@@ -8,6 +8,7 @@ import com.betweenourclothes.jwt.JwtTokenProvider;
 import com.betweenourclothes.web.dto.request.auth.AuthSignInRequestDto;
 import com.betweenourclothes.web.dto.request.closets.ClosetsPostRequestDto;
 import com.betweenourclothes.web.dto.request.closets.ClosetsSearchCategoryAllRequestDto;
+import com.betweenourclothes.web.dto.response.auth.AuthSignInResponseDto;
 import com.betweenourclothes.web.dto.response.auth.AuthTokenResponseDto;
 import com.betweenourclothes.web.dto.response.closets.ClosetsImagesResponseDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -96,8 +97,9 @@ public class ClosetsApiControllerTest {
         String email = "gunsong2@naver.com";
         String pw = "abcde1234!";
         AuthSignInRequestDto reqDto = AuthSignInRequestDto.builder().email(email).password(pw).build();
-        ResponseEntity<AuthTokenResponseDto> respDto = restTemplate.postForEntity(url_login, reqDto, AuthTokenResponseDto.class);
+        ResponseEntity<AuthSignInResponseDto> respDto = restTemplate.postForEntity(url_login, reqDto, AuthSignInResponseDto.class);
         assertThat(respDto.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(respDto.getBody().getNickname()).isEqualTo("송아");
         AT = respDto.getBody().getAccessToken();
     }
 
@@ -284,6 +286,7 @@ public class ClosetsApiControllerTest {
     }
 
     @Test
+    @Ignore
     public void 내옷장_게시글ID로불러오기() throws Exception{
 
         String token = "Bearer" + AT;
@@ -356,7 +359,7 @@ public class ClosetsApiControllerTest {
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
         mockMvc.perform(multipart(url_patch).part(id).file(dtofile).file(file1).file(file2).accept(MediaType.APPLICATION_JSON)
                 .header("Authorization", token)
-                        .with(r -> { r.setMethod("PATCH"); return r; }))
+                        .with(r -> { r.setMethod("PUT"); return r; }))
                 .andDo(print()).andExpect(status().isOk());
 
         List<Closets> closets = closetsRepository.findAll();

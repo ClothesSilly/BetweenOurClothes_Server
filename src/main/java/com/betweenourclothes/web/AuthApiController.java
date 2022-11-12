@@ -7,6 +7,7 @@ import com.betweenourclothes.exception.ErrorCode;
 import com.betweenourclothes.exception.customException.AuthSignInException;
 import com.betweenourclothes.service.auth.AuthServiceImpl;
 import com.betweenourclothes.web.dto.request.auth.AuthEmailRequestDto;
+import com.betweenourclothes.web.dto.response.auth.AuthSignInResponseDto;
 import com.betweenourclothes.web.dto.response.auth.AuthTokenResponseDto;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -86,8 +87,8 @@ public class AuthApiController {
 
     @ApiOperation(value="로그인", notes="Models > AuthSignInRequestDto 참고")
     @PostMapping("/login")
-    public ResponseEntity<AuthTokenResponseDto> login(@RequestBody AuthSignInRequestDto requestDto) throws Exception{
-        AuthTokenResponseDto responseDto = authService.login(requestDto);
+    public ResponseEntity<AuthSignInResponseDto> login(@RequestBody AuthSignInRequestDto requestDto) throws Exception{
+        AuthSignInResponseDto responseDto = authService.login(requestDto);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 

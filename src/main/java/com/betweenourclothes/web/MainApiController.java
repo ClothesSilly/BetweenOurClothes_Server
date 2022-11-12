@@ -32,7 +32,7 @@ public class MainApiController {
         return new ResponseEntity<>("등록 완료", HttpStatus.OK);
     }
 
-    @PatchMapping("/recomm/{id}")
+    @PutMapping("/recomm/{id}")
     @ApiOperation(value="추천 재업로드", notes = "Models > MainRecommPostRequestDto")
     public ResponseEntity<String> update_recomm(@PathVariable("id") Long id, @RequestBody MainRecommPostRequestDto requestDto){
         mainService.update_recomm(id, requestDto);

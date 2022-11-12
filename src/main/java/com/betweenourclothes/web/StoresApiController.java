@@ -34,7 +34,8 @@ public class StoresApiController {
 
     // 게시글 등록
     @PostMapping("/post")
-    @ApiOperation(value="게시글 등록")
+    @ApiOperation(value="게시글 등록", notes="post_data: Models > StoresPostRequestDto\nclothes_data: Models > StoresPostClothesRequestDto\n" +
+            "sales_data: Models > StoresPostSalesRequestDto\n")
     public ResponseEntity<String> post(@RequestPart(name="post_data") StoresPostRequestDto postinfo,
                                        @RequestPart(name="clothes_data") StoresPostClothesRequestDto clothesinfo,
                                        @RequestPart(name="sales_data") StoresPostSalesRequestDto salesinfo,
@@ -44,8 +45,9 @@ public class StoresApiController {
     }
 
     // 게시글 수정
-    @PatchMapping("/post/{id}")
-    @ApiOperation(value="게시글 수정")
+    @PutMapping("/post/{id}")
+    @ApiOperation(value="게시글 수정", notes="post_data: Models > StoresPostRequestDto\nclothes_data: Models > StoresPostClothesRequestDto\n" +
+            "sales_data: Models > StoresPostSalesRequestDto\n")
     public ResponseEntity<String> update(@PathVariable("id") Long id,
                                          @RequestPart(name="post_data") StoresPostRequestDto postinfo,
                                          @RequestPart(name="clothes_data") StoresPostClothesRequestDto clothesinfo,
@@ -73,7 +75,7 @@ public class StoresApiController {
 
     // 게시글 미리보기 가져오기
     @GetMapping("/post/category")
-    @ApiOperation(value="게시글 미리보기 가져오기")
+    @ApiOperation(value="게시글 미리보기 가져오기", notes="post_data: Models > StoresSearchCategoryAllRequestDto")
     public ResponseEntity<Page<StoresThumbnailsResponseDto>> findPostsByAllCategory(@PageableDefault(size=15) Pageable pageable,
                                                                                @RequestBody StoresSearchCategoryAllRequestDto req){
         Page<StoresThumbnailsResponseDto> responseDto = storesService.findPostsByAllCategory(pageable, req);
@@ -87,7 +89,7 @@ public class StoresApiController {
 
     // 댓글 등록
     @PostMapping("/post/{id}/comment")
-    @ApiOperation(value="댓글 등록")
+    @ApiOperation(value="댓글 등록", notes="Models > StoresPostCommentRequestDto")
     public ResponseEntity<String> comment(@PathVariable("id") Long id, @RequestBody StoresPostCommentRequestDto comments){
         storesService.comment(id, comments);
         return new ResponseEntity<>("댓글 등록 완료", HttpStatus.OK);
@@ -143,7 +145,7 @@ public class StoresApiController {
      * 1. 검색
      * ***/
     @GetMapping("/post/search")
-    @ApiOperation(value="게시글 키워드로 검색")
+    @ApiOperation(value="게시글 키워드로 검색", notes="Models > StoresPostSearchRequestDto")
     public ResponseEntity<Page<StoresThumbnailsResponseDto>> findByKeyword(@PageableDefault(size=15) Pageable pageable, @RequestBody StoresPostSearchRequestDto requestDto){
         Page<StoresThumbnailsResponseDto> responseDto = storesService.findByKeyword(pageable, requestDto);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
