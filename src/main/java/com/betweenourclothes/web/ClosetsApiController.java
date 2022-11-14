@@ -61,7 +61,7 @@ public class ClosetsApiController {
         return new ResponseEntity<ClosetsImagesResponseDto>(responseDto, HttpStatus.OK);
     }
 
-    @GetMapping("/post/category")
+    @PostMapping("/post/category")
     @ApiOperation(value="게시글 필터링", notes="Models > ClosetsSearchCategoryAllRequestDto, 300x300 썸네일 반환, 없는 경우 null 넣기, 전부 null일 경우 전체 아이템 가져옴")
     public ResponseEntity<Page<ClosetsThumbnailsResponseDto>> findPostsByAllCategory(@PageableDefault(size=15) Pageable pageable,
                                                                                     @RequestBody ClosetsSearchCategoryAllRequestDto req){

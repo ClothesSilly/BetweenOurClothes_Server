@@ -15,6 +15,8 @@ import java.util.List;
 public class StoresPostResponseDto {
 
     private List<byte[]> images;
+    private int likes_count;
+    private int comments_count;
     private byte[] profile_images;
     private String title;
     private String content;

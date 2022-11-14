@@ -50,7 +50,7 @@ public class Members implements UserDetails {
     @Column(length=11, nullable=false)
     private String phone;
 
-    @Column(columnDefinition = "varchar(300) default './src/main/resources/static/images/profile/default.png'")
+    @Column(columnDefinition = "varchar(300) default '/home/ec2-user/betweenourclothes/images/profile/default.png'")
     private String image;
 
     @Enumerated(EnumType.STRING)
@@ -122,8 +122,20 @@ public class Members implements UserDetails {
                         .asBufferedImage();
             }
 
+            // png를 파괴하자
+            if(bi.getTransparency() != BufferedImage.OPAQUE){
+                int w = bi.getWidth();
+                int h = bi.getHeight();
+                int[] pixels = new int[w*h];
+
+                bi.getRGB(0,0,w,h,pixels,0,w);
+                BufferedImage jpg = new BufferedImage(bi.getWidth(), bi.getHeight(), BufferedImage.TYPE_INT_RGB);
+                jpg.setRGB(0,0,w,h,pixels,0,w);
+                bi = jpg;
+            }
+
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(bi, "jpeg", baos);
+            ImageIO.write(bi, "jpg", baos);
             byte[] imageByteArr = baos.toByteArray();
             baos.close();
             return imageByteArr;

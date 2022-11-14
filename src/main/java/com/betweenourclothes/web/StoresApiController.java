@@ -74,7 +74,7 @@ public class StoresApiController {
     }
 
     // 게시글 미리보기 가져오기
-    @GetMapping("/post/category")
+    @PostMapping("/post/category")
     @ApiOperation(value="게시글 미리보기 가져오기", notes="post_data: Models > StoresSearchCategoryAllRequestDto")
     public ResponseEntity<Page<StoresThumbnailsResponseDto>> findPostsByAllCategory(@PageableDefault(size=15) Pageable pageable,
                                                                                @RequestBody StoresSearchCategoryAllRequestDto req){
@@ -111,7 +111,7 @@ public class StoresApiController {
      * 3. 찜 가져오기
      * ***/
     @PostMapping("/post/{id}/like")
-    @ApiOperation(value="찜 등록/삭제")
+    @ApiOperation(value="찜 등록")
     public ResponseEntity<String> updateLikes(@PathVariable("id") Long id){
         storesService.likes(id);
         return new ResponseEntity<String>("찜 등록 완료", HttpStatus.OK);

@@ -22,7 +22,7 @@ public class AuthSignUpRequestDto {
     @ApiParam(value = "이메일", required = true)
     private String email;
     @NotBlank(message = "비밀번호를 입력하세요.")
-    @Pattern(regexp="(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,15}$", message = "비밀번호는 숫자, 영문자, 특수문자를 조합하여 8자 이상 15자 이하로 입력하세요.")
+    //@Pattern(regexp="(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,15}$", message = "비밀번호는 숫자, 영문자, 특수문자를 조합하여 8자 이상 15자 이하로 입력하세요.")
     @ApiParam(value = "비밀번호 (숫자+영문자+특수문자 &~15자 이하)", required = true)
     private String password;
 

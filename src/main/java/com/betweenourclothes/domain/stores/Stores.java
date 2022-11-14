@@ -3,6 +3,7 @@ package com.betweenourclothes.domain.stores;
 import com.betweenourclothes.domain.Posts;
 import com.betweenourclothes.domain.clothes.*;
 import com.betweenourclothes.domain.members.Members;
+import com.betweenourclothes.domain.members.MembersLikeStoresPost;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -44,6 +45,9 @@ public class Stores extends Posts {
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<StoresComments> comments;
 
+    @OneToMany(mappedBy = "store", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<MembersLikeStoresPost> likes;
+
     @Builder
     public Stores(Members author, Style style, List<ClothesImage> imgs, String title, String content,
                    Materials materials, Colors colors, ClothesInfo clothesInfo,
@@ -65,6 +69,7 @@ public class Stores extends Posts {
         this.status = status;
         this.price = price;
         this.comments = new ArrayList<>();
+        this.likes = new ArrayList<>();
     }
 
     public void update(Style style, Materials materials, Colors colors, ClothesInfo clothesInfo
@@ -97,6 +102,19 @@ public class Stores extends Posts {
             this.status = SalesStatus.SOLD;
         } else{
             this.status = SalesStatus.SALES;
+        }
+    }
+
+    public void updateLikes(MembersLikeStoresPost like){
+        this.likes.add(like);
+    }
+
+    public void deleteLikes(MembersLikeStoresPost like){
+        for(MembersLikeStoresPost l : likes){
+            if(l.getStore().getId() == like.getStore().getId() && l.getUser().getId() == like.getUser().getId()){
+                likes.remove(like);
+                break;
+            }
         }
     }
 }

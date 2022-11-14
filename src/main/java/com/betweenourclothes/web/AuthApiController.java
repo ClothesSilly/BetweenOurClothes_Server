@@ -58,7 +58,7 @@ public class AuthApiController {
             }
 
             // 파일 객체 생성: 업로드될 파일을 위한 것
-            file = new File(path+"/"+uploadedFileName+extension);
+            file = new File(path+File.separator+uploadedFileName+extension);
 
             // 전송 후, 파일 경로 반환
             img.transferTo(file);

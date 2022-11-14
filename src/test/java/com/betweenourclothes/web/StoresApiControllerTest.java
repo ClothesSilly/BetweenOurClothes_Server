@@ -118,6 +118,58 @@ public class StoresApiControllerTest {
     }
 
     @Test
+    public void 중고거래_게시글찜수_댓글수_찜정보() throws Exception{
+        String token = "Bearer" + AT;
+        String url = "/api/v1/stores/post/" + postId + "/like";
+        HttpHeaders header = new HttpHeaders();
+        header.set("Authorization", token);
+        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
+
+        // 좋아요 등록
+        mockMvc.perform(post(url)
+                        .contentType(MediaType.APPLICATION_JSON).header("Authorization", token))
+                .andExpect(status().isOk()).andReturn();
+
+        url = "/api/v1/stores/post/" + Long.toString(Long.parseLong(postId)) + "/like";
+        mockMvc.perform(post(url)
+                        .contentType(MediaType.APPLICATION_JSON).header("Authorization", token))
+                .andExpect(status().isOk()).andReturn();
+
+        // 댓글 등록
+        url = "/api/v1/stores/post/" + postId + "/comment";
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
+        for(int i=0; i<3; i++){
+            StoresPostCommentRequestDto dto = StoresPostCommentRequestDto.builder().post_id(Long.parseLong(postId)).content("댓글 " + Integer.toString(i)).build();
+            ObjectMapper mapper = new ObjectMapper();
+            String content = mapper.writeValueAsString(dto);
+
+            mockMvc.perform(post(url)
+                            .contentType(MediaType.APPLICATION_JSON).content(content).header("Authorization", token))
+                    .andExpect(status().isOk()).andReturn();
+        }
+
+        mockMvc.perform(get(url)
+                        .contentType(MediaType.APPLICATION_JSON).header("Authorization", token))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.content", hasSize(3))).andReturn();
+
+        String url_get = "http://localhost:" + port + "/api/v1/stores/post/" + postId;
+        HttpEntity<Long> req = new HttpEntity<>(header);
+
+        ResponseEntity<StoresPostResponseDto> resp
+                = restTemplate.exchange(url_get, HttpMethod.GET, req, StoresPostResponseDto.class);
+
+        System.out.println(resp.getBody());
+        assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(resp.getBody().getId()).isEqualTo(Long.parseLong(postId));
+        assertThat(resp.getBody().getLike()).isEqualTo(true);
+        assertThat(resp.getBody().getLikes_count()).isEqualTo(1);
+        assertThat(resp.getBody().getComments_count()).isEqualTo(3);
+        assertThat(resp.getBody().getTitle()).isEqualTo("원피스팝니다");
+        assertThat(resp.getBody().getLike()).isEqualTo(false);
+        assertThat(resp.getBody().getSales_status()).isEqualTo("SALES");
+    }
+
+    @Test
     public void 중고거래_검색() throws Exception{
         String token = "Bearer" + AT;
 

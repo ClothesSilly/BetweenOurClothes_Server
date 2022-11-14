@@ -229,8 +229,13 @@ public class StoresServiceImpl implements StoresService{
             }
         }
 
+        int likes_count = post.getLikes().size();
+        int comments_count = post.getComments().size();
+
         StoresPostResponseDto responseDto = StoresPostResponseDto.builder()
                 .like(status)
+                .likes_count(likes_count)
+                .comments_count(comments_count)
                 .profile_images(post.getAuthor().toByte(200, 200))
                 .nickname(post.getAuthor().getNickname())
                 .createdTime(post.getCreatedDate().toString())
@@ -321,10 +326,12 @@ public class StoresServiceImpl implements StoresService{
 
         Stores post = storesRepository.findById(id).orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
 
+
         MembersLikeStoresPost entity = MembersLikeStoresPost.builder().user(member).store(post).build();
 
         membersLikeStoresPostRepository.save(entity);
         member.updateStoresLikes(entity);
+        post.updateLikes(entity);
     }
 
     @Transactional
@@ -337,6 +344,7 @@ public class StoresServiceImpl implements StoresService{
 
         MembersLikeStoresPost entity = membersLikeStoresPostRepository.findByUserAndStore(member, post).orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
         member.deleteStoresLikes(entity);
+        post.deleteLikes(entity);
         membersLikeStoresPostRepository.delete(entity);
     }
 

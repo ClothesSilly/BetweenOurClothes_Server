@@ -47,7 +47,7 @@ public class AuthServiceImpl implements AuthService{
     @Transactional
     @Override
     public void signUp(AuthSignUpRequestDto requestDto, String imgPath) throws UnsupportedEncodingException {
-
+        requestDto.getPassword();
 
         // 이메일 중복 체크
         if(membersRepository.findByEmail(requestDto.getEmail()).isPresent()){
