@@ -89,7 +89,8 @@ public class ClothesImage {
             if(width == -1 && height == -1){
                 bi = ImageIO.read(new File(this.path));
             } else{
-                bi = Thumbnails.of(new File(this.path))
+                bi = ImageIO.read(new File(this.path));
+                bi = Thumbnails.of(bi)
                         .size(width, height)
                         .asBufferedImage();
             }

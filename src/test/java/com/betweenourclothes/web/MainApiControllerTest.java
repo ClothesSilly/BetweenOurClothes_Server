@@ -147,12 +147,12 @@ public class MainApiControllerTest {
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
 
         // 좋아요 등록
-        mockMvc.perform(post(url)
+        mockMvc.perform(put(url)
                         .contentType(MediaType.APPLICATION_JSON).header("Authorization", token))
                 .andExpect(status().isOk()).andReturn();
 
         url = "/api/v1/stores/post/" + Long.toString(Long.parseLong(postId)-1) + "/like";
-        mockMvc.perform(post(url)
+        mockMvc.perform(put(url)
                         .contentType(MediaType.APPLICATION_JSON).header("Authorization", token))
                 .andExpect(status().isOk()).andReturn();
 

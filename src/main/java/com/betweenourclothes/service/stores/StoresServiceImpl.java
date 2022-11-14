@@ -313,9 +313,8 @@ public class StoresServiceImpl implements StoresService{
 
 
     /*** 찜
-     * 1. 찜 등록
-     * 2. 찜 삭제
-     * 3. 찜 가져오기
+     * 1. 찜 등록 / 삭제
+     * 2. 찜 가져오기
      * ***/
 
     @Transactional
@@ -325,27 +324,18 @@ public class StoresServiceImpl implements StoresService{
                 .orElseThrow(()->new StoresPostException(ErrorCode.USER_NOT_FOUND));
 
         Stores post = storesRepository.findById(id).orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
+        MembersLikeStoresPost like = membersLikeStoresPostRepository.findByUserAndStore(member, post);
+        if(like == null){
+            MembersLikeStoresPost entity = MembersLikeStoresPost.builder().user(member).store(post).build();
+            membersLikeStoresPostRepository.save(entity);
+            member.updateStoresLikes(entity);
+            post.updateLikes(entity);
 
-
-        MembersLikeStoresPost entity = MembersLikeStoresPost.builder().user(member).store(post).build();
-
-        membersLikeStoresPostRepository.save(entity);
-        member.updateStoresLikes(entity);
-        post.updateLikes(entity);
-    }
-
-    @Transactional
-    @Override
-    public void undo_likes(Long id) {
-        Members member = membersRepository.findByEmail(SecurityUtil.getMemberEmail())
-                .orElseThrow(()->new StoresPostException(ErrorCode.USER_NOT_FOUND));
-
-        Stores post = storesRepository.findById(id).orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
-
-        MembersLikeStoresPost entity = membersLikeStoresPostRepository.findByUserAndStore(member, post).orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
-        member.deleteStoresLikes(entity);
-        post.deleteLikes(entity);
-        membersLikeStoresPostRepository.delete(entity);
+        } else{
+            member.deleteStoresLikes(like);
+            post.deleteLikes(like);
+            membersLikeStoresPostRepository.delete(like);
+        }
     }
 
     @Transactional

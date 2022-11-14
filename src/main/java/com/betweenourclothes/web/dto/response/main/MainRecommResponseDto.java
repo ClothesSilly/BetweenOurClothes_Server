@@ -14,4 +14,5 @@ public class MainRecommResponseDto {
     private byte[] image;
     private int likes_cnt;
     private int comments_cnt;
+    private String title;
 }

@@ -286,7 +286,6 @@ public class ClosetsApiControllerTest {
     }
 
     @Test
-    @Ignore
     public void 내옷장_게시글ID로불러오기() throws Exception{
 
         String token = "Bearer" + AT;
@@ -319,6 +318,51 @@ public class ClosetsApiControllerTest {
                 //.andExpect(jsonPath("$.content", hasSize(5))).andReturn();
     }
 
+    @Test
+    public void 내옷장_png_jpg_이미지_등록_불러오기() throws Exception{
+        MockMultipartFile img1 =  new MockMultipartFile("image", "test.png",
+                "multipart/form-data", new FileInputStream("src/test/resources/static/images/test.png"));
+        MockMultipartFile img2 =  new MockMultipartFile("image", "pants2.jpg",
+                "multipart/form-data", new FileInputStream("src/test/resources/static/images/quality.jpg"));
+
+        ClosetsPostRequestDto requestDto = ClosetsPostRequestDto.builder()
+                .style("컨트리")
+                .large_category("하의")
+                .small_category("청바지")
+                .fit("벨보텀")
+                .length("미니")
+                .color("카키")
+                .material("스웨이드")
+                .build();
+
+        ObjectMapper mapper = new ObjectMapper();
+        String dto2Json = mapper.writeValueAsString(requestDto);
+        MockMultipartFile dtofile = new MockMultipartFile("data", "", "application/json", dto2Json.getBytes(StandardCharsets.UTF_8));
+        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
+
+        String token = "Bearer" + AT;
+        String url_post = "http://localhost:" + port + "/api/v1/closets/post";
+
+        mockMvc.perform(multipart(url_post).file(dtofile).file(img1).file(img2)
+                .accept(MediaType.APPLICATION_JSON).header("Authorization", token)).andExpect(status().isOk());
+
+        List<Closets> posts = closetsRepository.findAll();
+        postId = Long.toString(posts.get(posts.size()-1).getId());
+
+        String url_get = "http://localhost:" + port + "/api/v1/closets/post/" + postId;
+
+        HttpHeaders header = new HttpHeaders();
+        header.set("Authorization", token);
+        HttpEntity<Long> req = new HttpEntity<>(Long.parseLong(postId), header);
+
+        ResponseEntity<ClosetsImagesResponseDto> resp
+                = restTemplate.exchange(url_get, HttpMethod.GET, req, ClosetsImagesResponseDto.class);
+
+        System.out.println(resp.getBody());
+        assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(resp.getBody().getId()).isEqualTo(Long.parseLong(postId));
+        assertThat(resp.getBody().getImages().size()).isEqualTo(2);
+    }
     @Test
     public void 내옷장_게시글삭제() throws Exception{
 

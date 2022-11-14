@@ -107,21 +107,13 @@ public class StoresApiController {
 
     /*** 찜
      * 1. 찜 등록
-     * 2. 찜 삭제
-     * 3. 찜 가져오기
+     * 2. 찜 가져오기
      * ***/
-    @PostMapping("/post/{id}/like")
+    @PutMapping("/post/{id}/like")
     @ApiOperation(value="찜 등록")
     public ResponseEntity<String> updateLikes(@PathVariable("id") Long id){
         storesService.likes(id);
         return new ResponseEntity<String>("찜 등록 완료", HttpStatus.OK);
-    }
-
-    @DeleteMapping("/post/{id}/like")
-    @ApiOperation(value="찜 삭제")
-    public ResponseEntity<String> undoLikes(@PathVariable("id") Long id){
-        storesService.undo_likes(id);
-        return new ResponseEntity<String>("찜 취소 완료", HttpStatus.OK);
     }
 
     @GetMapping("/post/like")

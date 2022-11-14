@@ -37,13 +37,11 @@ public interface StoresService {
 
 
     /*** 찜
-     * 1. 찜 등록
-     * 2. 찜 삭제
-     * 3. 찜 가져오기
+     * 1. 찜 등록 / 삭제
+     * 2. 찜 가져오기
      * ***/
 
     void likes(Long id);
-    void undo_likes(Long id);
     Page<StoresThumbnailsResponseDto> findStoresLikesByMember(Pageable pageable);
 
 

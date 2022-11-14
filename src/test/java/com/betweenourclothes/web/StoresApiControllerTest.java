@@ -126,7 +126,7 @@ public class StoresApiControllerTest {
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
 
         // 좋아요 등록
-        mockMvc.perform(post(url)
+        mockMvc.perform(put(url)
                         .contentType(MediaType.APPLICATION_JSON).header("Authorization", token))
                 .andExpect(status().isOk()).andReturn();
 
@@ -209,12 +209,12 @@ public class StoresApiControllerTest {
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
 
         // 좋아요 등록
-        mockMvc.perform(post(url)
+        mockMvc.perform(put(url)
                         .contentType(MediaType.APPLICATION_JSON).header("Authorization", token))
                 .andExpect(status().isOk()).andReturn();
 
         url = "/api/v1/stores/post/" + Long.toString(Long.parseLong(postId)-1) + "/like";
-        mockMvc.perform(post(url)
+        mockMvc.perform(put(url)
                         .contentType(MediaType.APPLICATION_JSON).header("Authorization", token))
                 .andExpect(status().isOk()).andReturn();
 
@@ -226,12 +226,12 @@ public class StoresApiControllerTest {
 
         // 좋아요 삭제
         url = "/api/v1/stores/post/" + Long.toString(Long.parseLong(postId)-1) + "/like";
-        mockMvc.perform(delete(url)
+        mockMvc.perform(put(url)
                         .contentType(MediaType.APPLICATION_JSON).header("Authorization", token))
                 .andExpect(status().isOk()).andReturn();
 
         url = "/api/v1/stores/post/" + Long.toString(Long.parseLong(postId)) + "/like";
-        mockMvc.perform(delete(url)
+        mockMvc.perform(put(url)
                         .contentType(MediaType.APPLICATION_JSON).header("Authorization", token))
                 .andExpect(status().isOk()).andReturn();
 
@@ -354,7 +354,6 @@ public class StoresApiControllerTest {
     }
 
     @Test
-    @Ignore
     public void 중고거래_게시글id로불러오기() throws Exception{
         String token = "Bearer" + AT;
         String url_get = "http://localhost:" + port + "/api/v1/stores/post/" + postId;

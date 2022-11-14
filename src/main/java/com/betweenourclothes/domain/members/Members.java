@@ -117,7 +117,8 @@ public class Members implements UserDetails {
             if(width == -1 && height == -1){
                 bi = ImageIO.read(new File(this.image));
             } else{
-                bi = Thumbnails.of(new File(this.image))
+                bi = ImageIO.read(new File(this.image));
+                bi = Thumbnails.of(bi)
                         .size(width, height)
                         .asBufferedImage();
             }

@@ -127,6 +127,7 @@ public class MainServiceImpl implements MainService{
             Stores post = storesRepository.findById(image.getId()).orElseThrow(()->new MainException(ErrorCode.ITEM_NOT_FOUND));
 
             responseDto.add(MainRecommResponseDto.builder().image(image.getImage().toByte(300, 300)).id(post.getId())
+                            .title(post.getTitle())
                     .comments_cnt(post.getComments().size()).likes_cnt(post.getLikes().size()).build());
         }
 
@@ -146,6 +147,7 @@ public class MainServiceImpl implements MainService{
             Stores post = storesRepository.findById(image.getId()).orElseThrow(()->new MainException(ErrorCode.ITEM_NOT_FOUND));
 
             responseDto.add(MainRecommResponseDto.builder().image(image.getImage().toByte(300, 300)).id(post.getId())
+                            .title(post.getTitle())
                     .comments_cnt(post.getComments().size()).likes_cnt(post.getLikes().size()).build());
         }
 
@@ -166,6 +168,7 @@ public class MainServiceImpl implements MainService{
             responseDto.add(MainRecommResponseDto.builder().image(store.getImages().get(0).toByte(300, 300))
                     .id(store.getId())
                     .comments_cnt(store.getComments().size())
+                            .title(store.getTitle())
                     .likes_cnt(store.getLikes().size()).build());
         }
 

@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface MembersLikeStoresPostRepository extends JpaRepository<MembersLikeStoresPost, Long> {
-    Optional<MembersLikeStoresPost> findByUserAndStore(Members member, Stores post);
+    MembersLikeStoresPost findByUserAndStore(Members member, Stores post);
 }
