@@ -74,6 +74,9 @@ public class MainApiController {
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
-
-
+    @GetMapping("/recomm/user")
+    public ResponseEntity<List<MainRecommResponseDto>> get_user_recomm_products(){
+        List<MainRecommResponseDto> responseDto = mainService.get_user_recomm_products();
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
 }

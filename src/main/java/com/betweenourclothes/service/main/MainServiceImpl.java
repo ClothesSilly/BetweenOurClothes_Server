@@ -133,5 +133,43 @@ public class MainServiceImpl implements MainService{
         return responseDto;
     }
 
+    @Transactional
+    @Override
+    public List<MainRecommResponseDto> get_best_products() {
+        membersRepository.findByEmail(SecurityUtil.getMemberEmail())
+                .orElseThrow(()->new MainException(ErrorCode.USER_NOT_FOUND));
+
+        List<MainRecommResponseDto> responseDto = new ArrayList<>();
+        List<ClosetsImageTmpDto> resp = storesQueryDslRepository.findBestProducts();
+
+        for(ClosetsImageTmpDto image : resp){
+            Stores post = storesRepository.findById(image.getId()).orElseThrow(()->new MainException(ErrorCode.ITEM_NOT_FOUND));
+
+            responseDto.add(MainRecommResponseDto.builder().image(image.getImage().toByte(300, 300)).id(post.getId())
+                    .comments_cnt(post.getComments().size()).likes_cnt(post.getLikes().size()).build());
+        }
+
+        return responseDto;
+    }
+
+    @Transactional
+    @Override
+    public List<MainRecommResponseDto> get_user_recomm_products() {
+        Members member = membersRepository.findByEmail(SecurityUtil.getMemberEmail())
+                .orElseThrow(()->new MainException(ErrorCode.USER_NOT_FOUND));
+
+        List<MainRecommResponseDto> responseDto = new ArrayList<>();
+        Closets post = member.getClosetsPosts().get(member.getClosetsPosts().size()-1);
+        for(Recomm recomm : post.getRecomms()){
+            Stores store = recomm.getStores();
+
+            responseDto.add(MainRecommResponseDto.builder().image(store.getImages().get(0).toByte(300, 300))
+                    .id(store.getId())
+                    .comments_cnt(store.getComments().size())
+                    .likes_cnt(store.getLikes().size()).build());
+        }
+
+        return responseDto;
+    }
 
 }

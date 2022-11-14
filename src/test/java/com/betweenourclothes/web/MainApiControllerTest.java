@@ -128,12 +128,47 @@ public class MainApiControllerTest {
     }
 
     @Test
+    public void 메인_사용자추천() throws Exception{
+        String token = "Bearer" + AT;
+        HttpHeaders header = new HttpHeaders();
+        header.set("Authorization", token);
+        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
+        mockMvc.perform(get("/api/v1/main/recomm/user")
+                        .contentType(MediaType.APPLICATION_JSON).header("Authorization", token))
+                .andExpect(status().isOk()).andDo(print()).andReturn();
+    }
+
+    @Test
+    public void 메인_찜젤많() throws Exception{
+        String token = "Bearer" + AT;
+        String url = "/api/v1/stores/post/" + postId + "/like";
+        HttpHeaders header = new HttpHeaders();
+        header.set("Authorization", token);
+        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
+
+        // 좋아요 등록
+        mockMvc.perform(post(url)
+                        .contentType(MediaType.APPLICATION_JSON).header("Authorization", token))
+                .andExpect(status().isOk()).andReturn();
+
+        url = "/api/v1/stores/post/" + Long.toString(Long.parseLong(postId)-1) + "/like";
+        mockMvc.perform(post(url)
+                        .contentType(MediaType.APPLICATION_JSON).header("Authorization", token))
+                .andExpect(status().isOk()).andReturn();
+
+        mockMvc.perform(get("/api/v1/main/recomm/best")
+                        .contentType(MediaType.APPLICATION_JSON).header("Authorization", token))
+                .andExpect(status().isOk()).andDo(print())
+                .andReturn();
+    }
+
+    @Test
     public void 메인_최신항목() throws Exception{
         String token = "Bearer" + AT;
 
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
 
-        mockMvc.perform(get("/api/v1/main//recomm/latest-product")
+        mockMvc.perform(get("/api/v1/main/recomm/latest-product")
                         .contentType(MediaType.APPLICATION_JSON).header("Authorization", token))
                 .andExpect(status().isOk()).andDo(print())
                 .andReturn();

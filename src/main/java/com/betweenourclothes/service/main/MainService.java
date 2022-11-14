@@ -29,6 +29,7 @@ public interface MainService {
      * 3. 사용자가 올린 제일 최신 옷 추천 항목
      * ***/
     List<MainRecommResponseDto> get_latest_products();
-
+    List<MainRecommResponseDto> get_best_products();
+    List<MainRecommResponseDto> get_user_recomm_products();
 
 }

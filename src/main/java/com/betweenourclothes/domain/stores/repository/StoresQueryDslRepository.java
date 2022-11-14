@@ -164,6 +164,23 @@ public class StoresQueryDslRepository {
         return contents;
     }
 
+    public List<ClosetsImageTmpDto> findBestProducts(){
+        QStores stores = QStores.stores;
+        QClothesImage clothesImage = QClothesImage.clothesImage;
+
+        List<ClosetsImageTmpDto> contents = queryFactory.select(Projections.constructor(ClosetsImageTmpDto.class,
+                        clothesImage.as("image"), stores.id.as("id")))
+                .from(stores)
+                .join(stores.images, clothesImage)
+                .orderBy(stores.likes.size().desc())
+                .limit(10)
+                .fetch().stream()
+                .filter(distinctByKey(ClosetsImageTmpDto::getId))
+                .collect(Collectors.toList());;
+
+        return contents;
+    }
+
     private static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor) {
         Map<Object, Boolean> map = new ConcurrentHashMap<>();
         return t -> map.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
