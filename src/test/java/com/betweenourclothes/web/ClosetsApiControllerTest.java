@@ -119,7 +119,7 @@ public class ClosetsApiControllerTest {
         ObjectMapper mapper = new ObjectMapper();
         String content = mapper.writeValueAsString(req);
 
-        MvcResult result = mockMvc.perform(get("/api/v1/closets/post/category?page=0")
+        MvcResult result = mockMvc.perform(post("/api/v1/closets/post/category?page=0")
                         .contentType(MediaType.APPLICATION_JSON).content(content).header("Authorization", token))
                 .andExpect(status().isOk())
                 //.andExpect(jsonPath("$.content", hasSize(1)))
@@ -140,7 +140,7 @@ public class ClosetsApiControllerTest {
         ObjectMapper mapper = new ObjectMapper();
         String content = mapper.writeValueAsString(req);
 
-        MvcResult result = mockMvc.perform(get("/api/v1/closets/post/category?page=0")
+        MvcResult result = mockMvc.perform(post("/api/v1/closets/post/category?page=0")
                         .contentType(MediaType.APPLICATION_JSON).content(content).header("Authorization", token))
                 .andExpect(status().isOk())
                 //.andExpect(jsonPath("$.content", hasSize(1)))
@@ -155,7 +155,7 @@ public class ClosetsApiControllerTest {
         mapper = new ObjectMapper();
         content = mapper.writeValueAsString(req);
 
-        result = mockMvc.perform(get("/api/v1/closets/post/category?page=0")
+        result = mockMvc.perform(post("/api/v1/closets/post/category?page=0")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(content).header("Authorization", token))
                 .andExpect(status().isOk())
@@ -172,7 +172,7 @@ public class ClosetsApiControllerTest {
         ClosetsSearchCategoryAllRequestDto req = ClosetsSearchCategoryAllRequestDto.builder().nameL("상의").build();
         String data2json = new ObjectMapper().writeValueAsString(req);
         System.out.println(data2json);
-        MvcResult result = mockMvc.perform(get("/api/v1/closets/post/category?page=0")
+        MvcResult result = mockMvc.perform(post("/api/v1/closets/post/category?page=0")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(data2json)
                         .header("Authorization", token)).andExpect(status().isOk())
@@ -313,7 +313,7 @@ public class ClosetsApiControllerTest {
         ClosetsSearchCategoryAllRequestDto req = ClosetsSearchCategoryAllRequestDto.builder().build();
         String data2json = new ObjectMapper().writeValueAsString(req);
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
-        MvcResult result = mockMvc.perform(get("/api/v1/closets/post/category?page=0").header("Authorization", token)
+        MvcResult result = mockMvc.perform(post("/api/v1/closets/post/category?page=0").header("Authorization", token)
                         .content(data2json).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andDo(print()).andReturn();
                 //.andExpect(jsonPath("$.content", hasSize(5))).andReturn();

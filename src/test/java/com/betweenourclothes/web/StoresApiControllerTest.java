@@ -130,11 +130,6 @@ public class StoresApiControllerTest {
                         .contentType(MediaType.APPLICATION_JSON).header("Authorization", token))
                 .andExpect(status().isOk()).andReturn();
 
-        url = "/api/v1/stores/post/" + Long.toString(Long.parseLong(postId)) + "/like";
-        mockMvc.perform(post(url)
-                        .contentType(MediaType.APPLICATION_JSON).header("Authorization", token))
-                .andExpect(status().isOk()).andReturn();
-
         // 댓글 등록
         url = "/api/v1/stores/post/" + postId + "/comment";
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
@@ -165,7 +160,7 @@ public class StoresApiControllerTest {
         assertThat(resp.getBody().getLikes_count()).isEqualTo(1);
         assertThat(resp.getBody().getComments_count()).isEqualTo(3);
         assertThat(resp.getBody().getTitle()).isEqualTo("원피스팝니다");
-        assertThat(resp.getBody().getLike()).isEqualTo(false);
+        assertThat(resp.getBody().getLike()).isEqualTo(true);
         assertThat(resp.getBody().getSales_status()).isEqualTo("SALES");
     }
 
@@ -282,7 +277,7 @@ public class StoresApiControllerTest {
         ObjectMapper mapper = new ObjectMapper();
         String content = mapper.writeValueAsString(req);
 
-        MvcResult result = mockMvc.perform(get("/api/v1/stores/post/category?page=0")
+        MvcResult result = mockMvc.perform(post("/api/v1/stores/post/category?page=0")
                         .contentType(MediaType.APPLICATION_JSON).content(content).header("Authorization", token))
                 .andExpect(status().isOk())
                 //.andExpect(jsonPath("$.content", hasSize(1)))
@@ -302,7 +297,7 @@ public class StoresApiControllerTest {
         ObjectMapper mapper = new ObjectMapper();
         String content = mapper.writeValueAsString(req);
 
-        MvcResult result = mockMvc.perform(get("/api/v1/stores/post/category?page=0")
+        MvcResult result = mockMvc.perform(post("/api/v1/stores/post/category?page=0")
                         .contentType(MediaType.APPLICATION_JSON).content(content).header("Authorization", token))
                 .andExpect(status().isOk())
                 //.andExpect(jsonPath("$.content", hasSize(1)))
@@ -317,7 +312,7 @@ public class StoresApiControllerTest {
         mapper = new ObjectMapper();
         content = mapper.writeValueAsString(req);
 
-        result = mockMvc.perform(get("/api/v1/stores/post/category?page=0")
+        result = mockMvc.perform(post("/api/v1/stores/post/category?page=0")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(content).header("Authorization", token))
                 .andExpect(status().isOk())
@@ -334,7 +329,7 @@ public class StoresApiControllerTest {
         StoresSearchCategoryAllRequestDto req = StoresSearchCategoryAllRequestDto.builder().nameL("상의").build();
         String data2json = new ObjectMapper().writeValueAsString(req);
         System.out.println(data2json);
-        MvcResult result = mockMvc.perform(get("/api/v1/stores/post/category?page=0")
+        MvcResult result = mockMvc.perform(post("/api/v1/stores/post/category?page=0")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(data2json)
                 .header("Authorization", token)).andExpect(status().isOk())
@@ -351,7 +346,7 @@ public class StoresApiControllerTest {
         StoresSearchCategoryAllRequestDto req = StoresSearchCategoryAllRequestDto.builder().build();
         String data2json = new ObjectMapper().writeValueAsString(req);
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
-        MvcResult result = mockMvc.perform(get("/api/v1/stores/post/category?page=0").header("Authorization", token)
+        MvcResult result = mockMvc.perform(post("/api/v1/stores/post/category?page=0").header("Authorization", token)
                         .content(data2json).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 //.andExpect(jsonPath("$.content", hasSize(5)))
