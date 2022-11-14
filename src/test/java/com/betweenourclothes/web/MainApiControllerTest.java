@@ -128,6 +128,18 @@ public class MainApiControllerTest {
     }
 
     @Test
+    public void 메인_최신항목() throws Exception{
+        String token = "Bearer" + AT;
+
+        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
+
+        mockMvc.perform(get("/api/v1/main//recomm/latest-product")
+                        .contentType(MediaType.APPLICATION_JSON).header("Authorization", token))
+                .andExpect(status().isOk()).andDo(print())
+                .andReturn();
+    }
+
+    @Test
     public void 메인_배너가져오기() throws Exception{
 
         String token = "Bearer" + AT;

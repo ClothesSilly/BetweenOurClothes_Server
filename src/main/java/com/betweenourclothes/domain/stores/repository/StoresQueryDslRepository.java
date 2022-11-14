@@ -8,7 +8,11 @@ import com.betweenourclothes.domain.stores.QStores;
 import com.betweenourclothes.domain.stores.QStoresComments;
 import com.betweenourclothes.domain.stores.Stores;
 import com.betweenourclothes.domain.stores.StoresComments;
+import com.betweenourclothes.web.dto.ClosetsImageTmpDto;
 import com.betweenourclothes.web.dto.StoresImageTmpDto;
+import com.betweenourclothes.web.dto.response.main.MainBannerResponseDto;
+import com.betweenourclothes.web.dto.response.main.MainRecommPostResponseDto;
+import com.betweenourclothes.web.dto.response.main.MainRecommResponseDto;
 import com.betweenourclothes.web.dto.response.stores.StoresPostCommentsResponseDto;
 import com.betweenourclothes.web.dto.response.stores.StoresThumbnailsResponseDto;
 import com.querydsl.core.types.Projections;
@@ -16,6 +20,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.jboss.jandex.Main;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -140,6 +145,23 @@ public class StoresQueryDslRepository {
         }
 
         return new PageImpl<>(content, pageable, content.size());
+    }
+
+    public List<ClosetsImageTmpDto> findLatestProducts(){
+        QStores stores = QStores.stores;
+        QClothesImage clothesImage = QClothesImage.clothesImage;
+
+        List<ClosetsImageTmpDto> contents = queryFactory.select(Projections.constructor(ClosetsImageTmpDto.class,
+                clothesImage.as("image"), stores.id.as("id")))
+                .from(stores)
+                .join(stores.images, clothesImage)
+                .orderBy(stores.createdDate.desc())
+                .limit(10)
+                .fetch().stream()
+                .filter(distinctByKey(ClosetsImageTmpDto::getId))
+                .collect(Collectors.toList());;
+
+        return contents;
     }
 
     private static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor) {

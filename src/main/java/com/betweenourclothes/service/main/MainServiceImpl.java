@@ -7,13 +7,16 @@ import com.betweenourclothes.domain.main.repository.RecommRepository;
 import com.betweenourclothes.domain.members.Members;
 import com.betweenourclothes.domain.members.repository.MembersRepository;
 import com.betweenourclothes.domain.stores.Stores;
+import com.betweenourclothes.domain.stores.repository.StoresQueryDslRepository;
 import com.betweenourclothes.domain.stores.repository.StoresRepository;
 import com.betweenourclothes.exception.ErrorCode;
 import com.betweenourclothes.exception.customException.MainException;
 import com.betweenourclothes.jwt.SecurityUtil;
+import com.betweenourclothes.web.dto.ClosetsImageTmpDto;
 import com.betweenourclothes.web.dto.request.main.MainRecommPostRequestDto;
 import com.betweenourclothes.web.dto.response.main.MainBannerResponseDto;
 import com.betweenourclothes.web.dto.response.main.MainRecommPostResponseDto;
+import com.betweenourclothes.web.dto.response.main.MainRecommResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +34,7 @@ public class MainServiceImpl implements MainService{
     private final MembersRepository membersRepository;
     private final StoresRepository storesRepository;
     private final ClosetsRepository closetsRepository;
+    private final StoresQueryDslRepository storesQueryDslRepository;
 
     @Transactional
     @Override
@@ -105,6 +109,25 @@ public class MainServiceImpl implements MainService{
         for(int i=1; i<=3; i++){
             MainBannerResponseDto dto = MainBannerResponseDto.builder().path(path+"banner"+Integer.toString(i)+".jpg").build();
             responseDto.add(dto);
+        }
+
+        return responseDto;
+    }
+
+    @Transactional
+    @Override
+    public List<MainRecommResponseDto> get_latest_products() {
+        membersRepository.findByEmail(SecurityUtil.getMemberEmail())
+                .orElseThrow(()->new MainException(ErrorCode.USER_NOT_FOUND));
+
+        List<MainRecommResponseDto> responseDto = new ArrayList<>();
+        List<ClosetsImageTmpDto> resp = storesQueryDslRepository.findLatestProducts();
+
+        for(ClosetsImageTmpDto image : resp){
+            Stores post = storesRepository.findById(image.getId()).orElseThrow(()->new MainException(ErrorCode.ITEM_NOT_FOUND));
+
+            responseDto.add(MainRecommResponseDto.builder().image(image.getImage().toByte(300, 300)).id(post.getId())
+                    .comments_cnt(post.getComments().size()).likes_cnt(post.getLikes().size()).build());
         }
 
         return responseDto;

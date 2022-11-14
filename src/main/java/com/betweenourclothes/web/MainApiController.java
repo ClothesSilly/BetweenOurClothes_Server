@@ -4,6 +4,7 @@ import com.betweenourclothes.service.main.MainService;
 import com.betweenourclothes.web.dto.request.main.MainRecommPostRequestDto;
 import com.betweenourclothes.web.dto.response.main.MainBannerResponseDto;
 import com.betweenourclothes.web.dto.response.main.MainRecommPostResponseDto;
+import com.betweenourclothes.web.dto.response.main.MainRecommResponseDto;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.web.PageableDefault;
@@ -20,7 +21,7 @@ public class MainApiController {
 
     private final MainService mainService;
 
-    /*** 내 옷과 어울리는 옷 추천
+    /*** 내 옷과 어울리는 옷 추천 for closets
      * 1. 등록
      * 2. 수정
      * 3. 조회
@@ -55,5 +56,24 @@ public class MainApiController {
         List<MainBannerResponseDto> responseDto = mainService.get_banner();
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
+
+    /*** 메인 추천
+     * 1. 최신 등록 물품
+     * 2. 추천 상품: 찜 제일 많은 순
+     * 3. 사용자가 올린 제일 최신 옷 추천 항목
+     * ***/
+    @GetMapping("/recomm/latest-product")
+    public ResponseEntity<List<MainRecommResponseDto>> get_latest_products(){
+        List<MainRecommResponseDto> responseDto = mainService.get_latest_products();
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/recomm/best")
+    public ResponseEntity<List<MainRecommResponseDto>> get_best_products(){
+        List<MainRecommResponseDto> responseDto = mainService.get_best_products();
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
+
+
 
 }
