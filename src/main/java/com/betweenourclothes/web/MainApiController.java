@@ -63,18 +63,21 @@ public class MainApiController {
      * 3. 사용자가 올린 제일 최신 옷 추천 항목
      * ***/
     @GetMapping("/recomm/latest-product")
+    @ApiOperation(value="최신 등록 물품 10개")
     public ResponseEntity<List<MainRecommResponseDto>> get_latest_products(){
         List<MainRecommResponseDto> responseDto = mainService.get_latest_products();
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
     @GetMapping("/recomm/best")
+    @ApiOperation(value="찜 제일 많은 순 10개")
     public ResponseEntity<List<MainRecommResponseDto>> get_best_products(){
         List<MainRecommResponseDto> responseDto = mainService.get_best_products();
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
     @GetMapping("/recomm/user")
+    @ApiOperation(value="사용자가 올린 제일 최신 옷 추천 항목 10개")
     public ResponseEntity<List<MainRecommResponseDto>> get_user_recomm_products(){
         List<MainRecommResponseDto> responseDto = mainService.get_user_recomm_products();
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
