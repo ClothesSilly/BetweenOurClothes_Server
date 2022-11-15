@@ -161,15 +161,19 @@ public class MainServiceImpl implements MainService{
                 .orElseThrow(()->new MainException(ErrorCode.USER_NOT_FOUND));
 
         List<MainRecommResponseDto> responseDto = new ArrayList<>();
-        Closets post = member.getClosetsPosts().get(member.getClosetsPosts().size()-1);
-        for(Recomm recomm : post.getRecomms()){
-            Stores store = recomm.getStores();
+        try{
+            Closets post = member.getClosetsPosts().get(member.getClosetsPosts().size()-1);
+            for(Recomm recomm : post.getRecomms()){
+                Stores store = recomm.getStores();
 
-            responseDto.add(MainRecommResponseDto.builder().image(store.getImages().get(0).toByte(300, 300))
-                    .id(store.getId())
-                    .comments_cnt(store.getComments().size())
-                            .title(store.getTitle())
-                    .likes_cnt(store.getLikes().size()).build());
+                responseDto.add(MainRecommResponseDto.builder().image(store.getImages().get(0).toByte(300, 300))
+                        .id(store.getId())
+                        .comments_cnt(store.getComments().size())
+                                .title(store.getTitle())
+                        .likes_cnt(store.getLikes().size()).build());
+            }
+        } catch (Exception e){
+            throw new MainException(ErrorCode.ITEM_NOT_FOUND);
         }
 
         return responseDto;
