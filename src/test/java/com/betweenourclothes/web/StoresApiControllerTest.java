@@ -134,7 +134,7 @@ public class StoresApiControllerTest {
         url = "/api/v1/stores/post/" + postId + "/comment";
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
         for(int i=0; i<3; i++){
-            StoresPostCommentRequestDto dto = StoresPostCommentRequestDto.builder().post_id(Long.parseLong(postId)).content("댓글 " + Integer.toString(i)).build();
+            StoresPostCommentRequestDto dto = StoresPostCommentRequestDto.builder().content("댓글 " + Integer.toString(i)).build();
             ObjectMapper mapper = new ObjectMapper();
             String content = mapper.writeValueAsString(dto);
 
@@ -175,9 +175,10 @@ public class StoresApiControllerTest {
         ObjectMapper mapper = new ObjectMapper();
         String content = mapper.writeValueAsString(req);
 
-        mockMvc.perform(get("/api/v1/stores/post/search?page=0")
+        mockMvc.perform(post("/api/v1/stores/post/search?page=0")
                         .contentType(MediaType.APPLICATION_JSON).content(content).header("Authorization", token))
-                .andExpect(status().isOk()).andDo(print())
+                .andExpect(status().isOk())
+                .andDo(print())
                 .andReturn();
 
     }
@@ -249,7 +250,7 @@ public class StoresApiControllerTest {
 
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
         for(int i=0; i<3; i++){
-            StoresPostCommentRequestDto dto = StoresPostCommentRequestDto.builder().post_id(Long.parseLong(postId)).content("댓글 " + Integer.toString(i)).build();
+            StoresPostCommentRequestDto dto = StoresPostCommentRequestDto.builder().content("댓글 " + Integer.toString(i)).build();
             ObjectMapper mapper = new ObjectMapper();
             String content = mapper.writeValueAsString(dto);
 

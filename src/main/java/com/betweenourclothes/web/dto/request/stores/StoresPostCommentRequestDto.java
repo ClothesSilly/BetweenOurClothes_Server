@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StoresPostCommentRequestDto {
-    private Long post_id;
     private String content;
 
     public StoresComments toEntity(Members user_id, Stores post_id){

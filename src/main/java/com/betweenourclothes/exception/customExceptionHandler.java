@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class customExceptionHandler {
     @ExceptionHandler({AuthSignUpException.class, AuthSignInException.class, AuthTokenException.class,
-            ClosetsPostException.class})
+            ClosetsPostException.class, MainException.class, StoresPostException.class})
     protected ResponseEntity<ErrorResponseEntity> handle(CustomException e) {
         return ErrorResponseEntity.toResponseEntity(e.getErrorCode());
     }

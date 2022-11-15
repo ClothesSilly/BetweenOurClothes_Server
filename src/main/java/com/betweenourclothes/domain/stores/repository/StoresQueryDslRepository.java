@@ -9,6 +9,7 @@ import com.betweenourclothes.domain.stores.QStoresComments;
 import com.betweenourclothes.domain.stores.Stores;
 import com.betweenourclothes.domain.stores.StoresComments;
 import com.betweenourclothes.web.dto.ClosetsImageTmpDto;
+import com.betweenourclothes.web.dto.StoresCommentTmpDto;
 import com.betweenourclothes.web.dto.StoresImageTmpDto;
 import com.betweenourclothes.web.dto.response.main.MainBannerResponseDto;
 import com.betweenourclothes.web.dto.response.main.MainRecommPostResponseDto;
@@ -89,14 +90,21 @@ public class StoresQueryDslRepository {
         QStoresComments comments = QStoresComments.storesComments;
         QStores stores = QStores.stores;
 
-        List<StoresPostCommentsResponseDto> content = queryFactory.select(
-                Projections.constructor(StoresPostCommentsResponseDto.class, comments.content.as("comments"), comments.user.nickname.as("nickname"), comments.createdDate.as("createdTime")))
+        List<StoresCommentTmpDto> tmp_content = queryFactory.select(
+                Projections.constructor(StoresCommentTmpDto.class, comments.content.as("comments"), comments.user.nickname.as("nickname"),
+                        comments.createdDate.as("createdTime"), comments.user.image.as("image")))
                 .from(comments)
                 .where(comments.post.id.eq(pid), comments.user.id.eq(mid))
                 .orderBy(comments.createdDate.asc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize()).fetch();
 
+        List<StoresPostCommentsResponseDto> content = new ArrayList<>();
+        for(StoresCommentTmpDto dto : tmp_content){
+            content.add(StoresPostCommentsResponseDto.builder().comments(dto.getComments())
+                    .createdTime(dto.getCreatedTime())
+                    .image(dto.toByte(dto.getImage(), 300, 300)).nickname(dto.getNickname()).build());
+        }
         return new PageImpl<>(content, pageable, content.size());
     }
 

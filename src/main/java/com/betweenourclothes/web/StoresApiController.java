@@ -136,7 +136,7 @@ public class StoresApiController {
     /*** 게시글 검색
      * 1. 검색
      * ***/
-    @GetMapping("/post/search")
+    @PostMapping("/post/search")
     @ApiOperation(value="게시글 키워드로 검색", notes="Models > StoresPostSearchRequestDto")
     public ResponseEntity<Page<StoresThumbnailsResponseDto>> findByKeyword(@PageableDefault(size=15) Pageable pageable, @RequestBody StoresPostSearchRequestDto requestDto){
         Page<StoresThumbnailsResponseDto> responseDto = storesService.findByKeyword(pageable, requestDto);

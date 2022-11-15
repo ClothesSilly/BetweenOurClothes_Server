@@ -190,8 +190,7 @@ public class StoresServiceImpl implements StoresService{
         // 회원 체크
         membersRepository.findByEmail(SecurityUtil.getMemberEmail())
                 .orElseThrow(()->new StoresPostException(ErrorCode.USER_NOT_FOUND));
-
-
+        
         // 게시글 조회
         Stores post = storesRepository.findById(id).orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
 
