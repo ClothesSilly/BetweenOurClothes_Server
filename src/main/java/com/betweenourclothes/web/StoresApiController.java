@@ -85,6 +85,7 @@ public class StoresApiController {
     /*** 댓글
      * 1. comment: 등록
      * 2. findStoresCommentsByPostId: 게시글 ID로 댓글 가져오기
+     * 3. delete_comments: 댓글 삭제
      * ***/
 
     // 댓글 등록
@@ -104,6 +105,13 @@ public class StoresApiController {
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
+    // 댓글 삭제하기
+    @DeleteMapping("/post/{post_id}/comment/{comment_no}")
+    @ApiOperation(value="댓글 삭제하기", notes="comment_no는 게시글 댓글 순서 (1부터 시작)")
+    public ResponseEntity<String> delete_comments(@PathVariable("post_id") Long pid, @PathVariable("comment_no") int cno){
+        storesService.delete_comments(pid, cno);
+        return new ResponseEntity<>("댓글 삭제 완료", HttpStatus.OK);
+    }
 
     /*** 찜
      * 1. 찜 등록

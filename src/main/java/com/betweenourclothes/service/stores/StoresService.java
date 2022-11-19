@@ -30,10 +30,12 @@ public interface StoresService {
     /*** 댓글
      * 1. comment: 등록
      * 2. findStoresCommentsByPostId: 게시글 ID로 댓글 가져오기
+     * 3. delete_comments: 댓글 삭제
      * ***/
 
     void comment(Long id, StoresPostCommentRequestDto requestDto);
     Page<StoresPostCommentsResponseDto> findStoresCommentsByPostId(Pageable pageable, Long id);
+    void delete_comments(Long pid, int cno);
 
 
     /*** 찜

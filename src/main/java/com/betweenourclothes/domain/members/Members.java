@@ -149,7 +149,14 @@ public class Members implements UserDetails {
         this.storesLikes.remove(entity);
     }
 
-
+    public void deleteStoresComments(StoresComments comment){
+        for(StoresComments c : storesComments){
+            if(c.getId().equals(comment.getId())){
+                storesComments.remove(c);
+                break;
+            }
+        }
+    }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override

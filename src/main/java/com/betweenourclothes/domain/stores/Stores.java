@@ -117,4 +117,13 @@ public class Stores extends Posts {
             }
         }
     }
+
+    public void deleteComments(StoresComments comment){
+        for(StoresComments c : comments){
+            if(c.getId().equals(comment.getId())){
+                comments.remove(c);
+                break;
+            }
+        }
+    }
 }

@@ -241,7 +241,7 @@ public class StoresApiControllerTest {
     }
 
     @Test
-    public void 중고거래_댓글추가_확인() throws Exception{
+    public void 중고거래_댓글추가_확인_삭제_확인() throws Exception{
         String token = "Bearer" + AT;
         String url =  "/api/v1/stores/post/" + postId + "/comment";
 
@@ -262,6 +262,15 @@ public class StoresApiControllerTest {
         MvcResult result = mockMvc.perform(get(url)
                         .contentType(MediaType.APPLICATION_JSON).header("Authorization", token))
                 .andExpect(status().isOk()).andExpect(jsonPath("$.content", hasSize(3))).andReturn();
+
+        //삭제
+        String url_delete =  "/api/v1/stores/post/" + postId + "/comment/1";
+        mockMvc.perform(delete(url_delete).header("Authorization", token))
+                .andExpect(status().isOk()).andReturn();
+
+        mockMvc.perform(get(url)
+                        .contentType(MediaType.APPLICATION_JSON).header("Authorization", token))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.content", hasSize(2))).andReturn();
     }
 
     @Test

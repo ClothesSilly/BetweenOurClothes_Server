@@ -277,6 +277,7 @@ public class StoresServiceImpl implements StoresService{
     /*** 댓글
      * 1. comment: 등록
      * 2. findStoresCommentsByPostId: 게시글 ID로 댓글 가져오기
+     * 3. delete_comments: 댓글 삭제
      * ***/
 
     @Transactional
@@ -308,6 +309,21 @@ public class StoresServiceImpl implements StoresService{
                 , post.getId());
 
         return responseDto;
+    }
+
+    @Transactional
+    @Override
+    public void delete_comments(Long pid, int cno) {
+
+        Members member = membersRepository.findByEmail(SecurityUtil.getMemberEmail())
+                .orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
+
+        Stores post = storesRepository.findById(pid).orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
+        StoresComments comment = post.getComments().get(cno+1);
+
+        member.deleteStoresComments(comment);
+        post.deleteComments(comment);
+        storesCommentsRepository.delete(comment);
     }
 
 

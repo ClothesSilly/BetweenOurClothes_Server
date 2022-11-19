@@ -173,6 +173,7 @@ public class MainServiceImpl implements MainService{
                         .likes_cnt(store.getLikes().size()).build());
             }
         } catch (Exception e){
+            e.printStackTrace();
             throw new MainException(ErrorCode.ITEM_NOT_FOUND);
         }
 
