@@ -36,41 +36,6 @@ public class MainServiceImpl implements MainService{
     private final ClosetsRepository closetsRepository;
     private final StoresQueryDslRepository storesQueryDslRepository;
 
-    @Transactional
-    @Override
-    public void post_recomm(Long id, MainRecommPostRequestDto requestDto) {
-        membersRepository.findByEmail(SecurityUtil.getMemberEmail())
-                .orElseThrow(()->new MainException(ErrorCode.USER_NOT_FOUND));
-
-        Closets closet = closetsRepository.findById(id).orElseThrow(()->new MainException(ErrorCode.ITEM_NOT_FOUND));
-
-        for(Long sid : requestDto.getStores_id()){
-            Stores store = storesRepository.findById(sid).orElseThrow(()->new MainException(ErrorCode.ITEM_NOT_FOUND));
-            Recomm entity = requestDto.toEntity(store, closet);
-            recommRepository.save(entity);
-            closet.updateRecomm(entity);
-        }
-    }
-
-    @Transactional
-    @Override
-    public void update_recomm(Long id, MainRecommPostRequestDto requestDto) {
-        membersRepository.findByEmail(SecurityUtil.getMemberEmail())
-                .orElseThrow(()->new MainException(ErrorCode.USER_NOT_FOUND));
-
-        Closets closet = closetsRepository.findById(id).orElseThrow(()->new MainException(ErrorCode.ITEM_NOT_FOUND));
-        for(Recomm recomm : closet.getRecomms()){
-            recommRepository.delete(recomm);
-        }
-
-        closet.initRecomm();
-        for(Long sid : requestDto.getStores_id()){
-            Stores store = storesRepository.findById(sid).orElseThrow(()->new MainException(ErrorCode.ITEM_NOT_FOUND));
-            Recomm entity = requestDto.toEntity(store, closet);
-            recommRepository.save(entity);
-            closet.updateRecomm(entity);
-        }
-    }
 
     @Transactional
     @Override
@@ -82,6 +47,7 @@ public class MainServiceImpl implements MainService{
         Closets closet = closetsRepository.findById(id).orElseThrow(()->new MainException(ErrorCode.ITEM_NOT_FOUND));
 
         List<MainRecommPostResponseDto> returnArr = new ArrayList<>();
+        // 추천 항목 가져오기
         for(Recomm entity: closet.getRecomms()){
             MainRecommPostResponseDto dto = MainRecommPostResponseDto.builder().image(entity.getStores().getImages().get(0))
                     .id(entity.getStores().getId()).build();

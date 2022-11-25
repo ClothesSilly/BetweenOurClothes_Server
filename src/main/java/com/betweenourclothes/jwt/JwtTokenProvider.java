@@ -81,7 +81,7 @@ public class JwtTokenProvider {
         return JwtStatus.DENIED;
     }
 
-    /*** 토큰을 복화해서 토큰 안의 정보 추출 ***/
+    /*** 토큰을 복호화해서 토큰 안의 정보 추출 ***/
     public Authentication getAuthentication(String accessToken) {
         // 토큰 복호화
         Claims claims = parseClaims(accessToken);

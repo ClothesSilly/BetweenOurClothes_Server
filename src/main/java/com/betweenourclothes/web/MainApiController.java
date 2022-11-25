@@ -22,23 +22,8 @@ public class MainApiController {
     private final MainService mainService;
 
     /*** 내 옷과 어울리는 옷 추천 for closets
-     * 1. 등록
-     * 2. 수정
-     * 3. 조회
+     * 1. 조회
      * ***/
-    @PostMapping("/recomm/{id}")
-    @ApiOperation(value="추천 등록", notes = "Models > MainRecommPostRequestDto")
-    public ResponseEntity<String> post_recomm(@PathVariable("id") Long id, @RequestBody MainRecommPostRequestDto requestDto){
-        mainService.post_recomm(id, requestDto);
-        return new ResponseEntity<>("등록 완료", HttpStatus.OK);
-    }
-
-    @PutMapping("/recomm/{id}")
-    @ApiOperation(value="추천 재업로드", notes = "Models > MainRecommPostRequestDto")
-    public ResponseEntity<String> update_recomm(@PathVariable("id") Long id, @RequestBody MainRecommPostRequestDto requestDto){
-        mainService.update_recomm(id, requestDto);
-        return new ResponseEntity<>("수정 완료", HttpStatus.OK);
-    }
 
     @GetMapping("/recomm/{id}")
     @ApiOperation(value="추천항목 가져오기", notes = "게시글 ID Path Variable로 넘기기")

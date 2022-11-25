@@ -304,9 +304,8 @@ public class StoresServiceImpl implements StoresService{
                 .orElseThrow(()->new StoresPostException(ErrorCode.USER_NOT_FOUND));
 
         Stores post = storesRepository.findById(id).orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
-
-        Page<StoresPostCommentsResponseDto> responseDto = storesQueryDslRepository.findCommentsByUserAndPost(pageable, member.getId()
-                , post.getId());
+        //Page<StoresPostCommentsResponseDto> responseDto = storesQueryDslRepository.findCommentsByUserAndPost(pageable, member.getId(), post.getId());
+        Page<StoresPostCommentsResponseDto> responseDto = storesQueryDslRepository.findCommentsByUserAndPost(pageable, post.getId());
 
         return responseDto;
     }
@@ -319,7 +318,7 @@ public class StoresServiceImpl implements StoresService{
                 .orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
 
         Stores post = storesRepository.findById(pid).orElseThrow(()->new StoresPostException(ErrorCode.ITEM_NOT_FOUND));
-        StoresComments comment = post.getComments().get(cno+1);
+        StoresComments comment = post.getComments().get(cno-1);
 
         member.deleteStoresComments(comment);
         post.deleteComments(comment);

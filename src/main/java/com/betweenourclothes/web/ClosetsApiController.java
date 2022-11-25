@@ -65,6 +65,12 @@ public class ClosetsApiController {
     @ApiOperation(value="게시글 필터링", notes="Models > ClosetsSearchCategoryAllRequestDto, 300x300 썸네일 반환, 없는 경우 null 넣기, 전부 null일 경우 전체 아이템 가져옴")
     public ResponseEntity<Page<ClosetsThumbnailsResponseDto>> findPostsByAllCategory(@PageableDefault(size=15) Pageable pageable,
                                                                                     @RequestBody ClosetsSearchCategoryAllRequestDto req){
+        System.out.println(req.getNameL());
+        System.out.println(req.getNameS());
+        System.out.println(req.getColor());
+        System.out.println(req.getFit());
+        System.out.println(req.getMaterial());
+        System.out.println(req.getLength());
         Page<ClosetsThumbnailsResponseDto> responseDto = closetsService.findPostsByAllCategory(pageable, req);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }

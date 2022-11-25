@@ -85,7 +85,7 @@ public class StoresQueryDslRepository {
 
         return new PageImpl<>(content, pageable, content.size());
     }
-    public Page<StoresPostCommentsResponseDto> findCommentsByUserAndPost(Pageable pageable, Long mid, Long pid){
+    /*public Page<StoresPostCommentsResponseDto> findCommentsByUserAndPost(Pageable pageable, Long mid, Long pid){
 
         QStoresComments comments = QStoresComments.storesComments;
         QStores stores = QStores.stores;
@@ -95,6 +95,30 @@ public class StoresQueryDslRepository {
                         comments.createdDate.as("createdTime"), comments.user.image.as("image")))
                 .from(comments)
                 .where(comments.post.id.eq(pid), comments.user.id.eq(mid))
+                .orderBy(comments.createdDate.asc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize()).fetch();
+
+        List<StoresPostCommentsResponseDto> content = new ArrayList<>();
+        for(StoresCommentTmpDto dto : tmp_content){
+            content.add(StoresPostCommentsResponseDto.builder().comments(dto.getComments())
+                    .createdTime(dto.getCreatedTime())
+                    .image(dto.toByte(dto.getImage(), 300, 300)).nickname(dto.getNickname()).build());
+        }
+        return new PageImpl<>(content, pageable, content.size());
+    }*/
+
+    public Page<StoresPostCommentsResponseDto> findCommentsByUserAndPost(Pageable pageable, Long pid){
+
+        QStoresComments comments = QStoresComments.storesComments;
+        QStores stores = QStores.stores;
+
+        List<StoresCommentTmpDto> tmp_content = queryFactory.select(
+                        Projections.constructor(StoresCommentTmpDto.class,
+                                comments.content.as("comments"), comments.user.nickname.as("nickname"),
+                                comments.createdDate.as("createdTime"), comments.user.image.as("image")))
+                .from(comments)
+                .where(comments.post.id.eq(pid))
                 .orderBy(comments.createdDate.asc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize()).fetch();
