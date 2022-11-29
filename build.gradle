@@ -32,6 +32,8 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-security')
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile('org.springframework.boot:spring-boot-starter-mail')
+    compile('org.springframework.boot:spring-boot-starter-data-redis')
+    compile('org.springframework.boot:spring-boot-starter-cache')
     compile('org.apache.commons:commons-lang3')
     compile('commons-io:commons-io:2.11.0')
     compile('org.projectlombok:lombok:1.18.24')

@@ -2,8 +2,8 @@ package com.betweenourclothes.web;
 
 import com.betweenourclothes.domain.members.Members;
 import com.betweenourclothes.domain.members.repository.MembersRepository;
-import com.betweenourclothes.domain.auth.Email;
-import com.betweenourclothes.domain.auth.EmailRepository;
+import com.betweenourclothes.domain.auth.Authentication;
+import com.betweenourclothes.domain.auth.AuthenticationRedisRepository;
 import com.betweenourclothes.web.dto.request.auth.AuthEmailRequestDto;
 import com.betweenourclothes.web.dto.request.auth.AuthOnlyEmailRequestDto;
 import com.betweenourclothes.web.dto.request.auth.AuthSignInRequestDto;
@@ -12,7 +12,6 @@ import com.betweenourclothes.web.dto.request.closets.ClosetsPostRequestDto;
 import com.betweenourclothes.web.dto.response.auth.AuthSignInResponseDto;
 import com.betweenourclothes.web.dto.response.auth.AuthTokenResponseDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -51,18 +50,16 @@ public class AuthApiControllerTest {
     private MembersRepository membersRepository;
 
     @Autowired
-    private EmailRepository emailRepository;
+    private AuthenticationRedisRepository authenticationRedisRepository;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
 
-
     @Before
     public void cleanup(){
         membersRepository.deleteAll();
-        emailRepository.deleteAll();
+        authenticationRedisRepository.deleteAll();
     }
-
 
     @Test
     @Ignore
@@ -130,7 +127,7 @@ public class AuthApiControllerTest {
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(url_email, r, String.class);
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
 
-        List<Email> all = emailRepository.findAll();
+        List<Authentication> all = authenticationRedisRepository.findAll();
         assertThat(all.get(all.size()-1).getEmail()).isEqualTo(email);
         assertThat(all.get(all.size()-1).getStatus()).isEqualTo("N");
 
@@ -140,7 +137,7 @@ public class AuthApiControllerTest {
         responseEntity = restTemplate.postForEntity(url_code, requestDto, String.class);
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
 
-        all = emailRepository.findAll();
+        all = authenticationRedisRepository.findAll();
         assertThat(all.get(all.size()-1).getEmail()).isEqualTo(email);
         assertThat(all.get(all.size()-1).getStatus()).isEqualTo("Y");
 
@@ -200,7 +197,7 @@ public class AuthApiControllerTest {
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(url_email, r, String.class);
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
 
-        List<Email> all = emailRepository.findAll();
+        List<Authentication> all = authenticationRedisRepository.findAll();
         assertThat(all.get(all.size()-1).getEmail()).isEqualTo("aaaa@naver.com");
     }
 

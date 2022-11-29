@@ -1,6 +1,6 @@
 package com.betweenourclothes.web.dto.request.auth;
 
-import com.betweenourclothes.domain.auth.Email;
+import com.betweenourclothes.domain.auth.Authentication;
 import io.swagger.annotations.ApiParam;
 import lombok.*;
 
@@ -22,8 +22,8 @@ public class AuthEmailRequestDto {
     @ApiParam(value="인증코드", required = true)
     private String code;
 
-    public Email toEntity(boolean status){
-        return Email.builder().email(email).code(code).status(booleanConverter(status)).build();
+    public Authentication toEntity(boolean status){
+        return Authentication.builder().email(email).code(code).status(booleanConverter(status)).build();
     }
 
     private String createAuthCode(){

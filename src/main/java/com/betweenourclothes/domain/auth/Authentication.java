@@ -2,28 +2,22 @@ package com.betweenourclothes.domain.auth;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.index.Indexed;
 
 @Getter
-@NoArgsConstructor
-@Entity
-@Table(name = "authentication")
-public class Email {
+@RedisHash(value="authentication", timeToLive = 600)
+public class Authentication {
 
     @Id
+    @Indexed
     private String email;
-    @Column(length=6)
     private String code;
-
     private String status;
 
     @Builder
-    public Email(String email, String code, String status){
+    public Authentication(String email, String code, String status){
         this.email = email;
         this.code = code;
         this.status = status;

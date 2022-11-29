@@ -1,7 +1,7 @@
 package com.betweenourclothes.service.auth;
 
-import com.betweenourclothes.domain.auth.Email;
-import com.betweenourclothes.domain.auth.EmailRepository;
+import com.betweenourclothes.domain.auth.Authentication;
+import com.betweenourclothes.domain.auth.AuthenticationRedisRepository;
 import com.betweenourclothes.domain.members.Members;
 import com.betweenourclothes.domain.members.repository.MembersRepository;
 import com.betweenourclothes.domain.members.Role;
@@ -18,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,14 +28,13 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 
 @RequiredArgsConstructor
 @Service
 public class AuthServiceImpl implements AuthService{
     private final MembersRepository membersRepository;
     private final AuthenticationManager authenticationManager;
-    private final EmailRepository emailRepository;
+    private final AuthenticationRedisRepository authenticationRedisRepository;
     private final JavaMailSender sender;
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -56,11 +54,11 @@ public class AuthServiceImpl implements AuthService{
 
         // 이메일 인증상태 체크 후
         // 임시테이블에서 삭제
-        Email user = emailRepository.findByEmail(requestDto.getEmail()).orElseThrow(()->new AuthSignUpException(ErrorCode.USER_NOT_FOUND));
+        Authentication user = authenticationRedisRepository.findByEmail(requestDto.getEmail()).orElseThrow(()->new AuthSignUpException(ErrorCode.USER_NOT_FOUND));
         if(!user.getStatus().equals("Y")){
             throw new AuthSignUpException(ErrorCode.NOT_AUTHENTICATED);
         }
-        emailRepository.delete(user);
+        authenticationRedisRepository.delete(user);
 
         // 닉네임 중복체크
         if(membersRepository.findByNickname(requestDto.getNickname()).isPresent()){
@@ -113,7 +111,7 @@ public class AuthServiceImpl implements AuthService{
         }
 
         // 임시테이블에 저장
-        emailRepository.save(requestDto.toEntity(false));
+        authenticationRedisRepository.save(requestDto.toEntity(false));
     }
 
     @Transactional
@@ -121,14 +119,13 @@ public class AuthServiceImpl implements AuthService{
     public void checkAuthCode(AuthEmailRequestDto receiver) {
         // 임시 테이블 조회
 
-        Email user = emailRepository.findByEmail(receiver.getEmail()).orElseThrow(()->new AuthSignUpException(ErrorCode.USER_NOT_FOUND));
-        //System.out.println("existed code: " + user.getCode());
-        //System.out.println("requested code: " + receiver.getCode());
+        Authentication user = authenticationRedisRepository.findByEmail(receiver.getEmail()).orElseThrow(()->new AuthSignUpException(ErrorCode.USER_NOT_FOUND));
 
         // 코드 일치 여부 확인 후
         // 임시 테이블의 상태 업데이트
         if(user.getCode().equals(receiver.getCode())){
             user.updateStatus("Y");
+            authenticationRedisRepository.save(user);
             return;
         }
         // 일치하지 않으면 예외 던지기
@@ -172,7 +169,7 @@ public class AuthServiceImpl implements AuthService{
         // authenticationManager에게 전달
         // authenticate 메서드: DB에 있는 사용자 정보를 가져와 비밀번호 체크
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(requestDto.getEmail(), requestDto.getPassword());
-        Authentication authentication = authenticationManager.authenticate(authenticationToken);
+        org.springframework.security.core.Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
         // authentication을 jwtTokenProvider에게 전달해 jwt 토큰을 만듦
         // DB에 refresh token 저장
@@ -206,7 +203,7 @@ public class AuthServiceImpl implements AuthService{
         // Access Token에서 유저 정보 확인
         // DB에서 해당 유저의 Refresh Token을 꺼내서
         // request로 받은 정보와 일치하는지 확인
-        Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
+        org.springframework.security.core.Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
         Members member = membersRepository.findByEmail(authentication.getName())
                 .orElseThrow(() -> new AuthTokenException(ErrorCode.USER_NOT_FOUND));
         if (!member.getRefreshToken().equals(refreshToken)) {
