@@ -3,27 +3,38 @@ package com.betweenourclothes.service.main;
 import com.betweenourclothes.domain.closets.Closets;
 import com.betweenourclothes.domain.closets.repository.ClosetsRepository;
 import com.betweenourclothes.domain.main.Recomm;
+import com.betweenourclothes.domain.main.RecommRedis;
+import com.betweenourclothes.domain.main.repository.RecommRedisRepository;
 import com.betweenourclothes.domain.main.repository.RecommRepository;
 import com.betweenourclothes.domain.members.Members;
 import com.betweenourclothes.domain.members.repository.MembersRepository;
+import com.betweenourclothes.domain.stores.SalesStatus;
 import com.betweenourclothes.domain.stores.Stores;
 import com.betweenourclothes.domain.stores.repository.StoresQueryDslRepository;
 import com.betweenourclothes.domain.stores.repository.StoresRepository;
 import com.betweenourclothes.exception.ErrorCode;
+import com.betweenourclothes.exception.customException.ClosetsPostException;
 import com.betweenourclothes.exception.customException.MainException;
 import com.betweenourclothes.jwt.SecurityUtil;
 import com.betweenourclothes.web.dto.ClosetsImageTmpDto;
+import com.betweenourclothes.web.dto.request.closets.ClosetsRecommPostRequestDto;
 import com.betweenourclothes.web.dto.request.main.MainRecommPostRequestDto;
 import com.betweenourclothes.web.dto.response.main.MainBannerResponseDto;
 import com.betweenourclothes.web.dto.response.main.MainRecommPostResponseDto;
 import com.betweenourclothes.web.dto.response.main.MainRecommResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -33,29 +44,12 @@ public class MainServiceImpl implements MainService{
     private final RecommRepository recommRepository;
     private final MembersRepository membersRepository;
     private final StoresRepository storesRepository;
+
     private final ClosetsRepository closetsRepository;
     private final StoresQueryDslRepository storesQueryDslRepository;
+    private final RecommRedisRepository recommRedisRepository;
+    private final RestTemplate restTemplate;
 
-
-    @Transactional
-    @Override
-    public List<MainRecommPostResponseDto> get_recomm(Long id) {
-
-        membersRepository.findByEmail(SecurityUtil.getMemberEmail())
-                .orElseThrow(()->new MainException(ErrorCode.USER_NOT_FOUND));
-
-        Closets closet = closetsRepository.findById(id).orElseThrow(()->new MainException(ErrorCode.ITEM_NOT_FOUND));
-
-        List<MainRecommPostResponseDto> returnArr = new ArrayList<>();
-        // 추천 항목 가져오기
-        for(Recomm entity: closet.getRecomms()){
-            MainRecommPostResponseDto dto = MainRecommPostResponseDto.builder().image(entity.getStores().getImages().get(0))
-                    .id(entity.getStores().getId()).build();
-            returnArr.add(dto);
-        }
-
-        return returnArr;
-    }
 
     @Transactional
     @Override
@@ -127,21 +121,60 @@ public class MainServiceImpl implements MainService{
                 .orElseThrow(()->new MainException(ErrorCode.USER_NOT_FOUND));
 
         List<MainRecommResponseDto> responseDto = new ArrayList<>();
-        try{
-            Closets post = member.getClosetsPosts().get(member.getClosetsPosts().size()-1);
-            for(Recomm recomm : post.getRecomms()){
-                Stores store = recomm.getStores();
+        // redis 확인, 없으면 외부서버에 연결
 
-                responseDto.add(MainRecommResponseDto.builder().image(store.getImages().get(0).toByte(300, 300))
-                        .id(store.getId())
-                        .comments_cnt(store.getComments().size())
-                                .title(store.getTitle())
-                        .likes_cnt(store.getLikes().size()).build());
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-            throw new MainException(ErrorCode.ITEM_NOT_FOUND);
+        if(member.getClosetsPosts().size()==0){
+            return responseDto;
         }
+
+        Closets post = member.getClosetsPosts().get(member.getClosetsPosts().size()-1);
+        Optional<RecommRedis> optionalRecommRedis = recommRedisRepository.findById(post.getId().toString());
+        RecommRedis recomm = null;
+
+        if(!optionalRecommRedis.isPresent()){
+            // 없으면, 추천서버에 연결해서 받아온 후 redis에 저장, 반환
+            String url = "http://localhost:8000/api/v1/recomm";
+            //json data
+            ClosetsRecommPostRequestDto dto = ClosetsRecommPostRequestDto.builder().clothes_info(post.getClothesInfo().getId())
+                    .color(post.getColors().getName())
+                    .style(post.getStyle().getName())
+                    .material(post.getMaterials().getName())
+                    .build();
+
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity entity = new HttpEntity<>(dto, httpHeaders);
+
+            ResponseEntity<List> response = restTemplate.postForEntity(url, entity, List.class);
+            List<Long> stores_post_id_list = new ArrayList<>();
+            for(Object i : response.getBody()){
+                stores_post_id_list.add(Long.parseLong(String.valueOf((Integer)i)));
+            }
+
+            RecommRedis newRecomm = RecommRedis.builder().closets_post_id(post.getId().toString()).stores_post_id(stores_post_id_list).build();
+            recommRedisRepository.save(newRecomm);
+            recomm = newRecomm;
+        } else{
+            recomm = optionalRecommRedis.get();
+        }
+
+        for(Long pid: recomm.getStores_post_id()){
+            Stores stores = storesRepository.findById(pid).orElseThrow(()->new ClosetsPostException(ErrorCode.ITEM_NOT_FOUND));
+            if(stores.getStatus().equals(SalesStatus.SOLD)){
+                continue;
+            }
+
+            MainRecommResponseDto dto = MainRecommResponseDto.builder().image(stores.getImages().get(0).toByte(300, 300))
+                    .id(pid).comments_cnt(stores.getComments().size())
+                    .title(stores.getTitle())
+                    .likes_cnt(stores.getLikes().size()).build();
+            responseDto.add(dto);
+
+            if(responseDto.size()==10){
+                break;
+            }
+        }
+
 
         return responseDto;
     }

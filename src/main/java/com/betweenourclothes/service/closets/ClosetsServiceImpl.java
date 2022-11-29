@@ -5,19 +5,32 @@ import com.betweenourclothes.domain.closets.repository.ClosetsQueryDslRepository
 import com.betweenourclothes.domain.closets.repository.ClosetsRepository;
 import com.betweenourclothes.domain.clothes.*;
 import com.betweenourclothes.domain.clothes.repository.*;
+import com.betweenourclothes.domain.main.RecommRedis;
+import com.betweenourclothes.domain.main.repository.RecommRedisRepository;
 import com.betweenourclothes.domain.members.Members;
 import com.betweenourclothes.domain.members.repository.MembersRepository;
+import com.betweenourclothes.domain.stores.SalesStatus;
+import com.betweenourclothes.domain.stores.Stores;
+import com.betweenourclothes.domain.stores.repository.StoresRepository;
 import com.betweenourclothes.exception.ErrorCode;
 import com.betweenourclothes.exception.customException.ClosetsPostException;
+import com.betweenourclothes.exception.customException.MainException;
 import com.betweenourclothes.jwt.SecurityUtil;
 import com.betweenourclothes.web.dto.request.closets.ClosetsPostRequestDto;
+import com.betweenourclothes.web.dto.request.closets.ClosetsRecommPostRequestDto;
 import com.betweenourclothes.web.dto.request.closets.ClosetsSearchCategoryAllRequestDto;
 import com.betweenourclothes.web.dto.response.closets.ClosetsImagesResponseDto;
 import com.betweenourclothes.web.dto.response.closets.ClosetsThumbnailsResponseDto;
+import com.betweenourclothes.web.dto.response.main.MainRecommPostResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import org.springframework.data.domain.Pageable;
@@ -25,6 +38,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.File;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -39,6 +53,12 @@ public class ClosetsServiceImpl implements ClosetsService{
 
     private final ClosetsQueryDslRepository closetsQueryDslRepository;
     private final ClothesImageRepository clothesImageRepository;
+
+    private final RecommRedisRepository recommRedisRepository;
+
+    private final StoresRepository storesRepository;
+
+    private final RestTemplate restTemplate;
 
 
     /*** 게시글
@@ -192,6 +212,70 @@ public class ClosetsServiceImpl implements ClosetsService{
                 req.getMaterial(), req.getColor());
 
         return responseDto;
+    }
+
+
+    /*** 내 옷과 유사한 옷 추천
+     * 1. 조회
+     * ***/
+
+    @Transactional
+    @Override
+    public List<MainRecommPostResponseDto> get_recomm(Long id) {
+
+        membersRepository.findByEmail(SecurityUtil.getMemberEmail())
+                .orElseThrow(()->new MainException(ErrorCode.USER_NOT_FOUND));
+
+        Closets closet = closetsRepository.findById(id).orElseThrow(()->new ClosetsPostException(ErrorCode.ITEM_NOT_FOUND));
+
+        // redis 탐색
+        Optional<RecommRedis> optionalRecommRedis = recommRedisRepository.findById(closet.getId().toString());
+        RecommRedis recomm = null;
+        if(!optionalRecommRedis.isPresent()){
+            // 없으면, 추천서버에 연결해서 받아온 후 redis에 저장, 반환
+            String url = "http://localhost:8000/api/v1/recomm";
+            //json data
+            ClosetsRecommPostRequestDto dto = ClosetsRecommPostRequestDto.builder().clothes_info(closet.getClothesInfo().getId())
+                    .color(closet.getColors().getName())
+                    .style(closet.getStyle().getName())
+                    .material(closet.getMaterials().getName())
+                    .build();
+
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity entity = new HttpEntity<>(dto, httpHeaders);
+
+            ResponseEntity<List> response = restTemplate.postForEntity(url, entity, List.class);
+            List<Long> stores_post_id_list = new ArrayList<>();
+            for(Object i : response.getBody()){
+                stores_post_id_list.add(Long.parseLong(String.valueOf((Integer)i)));
+            }
+
+            RecommRedis newRecomm = RecommRedis.builder().closets_post_id(closet.getId().toString()).stores_post_id(stores_post_id_list).build();
+            recommRedisRepository.save(newRecomm);
+            recomm = newRecomm;
+        } else{
+            recomm = optionalRecommRedis.get();
+        }
+
+        List<MainRecommPostResponseDto> returnArr = new ArrayList<>();
+        // 추천 항목 가져오기
+        for(Long pid: recomm.getStores_post_id()){
+            Stores stores = storesRepository.findById(pid).orElseThrow(()->new ClosetsPostException(ErrorCode.ITEM_NOT_FOUND));
+            if(stores.getStatus().equals(SalesStatus.SOLD)){
+                continue;
+            }
+
+            MainRecommPostResponseDto dto = MainRecommPostResponseDto.builder().image(stores.getImages().get(0))
+                    .id(pid).build();
+            returnArr.add(dto);
+
+            if(returnArr.size()==10){
+                break;
+            }
+        }
+
+        return returnArr;
     }
 
 }

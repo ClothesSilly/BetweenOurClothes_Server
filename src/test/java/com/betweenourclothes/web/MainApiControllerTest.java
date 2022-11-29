@@ -96,7 +96,6 @@ public class MainApiControllerTest {
         중고거래_테스트데이터등록();
     }
 
-
     @After
     public void 추가한_게시글과이미지_지우기() throws Exception{
         List<ClothesImage> clothesImages = clothesImageRepository.findAll();
@@ -128,6 +127,22 @@ public class MainApiControllerTest {
     }
 
     @Test
+    @Ignore
+    public void 내옷장_추천가져오기() throws Exception{
+        String token = "Bearer" + AT;
+        String url_get = "/api/v1/closets/post/" + closets_postId + "/recomm";
+
+
+        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
+        MvcResult result = mockMvc.perform(get(url_get)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", token)).andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(10)))
+                .andReturn();
+    }git
+
+    @Test
+    @Ignore
     public void 메인_사용자추천() throws Exception{
         String token = "Bearer" + AT;
         HttpHeaders header = new HttpHeaders();
@@ -135,7 +150,7 @@ public class MainApiControllerTest {
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
         mockMvc.perform(get("/api/v1/main/recomm/user")
                         .contentType(MediaType.APPLICATION_JSON).header("Authorization", token))
-                .andExpect(status().isOk()).andDo(print()).andReturn();
+                .andExpect(status().isOk()).andExpect(jsonPath("$", hasSize(10))).andReturn();
     }
 
     @Test
@@ -182,51 +197,6 @@ public class MainApiControllerTest {
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
         mockMvc.perform(get("/api/v1/main/banner").header("Authorization", token))
                 .andExpect(status().isOk()).andDo(print()).andReturn();
-    }
-
-    @Test
-    public void 메인_추천등록가져오기수정가져오기() throws Exception{
-
-        String token = "Bearer" + AT;
-        String url = "http://localhost:" + port + "/api/v1/main/recomm/" + closets_postId;
-
-        List<Long> arr = new ArrayList<>();
-        arr.add(Long.parseLong(postId));
-        arr.add(Long.parseLong(postId)-1);
-        MainRecommPostRequestDto dto = MainRecommPostRequestDto.builder().stores_id(arr).build();
-
-        HttpHeaders header = new HttpHeaders();
-        header.set("Authorization", token);
-        HttpEntity<MainRecommPostRequestDto> req = new HttpEntity<>(dto, header);
-
-        ResponseEntity<String> resp = restTemplate.exchange(url, HttpMethod.POST, req, String.class);
-        assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
-
-        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(springSecurity()).build();
-
-        mockMvc.perform(get("/api/v1/main/recomm/" + closets_postId)
-                        .contentType(MediaType.APPLICATION_JSON).header("Authorization", token))
-                .andExpect(status().isOk()).andDo(print()).andExpect(jsonPath("$.[?(@.id=='%s')]", postId).exists())
-                .andExpect(jsonPath("$.[?(@.id=='%s')]", Long.toString(Long.parseLong(postId)-1)).exists())
-                .andReturn();
-
-        arr = new ArrayList<>();
-        arr.add(Long.parseLong(postId)-2);
-        dto = MainRecommPostRequestDto.builder().stores_id(arr).build();
-
-        String content = new ObjectMapper().writeValueAsString(dto);
-        mockMvc.perform(put("/api/v1/main/recomm/" + closets_postId)
-                        .contentType(MediaType.APPLICATION_JSON).content(content).header("Authorization", token))
-                .andExpect(status().isOk()).andDo(print()).andReturn();
-
-        mockMvc.perform(get("/api/v1/main/recomm/" + closets_postId)
-                        .contentType(MediaType.APPLICATION_JSON).header("Authorization", token))
-                .andExpect(status().isOk()).andDo(print()).andExpect(jsonPath("$.[?(@.id=='%s')]", postId).doesNotExist())
-                .andExpect(jsonPath("$.[?(@.id=='%s')]", Long.toString(Long.parseLong(postId)-2)).exists())
-                .andReturn();
-
-
-
     }
 
     @Test

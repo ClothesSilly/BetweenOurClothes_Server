@@ -21,17 +21,6 @@ public class MainApiController {
 
     private final MainService mainService;
 
-    /*** 내 옷과 어울리는 옷 추천 for closets
-     * 1. 조회
-     * ***/
-
-    @GetMapping("/recomm/{id}")
-    @ApiOperation(value="추천항목 가져오기", notes = "게시글 ID Path Variable로 넘기기")
-    public ResponseEntity<List<MainRecommPostResponseDto>> get_recomm(@PathVariable("id") Long id){
-        List<MainRecommPostResponseDto> responseDto= mainService.get_recomm(id);
-        return new ResponseEntity<>(responseDto, HttpStatus.OK);
-    }
-
     /*** 메인 배너
      * 1. 조회
      * ***/

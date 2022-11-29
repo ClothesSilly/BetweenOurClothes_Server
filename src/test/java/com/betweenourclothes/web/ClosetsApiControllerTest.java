@@ -9,12 +9,11 @@ import com.betweenourclothes.web.dto.request.auth.AuthSignInRequestDto;
 import com.betweenourclothes.web.dto.request.closets.ClosetsPostRequestDto;
 import com.betweenourclothes.web.dto.request.closets.ClosetsSearchCategoryAllRequestDto;
 import com.betweenourclothes.web.dto.response.auth.AuthSignInResponseDto;
-import com.betweenourclothes.web.dto.response.auth.AuthTokenResponseDto;
 import com.betweenourclothes.web.dto.response.closets.ClosetsImagesResponseDto;
+import com.betweenourclothes.web.dto.response.main.MainRecommPostResponseDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,7 +101,6 @@ public class ClosetsApiControllerTest {
         assertThat(respDto.getBody().getNickname()).isEqualTo("송아");
         AT = respDto.getBody().getAccessToken();
     }
-
 
     @Test
     public void 내옷장_카테고리전부() throws Exception{

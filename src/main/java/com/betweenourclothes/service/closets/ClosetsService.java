@@ -4,6 +4,7 @@ import com.betweenourclothes.web.dto.request.closets.ClosetsPostRequestDto;
 import com.betweenourclothes.web.dto.request.closets.ClosetsSearchCategoryAllRequestDto;
 import com.betweenourclothes.web.dto.response.closets.ClosetsImagesResponseDto;
 import com.betweenourclothes.web.dto.response.closets.ClosetsThumbnailsResponseDto;
+import com.betweenourclothes.web.dto.response.main.MainRecommPostResponseDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,4 +29,8 @@ public interface ClosetsService {
     Page<ClosetsThumbnailsResponseDto> findPostsByAllCategory(Pageable pageable, ClosetsSearchCategoryAllRequestDto req);
 
 
+    /*** 내 옷과 유사한 옷 추천
+     * 1. 조회
+     * ***/
+    List<MainRecommPostResponseDto> get_recomm(Long id);
 }
