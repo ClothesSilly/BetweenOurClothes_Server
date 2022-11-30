@@ -154,6 +154,9 @@ public class MainServiceImpl implements MainService{
         }
 
         for(Long pid: recomm.getStores_post_id()){
+            if(pid == -1){
+                break;
+            }
             Stores stores = storesRepository.findById(pid).orElseThrow(()->new ClosetsPostException(ErrorCode.ITEM_NOT_FOUND));
             if(stores.getStatus().equals(SalesStatus.SOLD)){
                 continue;
