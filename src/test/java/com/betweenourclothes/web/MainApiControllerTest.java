@@ -4,8 +4,6 @@ import com.betweenourclothes.domain.closets.Closets;
 import com.betweenourclothes.domain.closets.repository.ClosetsRepository;
 import com.betweenourclothes.domain.clothes.ClothesImage;
 import com.betweenourclothes.domain.clothes.repository.ClothesImageRepository;
-import com.betweenourclothes.domain.main.Recomm;
-import com.betweenourclothes.domain.main.repository.RecommRepository;
 import com.betweenourclothes.domain.members.repository.MembersLikeStoresPostRepository;
 import com.betweenourclothes.domain.stores.Stores;
 import com.betweenourclothes.domain.stores.repository.StoresCommentsRepository;
@@ -13,7 +11,6 @@ import com.betweenourclothes.domain.stores.repository.StoresRepository;
 
 import com.betweenourclothes.web.dto.request.auth.AuthSignInRequestDto;
 import com.betweenourclothes.web.dto.request.closets.ClosetsPostRequestDto;
-import com.betweenourclothes.web.dto.request.main.MainRecommPostRequestDto;
 import com.betweenourclothes.web.dto.request.stores.StoresPostClothesRequestDto;
 import com.betweenourclothes.web.dto.request.stores.StoresPostRequestDto;
 import com.betweenourclothes.web.dto.request.stores.StoresPostSalesRequestDto;
@@ -73,8 +70,6 @@ public class MainApiControllerTest {
     private StoresCommentsRepository storesCommentsRepository;
     @Autowired
     private MembersLikeStoresPostRepository membersLikeStoresPostRepository;
-    @Autowired
-    private RecommRepository recommRepository;
 
 
     private String AT;
@@ -109,7 +104,6 @@ public class MainApiControllerTest {
         clothesImageRepository.deleteAllInBatch();
         storesCommentsRepository.deleteAllInBatch();
         membersLikeStoresPostRepository.deleteAllInBatch();
-        recommRepository.deleteAllInBatch();
         closetsRepository.deleteAllInBatch();
         storesRepository.deleteAllInBatch();
     }
@@ -139,7 +133,7 @@ public class MainApiControllerTest {
                         .header("Authorization", token)).andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(10)))
                 .andReturn();
-    }git
+    }
 
     @Test
     @Ignore

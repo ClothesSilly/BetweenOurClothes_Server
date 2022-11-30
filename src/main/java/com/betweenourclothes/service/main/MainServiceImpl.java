@@ -2,10 +2,8 @@ package com.betweenourclothes.service.main;
 
 import com.betweenourclothes.domain.closets.Closets;
 import com.betweenourclothes.domain.closets.repository.ClosetsRepository;
-import com.betweenourclothes.domain.main.Recomm;
 import com.betweenourclothes.domain.main.RecommRedis;
 import com.betweenourclothes.domain.main.repository.RecommRedisRepository;
-import com.betweenourclothes.domain.main.repository.RecommRepository;
 import com.betweenourclothes.domain.members.Members;
 import com.betweenourclothes.domain.members.repository.MembersRepository;
 import com.betweenourclothes.domain.stores.SalesStatus;
@@ -18,9 +16,7 @@ import com.betweenourclothes.exception.customException.MainException;
 import com.betweenourclothes.jwt.SecurityUtil;
 import com.betweenourclothes.web.dto.ClosetsImageTmpDto;
 import com.betweenourclothes.web.dto.request.closets.ClosetsRecommPostRequestDto;
-import com.betweenourclothes.web.dto.request.main.MainRecommPostRequestDto;
 import com.betweenourclothes.web.dto.response.main.MainBannerResponseDto;
-import com.betweenourclothes.web.dto.response.main.MainRecommPostResponseDto;
 import com.betweenourclothes.web.dto.response.main.MainRecommResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
@@ -41,7 +37,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MainServiceImpl implements MainService{
 
-    private final RecommRepository recommRepository;
     private final MembersRepository membersRepository;
     private final StoresRepository storesRepository;
 

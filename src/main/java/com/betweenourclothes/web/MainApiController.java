@@ -1,13 +1,10 @@
 package com.betweenourclothes.web;
 
 import com.betweenourclothes.service.main.MainService;
-import com.betweenourclothes.web.dto.request.main.MainRecommPostRequestDto;
 import com.betweenourclothes.web.dto.response.main.MainBannerResponseDto;
-import com.betweenourclothes.web.dto.response.main.MainRecommPostResponseDto;
 import com.betweenourclothes.web.dto.response.main.MainRecommResponseDto;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

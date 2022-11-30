@@ -261,6 +261,9 @@ public class ClosetsServiceImpl implements ClosetsService{
         List<MainRecommPostResponseDto> returnArr = new ArrayList<>();
         // 추천 항목 가져오기
         for(Long pid: recomm.getStores_post_id()){
+            if(pid == -1){
+                break;
+            }
             Stores stores = storesRepository.findById(pid).orElseThrow(()->new ClosetsPostException(ErrorCode.ITEM_NOT_FOUND));
             if(stores.getStatus().equals(SalesStatus.SOLD)){
                 continue;

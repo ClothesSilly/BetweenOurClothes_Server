@@ -1,8 +1,6 @@
 package com.betweenourclothes.service.main;
 
-import com.betweenourclothes.web.dto.request.main.MainRecommPostRequestDto;
 import com.betweenourclothes.web.dto.response.main.MainBannerResponseDto;
-import com.betweenourclothes.web.dto.response.main.MainRecommPostResponseDto;
 import com.betweenourclothes.web.dto.response.main.MainRecommResponseDto;
 
 import java.util.List;
