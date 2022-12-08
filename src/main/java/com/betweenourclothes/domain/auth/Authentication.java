@@ -4,10 +4,11 @@ import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.TimeToLive;
 import org.springframework.data.redis.core.index.Indexed;
 
 @Getter
-@RedisHash(value="authentication", timeToLive = 600)
+@RedisHash(value="authentication")
 public class Authentication {
 
     @Id
@@ -15,6 +16,9 @@ public class Authentication {
     private String email;
     private String code;
     private String status;
+
+    @TimeToLive
+    private Long timetolive = 600L;
 
     @Builder
     public Authentication(String email, String code, String status){

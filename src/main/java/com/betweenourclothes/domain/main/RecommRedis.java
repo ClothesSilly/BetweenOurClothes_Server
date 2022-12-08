@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.TimeToLive;
 import org.springframework.data.redis.core.index.Indexed;
 
 import java.util.List;
@@ -17,6 +18,9 @@ public class RecommRedis {
     private String closets_post_id;
 
     private List<Long> stores_post_id;
+
+    @TimeToLive
+    private Long timetolive = 5L;
 
     @Builder
     public RecommRedis(String closets_post_id, List<Long> stores_post_id){
