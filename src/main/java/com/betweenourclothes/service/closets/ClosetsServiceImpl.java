@@ -264,7 +264,11 @@ public class ClosetsServiceImpl implements ClosetsService{
             if(pid == -1){
                 break;
             }
-            Stores stores = storesRepository.findById(pid).orElseThrow(()->new ClosetsPostException(ErrorCode.ITEM_NOT_FOUND));
+            Optional<Stores> opt = storesRepository.findById(pid);
+            if(!opt.isPresent()){
+                continue;
+            }
+            Stores stores = opt.get();
             if(stores.getStatus().equals(SalesStatus.SOLD)){
                 continue;
             }

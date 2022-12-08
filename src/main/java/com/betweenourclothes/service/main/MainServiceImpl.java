@@ -157,11 +157,14 @@ public class MainServiceImpl implements MainService{
             if(pid == -1){
                 break;
             }
-            Stores stores = storesRepository.findById(pid).orElseThrow(()->new ClosetsPostException(ErrorCode.ITEM_NOT_FOUND));
+            Optional<Stores> opt = storesRepository.findById(pid);
+            if(!opt.isPresent()){
+                continue;
+            }
+            Stores stores = opt.get();
             if(stores.getStatus().equals(SalesStatus.SOLD)){
                 continue;
             }
-
             MainRecommResponseDto dto = MainRecommResponseDto.builder().image(stores.getImages().get(0).toByte(300, 300))
                     .id(pid).comments_cnt(stores.getComments().size())
                     .title(stores.getTitle())
