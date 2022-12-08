@@ -14,7 +14,10 @@ import com.betweenourclothes.web.dto.request.auth.AuthSignInRequestDto;
 import com.betweenourclothes.web.dto.request.auth.AuthSignUpRequestDto;
 import com.betweenourclothes.web.dto.response.auth.AuthSignInResponseDto;
 import com.betweenourclothes.web.dto.response.auth.AuthTokenResponseDto;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,13 +31,16 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
+import java.util.concurrent.TimeUnit;
 
 @RequiredArgsConstructor
 @Service
 public class AuthServiceImpl implements AuthService{
     private final MembersRepository membersRepository;
     private final AuthenticationManager authenticationManager;
-    private final AuthenticationRedisRepository authenticationRedisRepository;
+    //private final AuthenticationRedisRepository authenticationRedisRepository;
+
+    private final RedisTemplate<String, Object> redisTemplate;
     private final JavaMailSender sender;
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -54,11 +60,18 @@ public class AuthServiceImpl implements AuthService{
 
         // 이메일 인증상태 체크 후
         // 임시테이블에서 삭제
-        Authentication user = authenticationRedisRepository.findByEmail(requestDto.getEmail()).orElseThrow(()->new AuthSignUpException(ErrorCode.USER_NOT_FOUND));
+        //Authentication user = authenticationRedisRepository.findByEmail(requestDto.getEmail()).orElseThrow(()->new AuthSignUpException(ErrorCode.USER_NOT_FOUND));
+        Authentication user = null;
+        try{
+            user = findAuthentication(requestDto.getEmail());
+        } catch (Exception e){
+            throw new AuthSignUpException(ErrorCode.USER_NOT_FOUND);
+        }
+
         if(!user.getStatus().equals("Y")){
             throw new AuthSignUpException(ErrorCode.NOT_AUTHENTICATED);
         }
-        authenticationRedisRepository.delete(user);
+        redisTemplate.delete(user.getEmail());
 
         // 닉네임 중복체크
         if(membersRepository.findByNickname(requestDto.getNickname()).isPresent()){
@@ -111,21 +124,29 @@ public class AuthServiceImpl implements AuthService{
         }
 
         // 임시테이블에 저장
-        authenticationRedisRepository.save(requestDto.toEntity(false));
+        final ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
+        valueOperations.set(email, requestDto.toEntity(false));
+        redisTemplate.expire(email, 15, TimeUnit.MINUTES);
     }
 
     @Transactional
     @Override
     public void checkAuthCode(AuthEmailRequestDto receiver) {
         // 임시 테이블 조회
-
-        Authentication user = authenticationRedisRepository.findByEmail(receiver.getEmail()).orElseThrow(()->new AuthSignUpException(ErrorCode.USER_NOT_FOUND));
+        Authentication user = null;
+        try{
+            user = findAuthentication(receiver.getEmail());
+        } catch (Exception e){
+            throw new AuthSignUpException(ErrorCode.USER_NOT_FOUND);
+        }
+        //authenticationRedisRepository.findByEmail(receiver.getEmail()).orElseThrow(()->new AuthSignUpException(ErrorCode.USER_NOT_FOUND));
 
         // 코드 일치 여부 확인 후
         // 임시 테이블의 상태 업데이트
         if(user.getCode().equals(receiver.getCode())){
             user.updateStatus("Y");
-            authenticationRedisRepository.save(user);
+            final ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
+            valueOperations.set(user.getEmail(), user);
             return;
         }
         // 일치하지 않으면 예외 던지기
@@ -219,4 +240,15 @@ public class AuthServiceImpl implements AuthService{
         return responseDto;
     }
 
+    @Transactional
+    private Authentication findAuthentication(String id) throws Exception {
+        final ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        Authentication data = objectMapper.convertValue(valueOperations.get(id), Authentication.class);
+        if(data == null){
+            throw new AuthSignUpException(ErrorCode.USER_NOT_FOUND);
+        }
+        return data;
+    }
 }

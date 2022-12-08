@@ -1,18 +1,20 @@
 package com.betweenourclothes.service.closets;
 
+import com.betweenourclothes.domain.auth.Authentication;
 import com.betweenourclothes.domain.closets.Closets;
 import com.betweenourclothes.domain.closets.repository.ClosetsQueryDslRepository;
 import com.betweenourclothes.domain.closets.repository.ClosetsRepository;
 import com.betweenourclothes.domain.clothes.*;
 import com.betweenourclothes.domain.clothes.repository.*;
 import com.betweenourclothes.domain.main.RecommRedis;
-import com.betweenourclothes.domain.main.repository.RecommRedisRepository;
+//import com.betweenourclothes.domain.main.repository.RecommRedisRepository;
 import com.betweenourclothes.domain.members.Members;
 import com.betweenourclothes.domain.members.repository.MembersRepository;
 import com.betweenourclothes.domain.stores.SalesStatus;
 import com.betweenourclothes.domain.stores.Stores;
 import com.betweenourclothes.domain.stores.repository.StoresRepository;
 import com.betweenourclothes.exception.ErrorCode;
+import com.betweenourclothes.exception.customException.AuthSignUpException;
 import com.betweenourclothes.exception.customException.ClosetsPostException;
 import com.betweenourclothes.exception.customException.MainException;
 import com.betweenourclothes.jwt.SecurityUtil;
@@ -22,8 +24,11 @@ import com.betweenourclothes.web.dto.request.closets.ClosetsSearchCategoryAllReq
 import com.betweenourclothes.web.dto.response.closets.ClosetsImagesResponseDto;
 import com.betweenourclothes.web.dto.response.closets.ClosetsThumbnailsResponseDto;
 import com.betweenourclothes.web.dto.response.main.MainRecommPostResponseDto;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -39,6 +44,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.io.File;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @RequiredArgsConstructor
 @Service
@@ -54,7 +60,8 @@ public class ClosetsServiceImpl implements ClosetsService{
     private final ClosetsQueryDslRepository closetsQueryDslRepository;
     private final ClothesImageRepository clothesImageRepository;
 
-    private final RecommRedisRepository recommRedisRepository;
+    //private final RecommRedisRepository recommRedisRepository;
+    private final RedisTemplate redisTemplate;
 
     private final StoresRepository storesRepository;
 
@@ -229,11 +236,12 @@ public class ClosetsServiceImpl implements ClosetsService{
         Closets closet = closetsRepository.findById(id).orElseThrow(()->new ClosetsPostException(ErrorCode.ITEM_NOT_FOUND));
 
         // redis 탐색
-        Optional<RecommRedis> optionalRecommRedis = recommRedisRepository.findById(closet.getId().toString());
+        //Optional<RecommRedis> optionalRecommRedis =  recommRedisRepository.findById(closet.getId().toString());
+        RecommRedis optionalRecommRedis = findRecomm(closet.getId().toString());
         RecommRedis recomm = null;
-        if(!optionalRecommRedis.isPresent()){
+        if(optionalRecommRedis == null){
             // 없으면, 추천서버에 연결해서 받아온 후 redis에 저장, 반환
-            String url = "http://localhost:8000/api/v1/recomm";
+            String url = "http://localhost:45607/api/v1/recomm";
             //json data
             ClosetsRecommPostRequestDto dto = ClosetsRecommPostRequestDto.builder().clothes_info(closet.getClothesInfo().getId())
                     .color(closet.getColors().getName())
@@ -252,10 +260,14 @@ public class ClosetsServiceImpl implements ClosetsService{
             }
 
             RecommRedis newRecomm = RecommRedis.builder().closets_post_id(closet.getId().toString()).stores_post_id(stores_post_id_list).build();
-            recommRedisRepository.save(newRecomm);
+
+            final ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
+            valueOperations.set(closet.getId().toString(), newRecomm);
+            redisTemplate.expire(closet.getId().toString(), 3, TimeUnit.DAYS);
+            //recommRedisRepository.save(newRecomm);
             recomm = newRecomm;
         } else{
-            recomm = optionalRecommRedis.get();
+            recomm = optionalRecommRedis;
         }
 
         List<MainRecommPostResponseDto> returnArr = new ArrayList<>();
@@ -285,5 +297,13 @@ public class ClosetsServiceImpl implements ClosetsService{
         return returnArr;
     }
 
+    @Transactional
+    private RecommRedis findRecomm(String id){
+        final ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        RecommRedis data = objectMapper.convertValue(valueOperations.get(id), RecommRedis.class);
+        return data;
+    }
 }
 

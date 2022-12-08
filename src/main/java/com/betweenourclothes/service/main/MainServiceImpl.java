@@ -18,7 +18,10 @@ import com.betweenourclothes.web.dto.ClosetsImageTmpDto;
 import com.betweenourclothes.web.dto.request.closets.ClosetsRecommPostRequestDto;
 import com.betweenourclothes.web.dto.response.main.MainBannerResponseDto;
 import com.betweenourclothes.web.dto.response.main.MainRecommResponseDto;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -31,6 +34,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 
 @Service
@@ -40,11 +44,11 @@ public class MainServiceImpl implements MainService{
     private final MembersRepository membersRepository;
     private final StoresRepository storesRepository;
 
-    private final ClosetsRepository closetsRepository;
     private final StoresQueryDslRepository storesQueryDslRepository;
-    private final RecommRedisRepository recommRedisRepository;
+    //private final RecommRedisRepository recommRedisRepository;
     private final RestTemplate restTemplate;
 
+    private final RedisTemplate redisTemplate;
 
     @Transactional
     @Override
@@ -123,12 +127,13 @@ public class MainServiceImpl implements MainService{
         }
 
         Closets post = member.getClosetsPosts().get(member.getClosetsPosts().size()-1);
-        Optional<RecommRedis> optionalRecommRedis = recommRedisRepository.findById(post.getId().toString());
+        //Optional<RecommRedis> optionalRecommRedis = recommRedisRepository.findById(post.getId().toString());
+        RecommRedis optionalRecommRedis = findRecomm(post.getId().toString());
         RecommRedis recomm = null;
 
-        if(!optionalRecommRedis.isPresent()){
+        if(optionalRecommRedis == null){
             // 없으면, 추천서버에 연결해서 받아온 후 redis에 저장, 반환
-            String url = "http://localhost:8000/api/v1/recomm";
+            String url = "http://localhost:45607/api/v1/recomm";
             //json data
             ClosetsRecommPostRequestDto dto = ClosetsRecommPostRequestDto.builder().clothes_info(post.getClothesInfo().getId())
                     .color(post.getColors().getName())
@@ -147,10 +152,12 @@ public class MainServiceImpl implements MainService{
             }
 
             RecommRedis newRecomm = RecommRedis.builder().closets_post_id(post.getId().toString()).stores_post_id(stores_post_id_list).build();
-            recommRedisRepository.save(newRecomm);
+            final ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
+            valueOperations.set(post.getId().toString(), newRecomm);
+            redisTemplate.expire(post.getId().toString(), 3, TimeUnit.DAYS);
             recomm = newRecomm;
         } else{
-            recomm = optionalRecommRedis.get();
+            recomm = optionalRecommRedis;
         }
 
         for(Long pid: recomm.getStores_post_id()){
@@ -178,6 +185,15 @@ public class MainServiceImpl implements MainService{
 
 
         return responseDto;
+    }
+
+    @Transactional
+    private RecommRedis findRecomm(String id){
+        final ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        RecommRedis data = objectMapper.convertValue(valueOperations.get(id), RecommRedis.class);
+        return data;
     }
 
 }

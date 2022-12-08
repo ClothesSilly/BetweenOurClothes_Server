@@ -121,7 +121,6 @@ public class MainApiControllerTest {
     }
 
     @Test
-    @Ignore
     public void 내옷장_추천가져오기() throws Exception{
         String token = "Bearer" + AT;
         String url_get = "/api/v1/closets/post/" + closets_postId + "/recomm";
